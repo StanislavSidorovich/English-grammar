@@ -9,10 +9,37 @@
 <meta property="og:title" content="Английская грамматика A1–B2 · практика и тексты">
 <meta property="og:description" content="44 темы от базовых времён до сложных конструкций B2 — правило, тексты для чтения и задания с проверкой в каждой теме.">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta property="og:url" content="https://stanislavsidorovich.github.io/English-grammar/">
+<meta property="og:image" content="https://stanislavsidorovich.github.io/English-grammar/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Английская грамматика A1–B2 — интерфейс курса">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stanislavsidorovich.github.io/English-grammar/assets/og-image.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1C2430">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Grammar A1–B2">
 <style>
+  /* Локальные шрифты (Manrope, Golos Text) — без обращения к Google Fonts CDN, работает офлайн */
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/manrope-cyrillic-500.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/manrope-latin-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/manrope-cyrillic-700.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/manrope-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:800;font-display:swap;src:url(assets/fonts/manrope-cyrillic-800.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:800;font-display:swap;src:url(assets/fonts/manrope-latin-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/golos-text-cyrillic-400.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/golos-text-latin-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/golos-text-cyrillic-500.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/golos-text-latin-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/golos-text-cyrillic-600.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/golos-text-latin-600.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/golos-text-cyrillic-700.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+  @font-face{font-family:'Golos Text';font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/golos-text-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
   :root{
     --bg:#F3F5F7;
     --card:#FFFFFF;
@@ -5693,6 +5720,27 @@
 
 
 
+<div class="screen topic-screen a1" id="screen-gate-diagnostic">
+  <div class="topic-topbar">
+    <button type="button" class="back-btn" data-back>← Все темы</button>
+  </div>
+  <div class="topic-header">
+    <span class="marker" style="background:var(--a1)"></span>
+    <h2 class="en">Перед тестом — один вопрос</h2>
+  </div>
+  <div class="pane active">
+    <p>Тест-диагностика проверяет грамматику — времена, артикли, конструкции. Он не для входа с нуля: подразумевается, что ты уже <b>читаешь короткие фразы на английском</b> и знаешь базовые слова.</p>
+    <div class="tip">Если пока не читаешь по-английски — тест только запутает и покажет заниженный результат. Лучше начать с первой темы (to be), а сюда вернуться позже.</div>
+    <p style="margin-top:24px; font-weight:700;">Ты уже читаешь простые фразы на английском?</p>
+    <button type="button" class="pane-next-btn" id="gateContinueBtn" style="margin-top:10px;">Да, начать тест-диагностику <span class="pane-next-arrow">→</span></button>
+    <button type="button" class="topic-row" data-open="a1-tobe" style="margin-top:12px;">
+      <span class="marker" style="background:var(--a1)"></span>
+      <span class="row-title en">Нет — показать первую тему (to be)</span>
+      <span class="row-arrow" aria-hidden="true">›</span>
+    </button>
+  </div>
+</div>
+
 <div class="screen topic-screen test-screen" id="screen-test-diagnostic" data-tense="test-diagnostic">
   <div class="topic-topbar">
     <button type="button" class="back-btn" data-back>← Все темы</button>
@@ -6199,6 +6247,11 @@
     return active ? active.id.replace(/^screen-/,"") : null;
   }
   function openTopic(id){
+    if(id === "test-diagnostic"){
+      var gateOK = false;
+      try{ gateOK = localStorage.getItem("diagnosticGateOKv1") === "1"; }catch(e){}
+      if(!gateOK){ id = "gate-diagnostic"; }
+    }
     document.getElementById("home").classList.remove("active");
     document.querySelectorAll(".topic-screen").forEach(function(s){ s.classList.remove("active"); });
     var el = document.getElementById("screen-"+id);
@@ -6226,6 +6279,13 @@
   document.querySelectorAll("[data-open]").forEach(function(btn){
     btn.addEventListener("click", function(){ openTopic(btn.dataset.open); });
   });
+  var gateContinueBtn = document.getElementById("gateContinueBtn");
+  if(gateContinueBtn){
+    gateContinueBtn.addEventListener("click", function(){
+      try{ localStorage.setItem("diagnosticGateOKv1", "1"); }catch(e){}
+      openTopic("test-diagnostic");
+    });
+  }
   document.querySelectorAll(".back-btn").forEach(function(btn){
     btn.addEventListener("click", function(){
       var target = btn.dataset.backTarget;
@@ -6348,6 +6408,15 @@
   renderProgress();
   renderContinueBlock();
 })();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function (err) {
+        console.error('SW registration failed:', err);
+      });
+    });
+  }
 </script>
 </body>
 </html>
