@@ -1142,6 +1142,10 @@
   </button>
 
   <div class="reset-row"><button id="resetBtn" type="button">Сбросить прогресс</button></div>
+  <div style="margin:16px 20px; padding:12px; border:1.5px dashed #C4453A; border-radius:10px;">
+    <div style="font-weight:800; color:#C4453A; margin-bottom:6px; font-size:0.8rem;">ВРЕМЕННАЯ ДИАГНОСТИКА (уберём позже)</div>
+    <pre id="debugProgress" style="white-space:pre-wrap; word-break:break-all; font-size:0.72rem; color:var(--muted); margin:0;"></pre>
+  </div>
 </main>
 </div>
 
@@ -5928,7 +5932,7 @@
   }
   function saveProgress(p){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }catch(e){} }
 
-  function isDone(v){ return v === true || (v && typeof v === "object" && v.done); }
+  function isDone(v){ return !!(v === true || (v && typeof v === "object" && v.done)); }
 
   function tenseTitleMap(){
     var map = {};
@@ -6404,9 +6408,29 @@
     });
   }
 
+  function renderDebug(){
+    var el = document.getElementById("debugProgress");
+    if(!el) return;
+    var p = loadProgress();
+    var doneCount = TENSES.filter(function(t){return isDone(p[t]);}).length;
+    var keys = Object.keys(p);
+    var out = "";
+    out += "TENSES.length: " + TENSES.length + "\n";
+    out += "done (aggregate calc): " + doneCount + "\n";
+    out += "localStorage keys count: " + keys.length + "\n";
+    out += "localStorage raw:\n" + JSON.stringify(p, null, 1) + "\n";
+    out += "---\n";
+    out += "a1-tobe in TENSES: " + (TENSES.indexOf("a1-tobe") !== -1) + "\n";
+    out += "isDone(a1-tobe): " + isDone(p["a1-tobe"]) + "\n";
+    var rc = document.querySelector('.row-check[data-check="a1-tobe"]');
+    out += "a1-tobe row-check has .show class: " + (rc ? rc.classList.contains("show") : "element not found");
+    el.textContent = out;
+  }
+
   renderTimeBadges();
   renderProgress();
   renderContinueBlock();
+  renderDebug();
 })();
 </script>
 <script>

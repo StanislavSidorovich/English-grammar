@@ -1,7 +1,7 @@
 // Service worker: English Grammar A1–B2
 // Cache-first app shell so the course opens instantly offline after the first visit.
 // Bump CACHE_NAME whenever index.html or cached assets change, to push updates to users.
-const CACHE_NAME = 'grammar-a1-b2-v2';
+const CACHE_NAME = 'grammar-a1-b2-v3';
 
 const ASSETS_TO_CACHE = [
   './',
