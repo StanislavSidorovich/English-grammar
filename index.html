@@ -484,7 +484,7 @@
     display:block; font-family:var(--font-ru); font-weight:500; font-size:0.93rem;
     color:var(--ink); margin:0 0 6px 20px; line-height:1.5;
   }
-  input.blank-wide{display:block; width:100%; max-width:26em; margin:0 0 0 20px; box-sizing:border-box;}
+  input.blank.blank-wide{display:block; width:calc(100% - 20px); max-width:26em; margin:0 0 0 20px; box-sizing:border-box; padding:8px 10px; font-size:16px;}
 
   input.blank{
     font-family:var(--font-en); font-weight:700; font-size:16px;
@@ -503,6 +503,10 @@
   }
   select.mc.ok{border-color:var(--ok); background:var(--ok-tint); color:var(--ok);}
   select.mc.bad{border-color:var(--bad); background:var(--bad-tint); color:var(--bad);}
+
+  body.dark input.blank, body.dark select.mc{background:var(--card); color:var(--ink); border-color:#333B47;}
+  body.dark input.blank.ok, body.dark select.mc.ok{border-color:var(--ok); background:var(--ok-tint); color:var(--ok);}
+  body.dark input.blank.bad, body.dark select.mc.bad{border-color:var(--bad); background:var(--bad-tint); color:var(--bad);}
 
   .quiz-actions{display:flex; align-items:center; gap:10px; margin-top:14px; flex-wrap:wrap;}
   .btn{
@@ -662,7 +666,7 @@
 <nav class="timebar">
   <button class="a1" data-target="a1">A1 БАЗА</button>
   <button class="a2" data-target="past">A2 ВРЕМЕНА</button>
-  <button class="b1" data-target="b1">B1 МОСТ</button>
+  <button class="b1" data-target="b1">B1</button>
   <button class="b2" data-target="b2">B2</button>
 </nav>
 
@@ -5067,11 +5071,7 @@
   </div>
   <div class="pane pane-quiz" data-tense="causative">
     <p class="quiz-instruction">Впиши каузативную конструкцию (have/get + предмет + V3) целиком.</p>
-    <div class="qitem"><span class="qnum">1.</span> I don't fix my own car — I always <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="have it fixed|get it fixed" spellcheck="false" style="width:8.5em;"/> at the garage. <span class="hint">(fix)</span></div><div class="qitem"><span class="qnum">2.</span> She <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="had her kitchen renovated|got her kitchen renovated" spellcheck="false" style="width:13em;"/> last week — now it looks completely different. <span class="hint">(renovate / kitchen)</span></div><div class="qitem"><span class="qnum">3.</span> We're <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="having our photos taken|getting our photos taken" spellcheck="false" style="width:13em;"/> tomorrow — the photographer is coming at noon. <span class="hint">(take / photos)</span></div><div class="qitem"><span class="qnum">4.</span> He finally <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="got his roof fixed|had his roof fixed" spellcheck="false" style="width:11em;"/> after months of putting it off. <span class="hint">(fix / roof)</span></div><div class="qitem"><span class="qnum">5.</span> Did you <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="have the furniture delivered|get the furniture delivered" spellcheck="false" style="width:13em;"/>, or did you do it yourself? <span class="hint">(deliver / furniture)</span></div>
-    <p class="quiz-subhead">Переведи на английский:</p>
-    <div class="qitem qitem-translate"><span class="qnum">6.</span><span class="translate-ru">Вчера я почистил зубы у стоматолога.</span><input type="text" class="blank blank-wide" data-answer="I had my teeth cleaned yesterday|I got my teeth cleaned yesterday" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" placeholder="Type the English sentence"/></div>
-    <div class="qitem qitem-translate"><span class="qnum">7.</span><span class="translate-ru">Сейчас он чинит свой ноутбук в сервисе (отдал в ремонт).</span><input type="text" class="blank blank-wide" data-answer="He's having his laptop repaired|He is having his laptop repaired|He's getting his laptop repaired|He is getting his laptop repaired" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" placeholder="Type the English sentence"/></div>
-    <div class="quiz-actions">
+    <div class="qitem"><span class="qnum">1.</span> I don't fix my own car — I always <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="have it fixed|get it fixed" spellcheck="false" style="width:8.5em;"/> at the garage. <span class="hint">(fix)</span></div><div class="qitem"><span class="qnum">2.</span> She <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="had her kitchen renovated|got her kitchen renovated" spellcheck="false" style="width:13em;"/> last week — now it looks completely different. <span class="hint">(renovate / kitchen)</span></div><div class="qitem"><span class="qnum">3.</span> We're <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="having our photos taken|getting our photos taken" spellcheck="false" style="width:13em;"/> tomorrow — the photographer is coming at noon. <span class="hint">(take / photos)</span></div><div class="qitem"><span class="qnum">4.</span> He finally <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="got his roof fixed|had his roof fixed" spellcheck="false" style="width:11em;"/> after months of putting it off. <span class="hint">(fix / roof)</span></div><div class="qitem"><span class="qnum">5.</span> Did you <input autocapitalize="off" autocorrect="off" autocomplete="off" class="blank" data-answer="have the furniture delivered|get the furniture delivered" spellcheck="false" style="width:13em;"/>, or did you do it yourself? <span class="hint">(deliver / furniture)</span></div><div class="quiz-actions">
 <button class="btn btn-check" type="button">Проверить</button>
 <button class="btn btn-reveal" type="button">Показать ответы</button>
 <span class="quiz-result" aria-live="polite"></span>
