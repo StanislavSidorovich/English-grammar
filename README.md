@@ -1,5 +1,11 @@
 # Английская грамматика A1–B2
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/screenshot-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/screenshot-light.png">
+  <img alt="Скриншот приложения — Английская грамматика A1–B2" src="assets/screenshot-light.png" width="800">
+</picture>
+
 Офлайн-курс английской грамматики для самостоятельного изучения. Один HTML-файл, без сервера, без регистрации, без рекламы.
 
 **[Открыть демо](#)** — добавь ссылку на GitHub Pages после публикации
