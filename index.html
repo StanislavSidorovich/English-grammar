@@ -300,6 +300,7 @@
   }
   .topic-row .marker{flex-shrink:0;}
   .row-title{flex:1; font-weight:700; font-size:0.94rem; color:var(--ink);}
+  .row-title-ru{display:block; font-family:var(--font-ru); font-weight:500; font-size:0.78rem; color:var(--muted); margin-top:2px;}
   .topic-num{
     font-family:var(--font-en); font-weight:800; font-size:0.78em;
     color:var(--muted); margin-right:2px;
@@ -479,6 +480,36 @@
   .quiz-subhead{font-family:var(--font-ru); font-weight:700; font-size:0.85rem; color:var(--ink); margin:18px 0 8px;}
   .qnum{color:var(--muted); font-weight:800; margin-right:2px;}
   .hint{font-family:var(--font-ru); font-weight:400; color:var(--muted); font-size:0.8rem;}
+
+  /* ---------- Tap-to-translate (quiz words) ---------- */
+  .tap-word{cursor:pointer; border-radius:2px; -webkit-tap-highlight-color:transparent;}
+  .pane-quiz .tap-word{border-bottom:1.5px dotted var(--muted);}
+  .tap-word.active{background:rgba(59,111,214,0.16); border-bottom-color:transparent;}
+  body.dark .tap-word.active{background:rgba(59,111,214,0.34);}
+  .tap-hint{
+    font-family:var(--font-ru); font-weight:500; font-size:0.78rem; color:var(--muted);
+    background:var(--card); border:1px dashed #CBD2D9; border-radius:10px;
+    padding:8px 12px; margin:0 0 14px; line-height:1.4;
+  }
+  body.dark .tap-hint{border-color:#333B47;}
+  .tap-popup{
+    position:fixed; z-index:999; max-width:220px;
+    background:#1C2430; color:#fff; font-family:var(--font-ru);
+    font-size:0.85rem; font-weight:500; line-height:1.35;
+    padding:7px 11px; border-radius:10px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.28);
+    pointer-events:none;
+  }
+  .tap-popup:after{
+    content:""; position:absolute; left:50%; transform:translateX(-50%);
+    bottom:-5px; width:0; height:0;
+    border-left:5px solid transparent; border-right:5px solid transparent;
+    border-top:5px solid #1C2430;
+  }
+  .tap-popup.below:after{
+    bottom:auto; top:-5px;
+    border-top:none; border-bottom:5px solid #1C2430;
+  }
   .qitem-translate{display:block; margin:14px 0;}
   .qitem-translate .translate-ru{
     display:block; font-family:var(--font-ru); font-weight:500; font-size:0.93rem;
@@ -716,61 +747,61 @@
       </button>
         <button type="button" class="topic-row" data-open="a1-tobe">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.1</span> to be (am / is / are)</span>
+          <span class="row-title en"><span class="topic-num">1.1</span> to be (am / is / are)<span class="row-title-ru">глагол «быть»</span></span>
           <span class="row-check" data-check="a1-tobe" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-havegot">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.2</span> have got</span>
+          <span class="row-title en"><span class="topic-num">1.2</span> have got<span class="row-title-ru">«иметь» (разговорная форма)</span></span>
           <span class="row-check" data-check="a1-havegot" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-articles">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.3</span> Articles: a / an / the</span>
+          <span class="row-title en"><span class="topic-num">1.3</span> Articles: a / an / the<span class="row-title-ru">артикли</span></span>
           <span class="row-check" data-check="a1-articles" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-plurals">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.4</span> Plural nouns</span>
+          <span class="row-title en"><span class="topic-num">1.4</span> Plural nouns<span class="row-title-ru">множественное число существительных</span></span>
           <span class="row-check" data-check="a1-plurals" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-pronouns">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.5</span> Personal pronouns &amp; possessives</span>
+          <span class="row-title en"><span class="topic-num">1.5</span> Personal pronouns &amp; possessives<span class="row-title-ru">личные и притяжательные местоимения</span></span>
           <span class="row-check" data-check="a1-pronouns" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-demonstratives">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.6</span> this / that / these / those</span>
+          <span class="row-title en"><span class="topic-num">1.6</span> this / that / these / those<span class="row-title-ru">указательные местоимения</span></span>
           <span class="row-check" data-check="a1-demonstratives" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-thereis">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.7</span> there is / there are</span>
+          <span class="row-title en"><span class="topic-num">1.7</span> there is / there are<span class="row-title-ru">конструкция «есть, имеется»</span></span>
           <span class="row-check" data-check="a1-thereis" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-prepositions">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.8</span> Prepositions of place: in / on / at</span>
+          <span class="row-title en"><span class="topic-num">1.8</span> Prepositions of place: in / on / at<span class="row-title-ru">предлоги места</span></span>
           <span class="row-check" data-check="a1-prepositions" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-questionwords">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.9</span> Question words</span>
+          <span class="row-title en"><span class="topic-num">1.9</span> Question words<span class="row-title-ru">вопросительные слова</span></span>
           <span class="row-check" data-check="a1-questionwords" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-imperatives">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.10</span> Imperatives</span>
+          <span class="row-title en"><span class="topic-num">1.10</span> Imperatives<span class="row-title-ru">повелительное наклонение</span></span>
           <span class="row-check" data-check="a1-imperatives" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -782,13 +813,13 @@
         </button>
         <button type="button" class="topic-row" data-open="a1-someany">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.12</span> some / any</span>
+          <span class="row-title en"><span class="topic-num">1.12</span> some / any<span class="row-title-ru">«немного» / «какой-нибудь»</span></span>
           <span class="row-check" data-check="a1-someany" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="a1-pastbe">
           <span class="marker" style="background:var(--a1)"></span>
-          <span class="row-title en"><span class="topic-num">1.13</span> Past Simple: to be (was / were)</span>
+          <span class="row-title en"><span class="topic-num">1.13</span> Past Simple: to be (was / were)<span class="row-title-ru">прошедшее время глагола «быть»</span></span>
           <span class="row-check" data-check="a1-pastbe" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -816,13 +847,13 @@
       
         <button type="button" class="topic-row" data-open="past-simple">
           <span class="marker" style="background:var(--a2)"></span>
-          <span class="row-title en"><span class="topic-num">2.1</span> Past Simple</span>
+          <span class="row-title en"><span class="topic-num">2.1</span> Past Simple<span class="row-title-ru">простое прошедшее время</span></span>
           <span class="row-check" data-check="past-simple" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="past-continuous">
           <span class="marker continuous" style="background:var(--a2)"></span>
-          <span class="row-title en"><span class="topic-num">2.2</span> Past Continuous</span>
+          <span class="row-title en"><span class="topic-num">2.2</span> Past Continuous<span class="row-title-ru">прошедшее длительное время</span></span>
           <span class="row-check" data-check="past-continuous" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -843,13 +874,13 @@
       
         <button type="button" class="topic-row" data-open="present-simple">
           <span class="marker" style="background:var(--a2)"></span>
-          <span class="row-title en"><span class="topic-num">3.1</span> Present Simple</span>
+          <span class="row-title en"><span class="topic-num">3.1</span> Present Simple<span class="row-title-ru">простое настоящее время</span></span>
           <span class="row-check" data-check="present-simple" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="present-continuous">
           <span class="marker continuous" style="background:var(--a2)"></span>
-          <span class="row-title en"><span class="topic-num">3.2</span> Present Continuous</span>
+          <span class="row-title en"><span class="topic-num">3.2</span> Present Continuous<span class="row-title-ru">настоящее длительное время</span></span>
           <span class="row-check" data-check="present-continuous" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -866,13 +897,13 @@
       
         <button type="button" class="topic-row" data-open="future-simple">
           <span class="marker" style="background:var(--a2)"></span>
-          <span class="row-title en"><span class="topic-num">4.1</span> Future Simple (will / going to)</span>
+          <span class="row-title en"><span class="topic-num">4.1</span> Future Simple (will / going to)<span class="row-title-ru">простое будущее время</span></span>
           <span class="row-check" data-check="future-simple" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="future-continuous">
           <span class="marker continuous" style="background:var(--a2)"></span>
-          <span class="row-title en"><span class="topic-num">4.2</span> Future Continuous</span>
+          <span class="row-title en"><span class="topic-num">4.2</span> Future Continuous<span class="row-title-ru">будущее длительное время</span></span>
           <span class="row-check" data-check="future-continuous" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -900,19 +931,19 @@
       
         <button type="button" class="topic-row" data-open="present-perfect-vs-past">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">5.1</span> Present Perfect vs Past Simple</span>
+          <span class="row-title en"><span class="topic-num">5.1</span> Present Perfect vs Past Simple<span class="row-title-ru">настоящее совершённое vs прошедшее простое</span></span>
           <span class="row-check" data-check="present-perfect-vs-past" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="past-perfect-vs-past">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">5.2</span> Past Perfect vs Past Simple</span>
+          <span class="row-title en"><span class="topic-num">5.2</span> Past Perfect vs Past Simple<span class="row-title-ru">прошедшее совершённое vs прошедшее простое</span></span>
           <span class="row-check" data-check="past-perfect-vs-past" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="perfect-continuous-vs-perfect">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">5.3</span> Present Perfect Continuous vs Present Perfect</span>
+          <span class="row-title en"><span class="topic-num">5.3</span> Present Perfect Continuous vs Present Perfect<span class="row-title-ru">длительно-совершённое vs совершённое</span></span>
           <span class="row-check" data-check="perfect-continuous-vs-perfect" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -929,13 +960,13 @@
     <div class="topic-list">
         <button type="button" class="topic-row" data-open="modals-obligation">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">6.1</span> must / have to / should / could</span>
+          <span class="row-title en"><span class="topic-num">6.1</span> must / have to / should / could<span class="row-title-ru">модальные глаголы долженствования</span></span>
           <span class="row-check" data-check="modals-obligation" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="modals-deduction">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">6.2</span> could / might / may vs must be / can't be</span>
+          <span class="row-title en"><span class="topic-num">6.2</span> could / might / may vs must be / can't be<span class="row-title-ru">модальные глаголы предположения</span></span>
           <span class="row-check" data-check="modals-deduction" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -951,13 +982,13 @@
     <div class="topic-list">
         <button type="button" class="topic-row" data-open="passive-voice">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">7.1</span> Passive Voice</span>
+          <span class="row-title en"><span class="topic-num">7.1</span> Passive Voice<span class="row-title-ru">страдательный залог</span></span>
           <span class="row-check" data-check="passive-voice" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="first-vs-second-conditional">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">7.2</span> First vs Second Conditional</span>
+          <span class="row-title en"><span class="topic-num">7.2</span> First vs Second Conditional<span class="row-title-ru">первое и второе условные</span></span>
           <span class="row-check" data-check="first-vs-second-conditional" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -973,19 +1004,19 @@
     <div class="topic-list">
         <button type="button" class="topic-row" data-open="quantifiers">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">8.1</span> much / many / few / little</span>
+          <span class="row-title en"><span class="topic-num">8.1</span> much / many / few / little<span class="row-title-ru">слова количества</span></span>
           <span class="row-check" data-check="quantifiers" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="comparatives-superlatives">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">8.2</span> Comparatives &amp; Superlatives</span>
+          <span class="row-title en"><span class="topic-num">8.2</span> Comparatives &amp; Superlatives<span class="row-title-ru">сравнительная и превосходная степень</span></span>
           <span class="row-check" data-check="comparatives-superlatives" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="so-such-too-enough">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">8.3</span> so / such / too / enough</span>
+          <span class="row-title en"><span class="topic-num">8.3</span> so / such / too / enough<span class="row-title-ru">усилительные слова</span></span>
           <span class="row-check" data-check="so-such-too-enough" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -1001,13 +1032,13 @@
     <div class="topic-list">
         <button type="button" class="topic-row" data-open="relative-clauses">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">9.1</span> Relative Clauses</span>
+          <span class="row-title en"><span class="topic-num">9.1</span> Relative Clauses<span class="row-title-ru">относительные придаточные</span></span>
           <span class="row-check" data-check="relative-clauses" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="reported-speech">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">9.2</span> Reported Speech</span>
+          <span class="row-title en"><span class="topic-num">9.2</span> Reported Speech<span class="row-title-ru">косвенная речь</span></span>
           <span class="row-check" data-check="reported-speech" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -1023,19 +1054,19 @@
     <div class="topic-list">
         <button type="button" class="topic-row" data-open="gerund-vs-infinitive">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">10.1</span> Gerund vs Infinitive</span>
+          <span class="row-title en"><span class="topic-num">10.1</span> Gerund vs Infinitive<span class="row-title-ru">герундий vs инфинитив</span></span>
           <span class="row-check" data-check="gerund-vs-infinitive" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="used-to-would">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">10.2</span> used to / would</span>
+          <span class="row-title en"><span class="topic-num">10.2</span> used to / would<span class="row-title-ru">привычные действия в прошлом</span></span>
           <span class="row-check" data-check="used-to-would" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
         <button type="button" class="topic-row" data-open="question-tags">
           <span class="marker" style="background:var(--b1)"></span>
-          <span class="row-title en"><span class="topic-num">10.3</span> Question Tags</span>
+          <span class="row-title en"><span class="topic-num">10.3</span> Question Tags<span class="row-title-ru">разделительные вопросы</span></span>
           <span class="row-check" data-check="question-tags" aria-hidden="true">✓</span>
           <span class="row-arrow" aria-hidden="true">›</span>
         </button>
@@ -1059,61 +1090,61 @@
     <div class="topic-list">
       <button type="button" class="topic-row" data-open="third-mixed-conditional">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.1</span> Third &amp; Mixed Conditionals</span>
+        <span class="row-title en"><span class="topic-num">11.1</span> Third &amp; Mixed Conditionals<span class="row-title-ru">третье и смешанное условные</span></span>
         <span class="row-check" data-check="third-mixed-conditional" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="modal-perfects">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.2</span> must have done / could have done</span>
+        <span class="row-title en"><span class="topic-num">11.2</span> must have done / could have done<span class="row-title-ru">модальные глаголы + перфектный инфинитив</span></span>
         <span class="row-check" data-check="modal-perfects" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="causative">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.3</span> Causative (have something done)</span>
+        <span class="row-title en"><span class="topic-num">11.3</span> Causative (have something done)<span class="row-title-ru">каузативная конструкция</span></span>
         <span class="row-check" data-check="causative" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="linking-words">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.4</span> Linking Words (although / despite / however)</span>
+        <span class="row-title en"><span class="topic-num">11.4</span> Linking Words (although / despite / however)<span class="row-title-ru">слова-связки</span></span>
         <span class="row-check" data-check="linking-words" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="wish-ifonly">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.5</span> Wish / If Only</span>
+        <span class="row-title en"><span class="topic-num">11.5</span> Wish / If Only<span class="row-title-ru">сожаления и пожелания</span></span>
         <span class="row-check" data-check="wish-ifonly" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="inversion">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.6</span> Inversion for Emphasis</span>
+        <span class="row-title en"><span class="topic-num">11.6</span> Inversion for Emphasis<span class="row-title-ru">инверсия для акцента</span></span>
         <span class="row-check" data-check="inversion" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="cleft-sentences">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.7</span> Cleft Sentences (It / What)</span>
+        <span class="row-title en"><span class="topic-num">11.7</span> Cleft Sentences (It / What)<span class="row-title-ru">расщеплённые предложения</span></span>
         <span class="row-check" data-check="cleft-sentences" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="participle-clauses">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.8</span> Participle Clauses</span>
+        <span class="row-title en"><span class="topic-num">11.8</span> Participle Clauses<span class="row-title-ru">причастные обороты</span></span>
         <span class="row-check" data-check="participle-clauses" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="future-in-the-past">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.9</span> Future in the Past</span>
+        <span class="row-title en"><span class="topic-num">11.9</span> Future in the Past<span class="row-title-ru">будущее в прошедшем</span></span>
         <span class="row-check" data-check="future-in-the-past" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
       <button type="button" class="topic-row" data-open="emphatic-do">
         <span class="marker" style="background:var(--b2)"></span>
-        <span class="row-title en"><span class="topic-num">11.10</span> Emphatic do</span>
+        <span class="row-title en"><span class="topic-num">11.10</span> Emphatic do<span class="row-title-ru">усилительное do</span></span>
         <span class="row-check" data-check="emphatic-do" aria-hidden="true">✓</span>
         <span class="row-arrow" aria-hidden="true">›</span>
       </button>
@@ -6385,12 +6416,18 @@
 
   function isDone(v){ return !!(v === true || (v && typeof v === "object" && v.done)); }
 
+  function cleanTitleText(titleEl){
+    var clone = titleEl.cloneNode(true);
+    var ru = clone.querySelector(".row-title-ru");
+    if(ru) ru.parentNode.removeChild(ru);
+    return clone.textContent.trim();
+  }
   function tenseTitleMap(){
     var map = {};
     document.querySelectorAll(".row-check").forEach(function(el){
       var row = el.closest(".topic-row");
       var titleEl = row && row.querySelector(".row-title");
-      if(titleEl) map[el.dataset.check] = titleEl.textContent.trim();
+      if(titleEl) map[el.dataset.check] = cleanTitleText(titleEl);
     });
     return map;
   }
@@ -6509,7 +6546,7 @@
     var map = {};
     document.querySelectorAll("[data-open]").forEach(function(el){
       var titleEl = el.querySelector(".row-title");
-      if(titleEl && el.dataset.open && !map[el.dataset.open]) map[el.dataset.open] = titleEl.textContent.trim();
+      if(titleEl && el.dataset.open && !map[el.dataset.open]) map[el.dataset.open] = cleanTitleText(titleEl);
     });
     return map;
   }
@@ -6602,6 +6639,600 @@
     box.querySelector(".continue-title").textContent = title;
     box.querySelector(".continue-item").addEventListener("click", function(){ openTopic(lastId); });
   }
+
+  // ---------- Tap-to-translate (offline dictionary, quiz tab words) ----------
+  var VOCAB_DICT = {
+  "a":"неопред. артикль (‘один’)","about":"о, про, около","above":"выше, над","abroad":"за границей",
+  "accept":"принимать","accepted":"принял, принято","accident":"авария, происшествие","according":"согласно",
+  "account":"счёт, аккаунт","accurate":"точный","across":"через, напротив","actually":"на самом деле",
+  "add":"добавлять","added":"добавил","address":"адрес","adds":"добавляет","adjusting":"настраивает, регулирует",
+  "admits":"признаёт, допускает","admitted":"признал","ads":"реклама (объявления)","advance":"заранее; продвижение",
+  "adventure":"приключение","advice":"совет","advisor":"советник","affect":"влиять",
+  "afford":"позволить себе (по деньгам)","africa":"Африка","after":"после","afternoon":"день (после полудня)",
+  "again":"снова","ages":"возраста, века","ago":"назад (во времени)","agree":"соглашаться","agreed":"согласился",
+  "ahead":"впереди","aigerim":"Айгерим (имя)","aigerim's":"Айгерим (притяж. форма имени)","air":"воздух",
+  "airline":"авиакомпания","airport":"аэропорт","aisle":"проход (в самолёте, магазине)","alarm":"будильник, тревога",
+  "alexander":"Александр (имя)","alien":"инопланетянин","all":"весь, все","allow":"разрешать","almaty":"Алматы",
+  "almost":"почти","alone":"один, в одиночестве","along":"вдоль","already":"уже","also":"тоже, также",
+  "altered":"изменённый","although":"хотя","always":"всегда","am":"(форма ‘быть’: я есть)","amazement":"изумление",
+  "amazing":"потрясающий","amiens":"Амьен (город во Франции)","among":"среди","amount":"количество",
+  "an":"неопред. артикль","analysis":"анализ","analyst":"аналитик","analysts":"аналитики","ancient":"древний",
+  "and":"и","anger":"гнев","angry":"злой, сердитый","animal":"животное","animals":"животные","announce":"объявлять",
+  "announced":"объявил","announcement":"объявление","announces":"объявляет","another":"другой, ещё один",
+  "answer":"ответ, отвечать","answered":"ответил","answering":"отвечает, отвечающий","answers":"ответы; отвечает",
+  "ant":"муравей","antonio":"Антонио (имя)","any":"любой, какой-нибудь","anymore":"больше не","anyone":"кто-нибудь",
+  "anything":"что-нибудь, что угодно","anyway":"в любом случае","anywhere":"где-нибудь","apartment":"квартира",
+  "apology":"извинение","app":"приложение","appeared":"появился","appears":"появляется","apple":"яблоко",
+  "apples":"яблоки","applications":"заявки, приложения","applied":"подал заявку, применил",
+  "appreciate":"ценить, быть благодарным","approved":"одобрил, одобрено","arab":"арабский",
+  "architecture":"архитектура","are":"(форма ‘быть’: есть)","area":"район, область","aren't":"не являются (сокр.)",
+  "arm":"рука (от плеча до кисти)","arms":"руки","around":"вокруг","arranged":"организовал, устроил",
+  "arrive":"прибывать","arrived":"прибыл","arrives":"прибывает","art":"искусство","artworks":"произведения искусства",
+  "as":"как","asia":"Азия","ask":"спрашивать","asked":"спросил","asking":"спрашивает","asks":"спрашивает",
+  "asleep":"спящий, во сне","assistant":"ассистент, помощник","astana":"Астана","astronauts":"космонавты",
+  "at":"в, на","ate":"ел, съел","attacking":"атакует, нападает","attempt":"попытка","attend":"посещать",
+  "attendant":"служащий, сопровождающий","attending":"посещает","attention":"внимание","attracts":"привлекает",
+  "august":"август","autumn":"осень","average":"средний","avoid":"избегать","avoided":"избегал","avoids":"избегает",
+  "awareness":"осведомлённость","away":"прочь, далеко","back":"назад, обратно","badge":"бейдж, пропуск","bag":"сумка",
+  "bags":"сумки","bake":"печь (готовить)","bakery":"пекарня","balcony":"балкон","bali":"Бали","ball":"мяч",
+  "bands":"группы, ленты","bank":"банк","bark":"лаять; кора (дерева)","barked":"залаял","basic":"базовый",
+  "basket":"корзина","baskets":"корзины","bathroom":"ванная","batteries":"батарейки","be":"быть",
+  "beans":"фасоль, бобы","beanstalk":"стебель бобов","bears":"медведи","beautiful":"красивый","became":"стал",
+  "because":"потому что","become":"становиться","becoming":"становящийся","bed":"кровать","beds":"кровати",
+  "bee":"пчела","beekeepers":"пчеловоды","been":"форма ‘have been’","bees":"пчёлы","before":"до, перед",
+  "began":"начал","begin":"начинать","beginning":"начало","begun":"начатый","behind":"позади",
+  "being":"будучи; существо","believe":"верить","believed":"верил","believing":"верящий","bell":"колокольчик",
+  "belle":"Белль (имя)","belong":"принадлежать","belongings":"вещи, имущество","belongs":"принадлежит","below":"ниже",
+  "best":"лучший","bet":"спорить; пари","better":"лучше","bicycle":"велосипед","big":"большой","bigger":"больше",
+  "biggest":"самый большой","bike":"велосипед","bin":"мусорное ведро","biologist":"биолог","birds":"птицы",
+  "birthday":"день рождения","bit":"немного; кусочек","blew":"подул, сдул","block":"квартал; блок","blow":"дуть",
+  "blows":"дует","blue":"синий","boar":"кабан","boarded":"сел на борт","boarding":"посадка (на рейс)","boats":"лодки",
+  "book":"книга; бронировать","books":"книги","booth":"кабинка, будка","boring":"скучный","born":"рождён",
+  "borrowed":"одолжил","boss":"начальник","both":"оба","bothered":"беспокоился, побеспокоил","bottle":"бутылка",
+  "bought":"купил","bowing":"кланяется","bowl":"миска","bowls":"миски","box":"коробка","boxes":"коробки",
+  "boy":"мальчик","brain":"мозг","brave":"храбрый","brazil":"Бразилия","bread":"хлеб","break":"ломать; перерыв",
+  "breakfast":"завтрак","breaking":"ломает(ся)","breath":"дыхание","breathing":"дыхание; дышит","brick":"кирпич",
+  "bricks":"кирпичи","bride":"невеста","bridge":"мост","bright":"яркий","bring":"приносить","brings":"приносит",
+  "british":"британский","brochures":"брошюры","broke":"сломал(ся)","broken":"сломанный","brother":"брат",
+  "brothers":"братья","brought":"принёс","budget":"бюджет","bugs":"жуки, баги","build":"строить","building":"здание",
+  "buildings":"здания","built":"построил","bulletproof":"пуленепробиваемый","bunch":"гроздь, пучок",
+  "burj":"Бурдж (напр. Burj Khalifa)","bus":"автобус","bush":"куст","busier":"более занятый",
+  "busiest":"самый занятый","business":"бизнес","businesswoman":"бизнесвумен","busy":"занятый","but":"но",
+  "button":"кнопка","buy":"покупать","buying":"покупает, покупка","by":"к (сроку), у, мимо","cable":"кабель",
+  "caf":"кафе (усечено, café)","cage":"клетка","cake":"торт","calais":"Кале (город во Франции)",
+  "call":"звонить, звонок","called":"позвонил, звал","calling":"звонит, звонящий","calls":"звонит; звонки",
+  "calm":"спокойный","calmly":"спокойно","came":"пришёл, приехал","camels":"верблюды","camera":"камера",
+  "cameras":"камеры","can":"мочь, уметь","can't":"не могу/не может (сокр.)","canals":"каналы","cancelled":"отменён",
+  "candles":"свечи","candy":"конфеты","capitals":"столицы","car":"машина","cards":"карты, карточки",
+  "care":"забота; заботиться","career":"карьера","careful":"осторожный","carefully":"осторожно",
+  "carriage":"карета, вагон","carries":"несёт","carry":"нести","carrying":"несёт, несущий","cars":"машины",
+  "cartoons":"мультфильмы","case":"случай; чемодан","cash":"наличные","castle":"замок","castle's":"замка (притяж.)",
+  "casual":"повседневный","cat":"кот, кошка","cat's":"кота, кошки (притяж.)","catch":"ловить","catches":"ловит",
+  "cater":"обслуживать (питание)","caused":"вызвал, стал причиной","celebrated":"праздновал","celebrates":"празднует",
+  "celebrating":"празднует, празднующий","celebration":"празднование","center":"центр","centuries":"века, столетия",
+  "century":"век, столетие","ceo":"генеральный директор","ceremony":"церемония","chair":"стул","chairs":"стулья",
+  "challenge":"вызов, испытание","challenged":"бросил вызов","challenges":"испытания, вызовы","chance":"шанс",
+  "chandelier":"люстра","change":"менять, изменение","changed":"изменил(ся)","changes":"изменения; меняет",
+  "changing":"меняющийся, меняет","channel":"канал","chaotic":"хаотичный","charge":"плата; заряжать",
+  "cheap":"дешёвый","cheaper":"дешевле","cheapest":"самый дешёвый","check":"проверять","checked":"проверил",
+  "checking":"проверяет","checks":"проверяет; чеки","cheer":"подбадривать, ура","child":"ребёнок","children":"дети",
+  "choice":"выбор","choices":"варианты выбора","choose":"выбирать","chopsticks":"палочки для еды","chose":"выбрал",
+  "chosen":"выбранный","cinderella":"Золушка","cinema":"кинотеатр","cities":"города","city":"город",
+  "claim":"утверждать; заявка","claiming":"утверждает","clap":"хлопать","class":"урок, класс",
+  "classes":"занятия, классы","classic":"классический","clean":"чистый; убирать","cleaned":"убрал, почистил",
+  "cleaner":"уборщик; чище","cleaning":"уборка, убирает","clear":"ясный, понятный","clearly":"ясно",
+  "clerk":"клерк, служащий","clever":"умный","client":"клиент","clients":"клиенты","climate":"климат",
+  "climbed":"взобрался","clinic":"клиника","close":"закрывать; близко","closed":"закрыт, закрыл","closer":"ближе",
+  "closet":"шкаф","club":"клуб","clue":"подсказка, улика","clumsy":"неуклюжий","coast":"побережье","coat":"пальто",
+  "code":"код","coffee":"кофе","coin":"монета","coincidence":"совпадение","coins":"монеты","cold":"холодный",
+  "colleague":"коллега","colleagues":"коллеги","collect":"собирать","collected":"собрал","collects":"собирает",
+  "colonies":"колонии","color":"цвет","colors":"цвета","come":"приходить","comes":"приходит","comfortable":"удобный",
+  "coming":"приходит, идущий","comments":"комментарии","communicate":"общаться",
+  "communication":"общение, коммуникация","commute":"добираться до работы","companies":"компании",
+  "company":"компания","compare":"сравнивать","complain":"жаловаться","complaining":"жалуется",
+  "completely":"полностью","computer":"компьютер","computers":"компьютеры","concern":"беспокойство, забота",
+  "condition":"условие, состояние","conference":"конференция","confident":"уверенный","confirms":"подтверждает",
+  "confused":"запутался, растерян","connecting":"соединяет","considered":"считал(ся)",
+  "consistent":"последовательный, стабильный","consistently":"последовательно","constant":"постоянный",
+  "content":"содержание, контент","continent":"континент","continued":"продолжил","contract":"контракт",
+  "contracts":"контракты","contrast":"контраст","control":"контроль; контролировать","controlled":"контролировал",
+  "conversations":"разговоры","convince":"убеждать","convinced":"убедил, убеждён","cook":"готовить (еду)",
+  "cooked":"приготовил","cooking":"готовка, готовит","copies":"копии","copy":"копия; копировать","coral":"коралловый",
+  "corner":"угол","corners":"углы","correct":"правильный","cost":"стоимость; стоить","could":"мог(ла) (модальный)",
+  "couldn't":"не мог(ла)","counting":"считает","countries":"страны","country":"страна","couple":"пара, несколько",
+  "courier":"курьер","course":"курс; конечно (of course)","court":"суд, корт","cousin":"двоюродный брат/сестра",
+  "covered":"покрыл, покрыт","cow":"корова","creating":"создаёт, создание","creative":"креативный, творческий",
+  "credit":"кредит","crew":"экипаж, команда","cried":"плакал; воскликнул","croissant":"круассан",
+  "cross":"пересекать; крест","crossed":"пересёк","crossing":"переход, пересечение","crowd":"толпа",
+  "crowded":"переполненный","cruel":"жестокий","crying":"плачет","cup":"чашка","cupboard":"шкаф(чик)",
+  "curators":"кураторы","curious":"любопытный","curry":"карри","curse":"проклятие","cursed":"проклятый",
+  "customers":"клиенты, покупатели","customs":"таможня; обычаи","cut":"резать, порез","cuts":"режет",
+  "cutting":"режет, резка","daily":"ежедневный","damage":"ущерб, повреждение","dance":"танцевать, танец",
+  "danced":"танцевал","dances":"танцует; танцы","danger":"опасность","dark":"тёмный","darker":"темнее",
+  "data":"данные","date":"дата, свидание","dates":"даты","daughter":"дочь","daughters":"дочери","day":"день",
+  "days":"дни","deadline":"дедлайн, срок","deal":"сделка","dear":"дорогой (обращение)","decade":"десятилетие",
+  "december":"декабрь","decided":"решил","decision":"решение","deck":"палуба","decorated":"украшен, украсил",
+  "dedicated":"преданный, посвящённый","deep":"глубокий","definitely":"определённо","delay":"задержка",
+  "delayed":"задержан","delays":"задержки","deliver":"доставлять","delivered":"доставил","delivery":"доставка",
+  "dentist":"стоматолог","department":"отдел","depended":"зависел","describes":"описывает","desert":"пустыня",
+  "design":"дизайн; проектировать","designers":"дизайнеры","desk":"стол (письменный)","despite":"несмотря на",
+  "destroy":"уничтожать","detailed":"подробный","details":"детали, подробности","detective":"детектив",
+  "determination":"решимость","developers":"разработчики","did":"вспом. гл. прош. времени",
+  "didn't":"не (прош. отрицание)","diet":"диета, рацион","difference":"разница","different":"другой, разный",
+  "differently":"по-другому","difficult":"трудный","dinner":"ужин","dinners":"ужины","direct":"прямой; направлять",
+  "director":"директор","disappears":"исчезает","discovers":"обнаруживает","discovery":"открытие",
+  "discussed":"обсудил","disguise":"маскировка, переодевание","dishes":"посуда, блюда",
+  "displayed":"показал, выставил","disputes":"споры","distance":"расстояние","distracted":"отвлечён, отвлёкся",
+  "dive":"нырять","do":"делать","doctor":"врач","document":"документ","documents":"документы",
+  "does":"делает (вспом.)","doesn't":"не (отрицание, 3 л. ед.ч.)","dog":"собака","doing":"делает, делая",
+  "don't":"не (отрицание)","done":"сделано, сделанный","door":"дверь","doorway":"дверной проём","double":"двойной",
+  "doubted":"сомневался","doubtful":"сомнительный","dover":"Дувр (город в Англии)","down":"вниз",
+  "downstairs":"вниз по лестнице, внизу","downtown":"центр города","dozens":"десятки","draft":"черновик",
+  "drawer":"ящик (стола)","dreamed":"мечтал, снилось","dreaming":"мечтает, видит сон","dreams":"мечты, сны",
+  "dress":"платье","dresses":"платья; одевает","dried":"высушенный, высох","driest":"самый сухой",
+  "drink":"пить; напиток","drinking":"пьёт, питьё","drive":"водить, ехать","driving":"вождение, водит",
+  "dropped":"уронил, упал","drove":"вёл (машину)","dry":"сухой","dubai":"Дубай","duck":"утка","duckling":"утёнок",
+  "ducklings":"утята","ducks":"утки","during":"во время","dwarfs":"гномы","each":"каждый","earlier":"раньше",
+  "early":"рано","earn":"зарабатывать","earning":"зарабатывает","ears":"уши","earth":"Земля","easier":"легче",
+  "easiest":"самый лёгкий","easily":"легко","easy":"лёгкий, простой","eat":"есть (кушать)","eaten":"съеденный",
+  "eats":"ест","eclipse":"затмение","economies":"экономики (стран)","effect":"эффект","effective":"эффективный",
+  "efficient":"эффективный, продуктивный","eggs":"яйца","eight":"восемь","eighty":"восемьдесят",
+  "either":"тоже (в отриц.), любой из двух","electricity":"электричество","else":"ещё, иначе","email":"письмо (эл.)",
+  "emailing":"отправляет письмо","emails":"письма (эл.)","emergency":"чрезвычайная ситуация","emirates":"Эмираты",
+  "employee":"сотрудник","employees":"сотрудники","enchanted":"заколдованный","encouraging":"ободряющий, поощряет",
+  "end":"конец; заканчивать","ends":"заканчивается","energy":"энергия","engineer":"инженер","engineers":"инженеры",
+  "english":"английский","enjoy":"наслаждаться","enjoyed":"наслаждался","enjoying":"наслаждается",
+  "enormous":"огромный","enough":"достаточно","entering":"входит","enters":"входит","entire":"целый, весь",
+  "entrance":"вход","environmental":"экологический","equipment":"оборудование","europe":"Европа","evaluated":"оценил",
+  "eve":"канун","even":"даже","evening":"вечер","evenings":"вечера","event":"событие",
+  "eventually":"в итоге, со временем","ever":"когда-либо","everest":"Эверест","every":"каждый",
+  "everybody":"каждый, все","everyone":"все, каждый","everything":"всё","everywhere":"везде","evil":"злой, зло",
+  "exact":"точный","exactly":"точно","exam":"экзамен","examines":"осматривает, исследует","example":"пример",
+  "exams":"экзамены","excel":"превосходить","excellent":"отличный","excitement":"волнение, возбуждение",
+  "exciting":"захватывающий","excuse":"извинение; предлог","exercise":"упражнение","exhausted":"измотанный",
+  "exhibition":"выставка","exhibitions":"выставки","exhibits":"экспонаты; демонстрирует","exist":"существовать",
+  "existed":"существовал","expect":"ожидать","expected":"ожидал","expecting":"ожидает","expedition":"экспедиция",
+  "expensive":"дорогой","experience":"опыт","experiments":"эксперименты","experts":"эксперты",
+  "expiration":"истечение срока","expired":"истёк (срок)","explain":"объяснять","explained":"объяснил",
+  "explaining":"объясняет","explanation":"объяснение","exploration":"исследование, разведка","explored":"исследовал",
+  "express":"экспресс; выражать","extra":"дополнительный","extreme":"экстремальный","extremely":"крайне, чрезвычайно",
+  "eyes":"глаза","face":"лицо","facing":"сталкивается с, лицом к","fact":"факт","factory":"фабрика, завод",
+  "failed":"провалился, не удалось","failure":"неудача, провал","fairest":"самая справедливая/красивая",
+  "fairies":"феи","fairy":"сказочный, фея","fake":"поддельный","fallen":"упавший","falls":"падает","false":"ложный",
+  "families":"семьи","family":"семья","famous":"знаменитый","far":"далеко","farm":"ферма","farms":"фермы",
+  "fascinating":"увлекательный","fast":"быстрый, быстро","fasten":"пристегнуть","fastened":"пристегнул",
+  "faster":"быстрее","fastest":"самый быстрый","father":"отец","father's":"отца (притяж.)","favorite":"любимый",
+  "fear":"страх","feel":"чувствовать","feeling":"чувство, чувствует","feels":"чувствует","fell":"упал",
+  "felt":"чувствовал","ferry":"паром","few":"немного, мало","field":"поле","fifth":"пятый","fifty":"пятьдесят",
+  "figures":"цифры, фигуры","filed":"подал (документы)","files":"файлы","final":"финальный","finally":"наконец",
+  "finance":"финансы","financial":"финансовый","find":"находить","finding":"находит","finds":"находит",
+  "fine":"хорошо, штраф","finger":"палец","finish":"заканчивать","finished":"закончил(ся)","finishing":"заканчивает",
+  "fire":"огонь, пожар","fireworks":"фейерверк","first":"первый","fish":"рыба","fisherman":"рыбак","five":"пять",
+  "fix":"чинить","fixed":"исправил, зафиксирован","flashlight":"фонарик","flat":"квартира; плоский",
+  "flavor":"вкус, аромат","flew":"летел","flight":"рейс","floor":"пол, этаж","florida":"Флорида","florist":"флорист",
+  "flowers":"цветы","fluently":"свободно (о языке)","fly":"летать","flying":"летит, летающий",
+  "focus":"сосредотачиваться","focused":"сосредоточен","focusing":"сосредотачивается","fogg's":"Фогга (притяж.)",
+  "follow":"следовать","followed":"следовал","following":"следующий","food":"еда","football":"футбол",
+  "footprints":"следы (ног)","for":"для, за","foreign":"иностранный","forest":"лес","forests":"леса",
+  "forever":"навсегда","forget":"забывать","forgetting":"забывает","forgot":"забыл","forgotten":"забытый",
+  "formal":"формальный","fortress":"крепость","forty":"сорок","forward":"вперёд","found":"нашёл",
+  "founders":"основатели","four":"четыре","fox":"лиса","foxes":"лисы","france":"Франция","free":"свободный",
+  "freezing":"морозный","french":"французский","fresh":"свежий","friday":"пятница","fridays":"по пятницам",
+  "fridge":"холодильник","friend":"друг","friends":"друзья","friends'":"друзей (притяж.)","from":"от, из",
+  "frowned":"нахмурился","fruit":"фрукт","full":"полный","fully":"полностью","fund":"фонд; финансировать",
+  "funds":"средства, фонды","funny":"смешной","furious":"в ярости","furniture":"мебель","further":"дальше, далее",
+  "future":"будущее","games":"игры","gap":"разрыв, пробел","garage":"гараж","garden":"сад","gasping":"задыхается",
+  "gate":"ворота, гейт","gather":"собирать(ся)","gave":"дал","geese":"гуси","generate":"генерировать",
+  "gently":"нежно, осторожно","geppetto":"Джеппетто","germany":"Германия","gesture":"жест","get":"получать",
+  "gets":"получает","getting":"получает, становится","giant's":"великана (притяж.)","girl":"девочка","give":"давать",
+  "given":"данный","gives":"даёт","giving":"даёт, отдаёт","glacier":"ледник","glass":"стакан, стекло",
+  "glasses":"очки; стаканы","global":"глобальный","go":"идти, ехать","godmother":"крёстная мать",
+  "godmother's":"крёстной (притяж.)","goes":"идёт, ходит","going":"идёт, собирается","gold":"золото",
+  "golden":"золотой","goldilocks":"Златовласка","gone":"ушёл, уехал","good":"хороший","got":"получил",
+  "gotten":"получил (амер.)","government":"правительство","governments":"правительства","graham":"Грэм (имя)",
+  "grain":"зерно","grandmother":"бабушка","grandmother's":"бабушки (притяж.)","grandparents":"бабушка и дедушка",
+  "grant":"грант; предоставить","grants":"гранты; предоставляет","grapes":"виноград","grasshopper":"кузнечик",
+  "gratefully":"с благодарностью","great":"отличный","greater":"больший","greedily":"жадно","green":"зелёный",
+  "gretel":"Гретель","grew":"рос, вырос","grey":"серый","groom":"жених","ground":"земля","group":"группа",
+  "grow":"расти","growing":"растущий","grown":"вырос, выращенный","guarantee":"гарантия","guard":"охранник",
+  "guest":"гость","guests":"гости","guide":"гид; руководство","gym":"спортзал","ha":"ха","habit":"привычка",
+  "had":"имел (прош.)","hadn't":"не имел","hair":"волосы","half":"половина","hall":"зал","hand":"рука",
+  "handle":"ручка; справляться","handled":"справился, обработал","handmade":"ручной работы","hands":"руки",
+  "hanging":"висит, висящий","hansel":"Гензель","happen":"случаться","happened":"случилось","happens":"случается",
+  "happier":"счастливее","happily":"счастливо","happy":"счастливый","hard":"трудный","harder":"усерднее, труднее",
+  "hardest":"самый трудный","hare":"заяц","harp":"арфа","has":"имеет","hasn't":"не (сокр. has not)",
+  "hate":"ненавидеть","hates":"ненавидит","have":"иметь","haven't":"не (сокр. have not)","having":"имея","he":"он",
+  "he's":"он есть / он (сокр.)","headache":"головная боль","headset":"наушники (с микрофоном)","healers":"целители",
+  "hear":"слышать","heard":"слышал","heart":"сердце","heat":"жара, нагревать","heavily":"тяжело, сильно",
+  "heavy":"тяжёлый","hello":"привет","help":"помогать","helped":"помог","helpful":"полезный",
+  "helping":"помогает, помощь","helps":"помогает","her":"её, ей","here":"здесь","here's":"вот (сокр.)",
+  "hers":"её (притяж.)","herself":"сама, себя (о ней)","hesitate":"колебаться","hey":"эй","hi":"привет",
+  "hidden":"скрытый","high":"высокий","higher":"выше","hiker":"турист-пешеходник","hiking":"поход, хайкинг",
+  "hill":"холм","him":"его, ему","himself":"сам, себя","hired":"нанял","hiring":"нанимает","his":"его",
+  "historians":"историки","history":"история","hit":"ударить, хит","hive":"улей","hmm":"хм","hobbies":"хобби",
+  "holding":"держит","holiday":"отпуск, праздник","home":"дом","homepage":"главная страница","homes":"дома",
+  "homework":"домашнее задание","honest":"честный","honestly":"честно","honey":"мёд","honeybees":"медоносные пчёлы",
+  "hong":"Гонконг (Hong Kong)","hood":"капюшон","hope":"надеяться, надежда","hoping":"надеется","hospital":"больница",
+  "hot":"жаркий, горячий","hotel":"отель","hour":"час","hours":"часы (время)","house":"дом","houses":"дома",
+  "housing":"жильё","houston":"Хьюстон","how":"как","however":"однако","huge":"огромный","hugging":"обнимает",
+  "human":"человек, человеческий","humans":"люди","hundred":"сто","hundreds":"сотни","hungry":"голодный",
+  "hunter":"охотник","huntsman":"охотник, егерь","hurry":"спешить","hurt":"больно, ранил","husband":"муж",
+  "hydro":"гидро- (энергия)","hypothetical":"гипотетический","i":"я","i'd":"я бы (сокр.)","i'll":"я буду (сокр.)",
+  "i'm":"я есть","i've":"я (уже) — сокр. have","ice":"лёд","iceberg":"айсберг","idea":"идея","ideas":"идеи",
+  "if":"если","imagine":"представлять","immediately":"немедленно","important":"важный","impossible":"невозможный",
+  "impressed":"впечатлён","improve":"улучшать","improving":"улучшает","in":"в","incident":"инцидент",
+  "inconvenience":"неудобство","incredibly":"невероятно","independent":"независимый","industry":"индустрия, отрасль",
+  "information":"информация","informed":"проинформировал","ing":"окончание -ing","initially":"изначально",
+  "insects":"насекомые","inside":"внутри","insisted":"настаивал","inspector":"инспектор","instead":"вместо",
+  "instructions":"инструкции","insulting":"оскорбительный","interested":"заинтересован","interesting":"интересный",
+  "international":"международный","internet":"интернет","interrupting":"перебивает, перебивающий",
+  "interruptions":"перебивания, помехи","interview":"интервью, собеседование","into":"в, внутрь",
+  "introduced":"представил (кого-то)","invented":"изобрёл","invention":"изобретение","inventor":"изобретатель",
+  "invest":"инвестировать","investors":"инвесторы","invitation":"приглашение","invitations":"приглашения",
+  "invoice":"счёт-фактура","is":"есть, является","isn't":"не является","it":"это, он, она (о предмете)",
+  "it's":"это есть","italian":"итальянский","items":"предметы, пункты","its":"его, её (о предмете)",
+  "itself":"сам, само","jack":"Джек (имя)","january":"январь","japan":"Япония","japanese":"японский",
+  "jars":"банки (стекл.)","jealous":"ревнивый, завистливый","jealousy":"ревность, зависть","job":"работа",
+  "jobs":"работы, вакансии","joined":"присоединился","joke":"шутка","jokes":"шутки","journalist":"журналист",
+  "journey":"путешествие","juice":"сок","juicy":"сочный","july":"июль","jumps":"прыгает","just":"просто, только что",
+  "keep":"держать, хранить","keeping":"держит, хранит","keeps":"держит, хранит","kept":"держал, хранил",
+  "key":"ключ; ключевой","keys":"ключи","khalifa":"Халифа (Burj Khalifa)","kids":"дети","kids'":"детей (притяж.)",
+  "kill":"убивать","killed":"убил","kilo":"кило","kilometers":"километры","kind":"добрый; вид, тип",
+  "kindly":"любезно","kinds":"виды, типы","king":"король","kingdom":"королевство","kiss":"поцелуй","kitchen":"кухня",
+  "kitchens":"кухни","knew":"знал","knocked":"постучал","knocks":"стучит","know":"знать","knowing":"зная",
+  "known":"известный","knows":"знает","kong":"Конг (Hong Kong)","lab":"лаборатория","labeled":"помечен, обозначен",
+  "lacked":"не хватало","lake":"озеро","lamps":"лампы","land":"земля, суша","landed":"приземлился",
+  "landfills":"свалки","language":"язык","laptop":"ноутбук","large":"большой","last":"последний, прошлый",
+  "late":"поздно","lately":"недавно, в последнее время","later":"позже","laugh":"смеяться","laughed":"засмеялся",
+  "laughing":"смеётся","laughs":"смеётся","launch":"запуск; запускать","launched":"запустил","law":"закон",
+  "lay":"лежал, класть","lays":"кладёт","lazy":"ленивый","lead":"вести, свинец","leader":"лидер","learn":"учить(ся)",
+  "learned":"выучил","learning":"обучение, учится","least":"наименьший (at least — по крайней мере)",
+  "leave":"уходить, оставлять","leaves":"листья; уходит","leaving":"уходит, покидает","left":"ушёл, оставил",
+  "leg":"нога","legal":"легальный, юридический","legend":"легенда","legs":"ноги","less":"меньше","lesson":"урок",
+  "lessons":"уроки","let":"позволить, пусть","let's":"давай(те) (сокр.)","lets":"позволяет","letter":"письмо",
+  "letters":"письма, буквы","library":"библиотека","lie":"ложь; лежать","lied":"солгал","lies":"лежит; лжёт",
+  "life":"жизнь","lifeboats":"спасательные шлюпки","lift":"лифт; поднимать","lifting":"поднимает",
+  "light":"свет; лёгкий","lighting":"освещение","lights":"свет, огни","like":"нравиться; как","likes":"нравится",
+  "limited":"ограниченный","line":"линия, очередь","lines":"линии, строки","lisbon":"Лиссабон","listen":"слушать",
+  "listened":"слушал","listening":"слушает","lists":"списки","little":"маленький, немного","live":"жить",
+  "lived":"жил","lives":"живёт; жизни","living":"жизнь; живущий","lobby":"холл, лобби","local":"местный",
+  "locals":"местные жители","lock":"замок; запирать","locked":"заперт","london":"Лондон","lonely":"одинокий",
+  "long":"долгий, длинный","longer":"дольше, длиннее","look":"смотреть, взгляд","looked":"смотрел, выглядел",
+  "looking":"смотрит, ищет","looks":"выглядит","lose":"терять, проигрывать","loses":"теряет",
+  "lost":"потерял, потерянный","lot":"много","lots":"много","lottery":"лотерея","loud":"громкий",
+  "loudest":"самый громкий","loudly":"громко","louvre":"Лувр","love":"любить; любовь","loved":"любил",
+  "lower":"ниже; понижать","luck":"удача","luckily":"к счастью","lumpy":"комковатый","lunar":"лунный","lunch":"обед",
+  "luxurious":"роскошный","machine":"машина, механизм","made":"сделал","magic":"магия, волшебный",
+  "magical":"волшебный","mailboxes":"почтовые ящики","main":"главный","major":"крупный, главный",
+  "make":"делать, создавать","makes":"делает","makeup":"макияж","making":"делает, создаёт","malls":"торговые центры",
+  "managed":"справился, управлял","manager":"менеджер","managing":"управляет","many":"много","marathon":"марафон",
+  "march":"март; маршировать","marine":"морской","market":"рынок","marketing":"маркетинг","marquis":"маркиз",
+  "marrakech":"Марракеш","married":"женат, замужем","match":"матч; подходить","material":"материал",
+  "materials":"материалы","math":"математика","matter":"иметь значение; вопрос","matters":"имеет значение; вопросы",
+  "mattresses":"матрасы","maybe":"может быть","me":"меня, мне","meal":"приём пищи, еда","means":"означает; средства",
+  "meanwhile":"тем временем","measure":"измерять, мера","measurements":"измерения","meat":"мясо",
+  "medical":"медицинский","medicine":"лекарство","meet":"встречать(ся)","meeting":"встреча, совещание",
+  "meetings":"встречи, совещания","melting":"тает, плавится","men":"мужчины","mended":"починил","mention":"упоминать",
+  "merchants":"торговцы","mermaid":"русалка","mermaid's":"русалки (притяж.)","mermaids":"русалки",
+  "messages":"сообщения","met":"встретил","metro":"метро","meucci":"Меуччи (имя, изобретатель)","mice":"мыши",
+  "microphone":"микрофон","middle":"середина","midnight":"полночь","might":"мог бы (модальный)",
+  "mild":"мягкий (о погоде)","miles":"мили","milk":"молоко","miller's":"мельника (притяж.)","million":"миллион",
+  "millions":"миллионы","mind":"разум; возражать","mine":"мой (притяж.); шахта","minute":"минута","minutes":"минуты",
+  "mirror":"зеркало","miss":"скучать; пропустить; мисс","missed":"пропустил, скучал",
+  "missing":"пропавший, отсутствует","mission":"миссия","mistake":"ошибка","mistakes":"ошибки","mobile":"мобильный",
+  "modern":"современный","mom":"мама","moment":"момент","monday":"понедельник","money":"деньги",
+  "monitoring":"мониторинг, отслеживает","month":"месяц","months":"месяцы","moon":"луна","more":"больше",
+  "morning":"утро","mornings":"утра (мн.ч.)","most":"больше всего, самый","mostly":"в основном","mother":"мать",
+  "mother's":"матери (притяж.)","motor":"мотор","mountain":"гора","mountains":"горы","mouse":"мышь",
+  "move":"двигаться, переезжать","moved":"переехал, двигался","movement":"движение","movements":"движения",
+  "movie":"фильм","moving":"двигается, переезжает","mr":"мистер","much":"много","mud":"грязь","muddy":"грязный",
+  "museum":"музей","museums":"музеи","music":"музыка","must":"должен (модальный)","mustn't":"нельзя (сокр.)",
+  "my":"мой","myself":"себя, сам","name":"имя","named":"назвал, по имени","nap":"дневной сон","narrow":"узкий",
+  "national":"национальный","natural":"естественный","near":"рядом, близко","nearby":"поблизости","nearly":"почти",
+  "nectar":"нектар","need":"нуждаться","needed":"нуждался, понадобился","neighbor":"сосед",
+  "neighborhood":"район (города)","neither":"ни тот ни другой","nervous":"нервный","nervously":"нервно",
+  "nest":"гнездо","never":"никогда","neverland":"Нетландия (сказочная страна)","new":"новый","news":"новости",
+  "newspapers":"газеты","next":"следующий","nice":"приятный, милый","nicely":"приятно, хорошо","night":"ночь",
+  "night's":"ночи (притяж.)","nights":"ночи","nine":"девять","no":"нет","nobody":"никто","nod":"кивнуть",
+  "nods":"кивает","noise":"шум","nonstop":"без остановок","noodles":"лапша","noon":"полдень","normal":"нормальный",
+  "normally":"обычно","north":"север","norway":"Норвегия","not":"не","note":"записка; отметить","notes":"заметки",
+  "nothing":"ничего","notice":"замечать; уведомление","noticed":"заметил","noticing":"замечает","now":"сейчас",
+  "number":"номер","numbers":"числа, номера","nutritionist":"диетолог","nuts":"орехи","o'clock":"часов (время)",
+  "oak":"дуб","oases":"оазисы","objects":"объекты, предметы","ocean":"океан","octopus":"осьминог",
+  "octopuses":"осьминоги","of":"из, о","off":"выходной; прочь","offer":"предложение, предлагать",
+  "offered":"предложил","offers":"предлагает","office":"офис","official":"официальный","often":"часто",
+  "ogre":"огр, великан-людоед","oh":"о, ох","ok":"хорошо, ок","okay":"хорошо, ок","old":"старый","on":"на",
+  "once":"однажды, один раз","one":"один","ones":"те, штуки (заменитель сущ.)","online":"онлайн","only":"только",
+  "onto":"на (поверхность)","open":"открывать; открыт","opened":"открыл","opening":"открытие, открывает",
+  "opinion":"мнение","opportunities":"возможности","opportunity":"возможность","options":"варианты","or":"или",
+  "order":"заказ, заказывать","ordered":"заказал","ordinary":"обычный","organizations":"организации",
+  "organized":"организовал","original":"оригинальный","originally":"изначально","other":"другой","others":"другие",
+  "our":"наш","ours":"наш (притяж.)","out":"наружу, вне","outdoor":"на открытом воздухе",
+  "outright":"полностью, прямо","outside":"снаружи","outward":"наружу","over":"над; закончен",
+  "overnight":"за ночь, ночью","overtime":"сверхурочно","own":"собственный","owner":"владелец","owners":"владельцы",
+  "oxygen":"кислород","package":"посылка, пакет","packed":"упаковал","pad":"блокнот, коврик","pages":"страницы",
+  "paint":"краска; красить","painted":"покрасил, нарисовал","painting":"картина, живопись","paintings":"картины",
+  "palace":"дворец","papers":"бумаги","paperwork":"бумажная работа","parents":"родители",
+  "parents'":"родителей (притяж.)","paris":"Париж","park":"парк","partner":"партнёр","parts":"части",
+  "party":"вечеринка","pass":"проходить; сдать (экзамен)","passed":"прошёл, сдал","passengers":"пассажиры",
+  "password":"пароль","past":"прошлое; мимо","pasta":"паста (макароны)","patent":"патент","path":"тропа, путь",
+  "patience":"терпение","pattern":"узор, шаблон","pay":"платить","paying":"платит","pays":"платит","pea":"горошина",
+  "peace":"мир (спокойствие)","peaceful":"мирный","pebbles":"галька, камешки","pen":"ручка","people":"люди",
+  "perfect":"идеальный","perfectly":"идеально","performance":"выступление, производительность","period":"период",
+  "permanent":"постоянный","person":"человек","peter":"Питер (имя)","pharma":"фарм- (фармацевтика)",
+  "phileas":"Филеас (имя)","phone":"телефон","phones":"телефоны","photo":"фото","photographer":"фотограф",
+  "photographs":"фотографии","photos":"фотографии","phrases":"фразы","pick":"выбирать, собирать",
+  "picked":"выбрал, собрал","picking":"выбирает, собирает","picks":"выбирает","pieces":"кусочки, части",
+  "pig":"свинья","pigs":"свиньи","pinocchio":"Пиноккио","place":"место","places":"места","plan":"план",
+  "planet":"планета","planned":"планировал","planning":"планирование, планирует","plans":"планы",
+  "plant":"растение; завод","plants":"растения","plate":"тарелка","plates":"тарелки","platform":"платформа",
+  "play":"играть","playing":"играет","plays":"играет; пьесы","pleasant":"приятный","please":"пожалуйста",
+  "plenty":"много, достаточно","pm":"после полудня (время)","point":"точка, суть","pointing":"указывает",
+  "points":"очки, баллы; указывает","poisoned":"отравленный","policy":"политика (правило)","polite":"вежливый",
+  "pool":"бассейн","poor":"бедный","popcorn":"попкорн","popular":"популярный","porridge":"каша","port":"порт",
+  "position":"позиция, должность","positive":"положительный","possible":"возможный","possibly":"возможно",
+  "potatoes":"картошка","potion":"зелье","pounds":"фунты","power":"сила, власть","powerful":"мощный",
+  "practice":"практика; практиковать","practicing":"практикует(ся)","praise":"похвала; хвалить","praised":"похвалил",
+  "predict":"предсказывать","predicted":"предсказал","preparation":"подготовка","prepare":"готовить(ся)",
+  "prepared":"подготовил","prepares":"готовит(ся)","preparing":"готовит(ся)","present":"подарок; представлять",
+  "presentation":"презентация","presented":"представил","pressed":"нажал","price":"цена","prices":"цены",
+  "prince":"принц","prince's":"принца (притяж.)","princess":"принцесса","print":"печатать","printed":"напечатал",
+  "printing":"печать","priority":"приоритет","probably":"вероятно","problem":"проблема","problems":"проблемы",
+  "process":"процесс","produces":"производит","product":"продукт","productive":"продуктивный","products":"продукты",
+  "professionals":"специалисты","project":"проект","projector":"проектор","projects":"проекты",
+  "promise":"обещание, обещать","promised":"обещал","promises":"обещания; обещает","proof":"доказательство",
+  "properly":"правильно, как следует","proposal":"предложение (деловое)","protect":"защищать",
+  "protected":"защищённый","proud":"гордый","prove":"доказывать","proved":"доказал",
+  "public":"публичный, общественный","published":"опубликовал","puppet":"кукла, марионетка","pure":"чистый",
+  "pushed":"толкнул","put":"положить","puts":"кладёт","putting":"кладёт, кладущий","quality":"качество",
+  "quarter":"четверть","queen":"королева","question":"вопрос","questions":"вопросы","quick":"быстрый",
+  "quickest":"самый быстрый","quickly":"быстро","quiet":"тихий","quieter":"тише","quietly":"тихо",
+  "quit":"бросить, уволиться","quite":"довольно, весьма","race":"гонка","radio":"радио","rain":"дождь",
+  "raining":"идёт дождь","rains":"идёт дождь","raised":"поднял, вырастил","ran":"бежал","rang":"звонил (телефон)",
+  "rare":"редкий","rarely":"редко","reach":"достигать","reached":"достиг","read":"читать","reads":"читает",
+  "ready":"готовый","real":"настоящий","realize":"осознавать","realized":"осознал","really":"действительно",
+  "reason":"причина","receive":"получать","received":"получил","receptionist":"администратор, ресепшн",
+  "recipe":"рецепт","recommend":"рекомендовать","record":"запись; рекорд","red":"красный",
+  "redesigned":"переработал (дизайн)","reefs":"рифы","reflection":"отражение","registration":"регистрация",
+  "regret":"сожалеть","regretted":"сожалел","rejected":"отклонил","relax":"расслабляться","relaxed":"расслабленный",
+  "relaxes":"расслабляет(ся)","relaxing":"расслабляющий","release":"выпуск; выпускать","reliable":"надёжный",
+  "relief":"облегчение","remains":"остаётся","remember":"помнить","remembered":"вспомнил","remembers":"помнит",
+  "remind":"напоминать","reminded":"напомнил","renovate":"ремонтировать","renovating":"ремонтирует",
+  "rent":"аренда; арендовать","repaired":"починил","repeating":"повторяет","repeats":"повторяет","replied":"ответил",
+  "replies":"отвечает; ответы","reply":"ответ; отвечать","report":"отчёт","reporters":"репортёры","reports":"отчёты",
+  "reputation":"репутация","requirements":"требования","rescue":"спасение; спасать","research":"исследование",
+  "researchers":"исследователи","residents":"жители","resist":"сопротивляться","resources":"ресурсы",
+  "respected":"уважаемый, уважал","responsible":"ответственный","rest":"отдых, отдыхать","restaurant":"ресторан",
+  "restaurants":"рестораны","resting":"отдыхает","result":"результат","results":"результаты","return":"возвращаться",
+  "returned":"вернулся","returns":"возвращается","review":"отзыв; обзор","reviewed":"проверил, оставил отзыв",
+  "rice":"рис","rich":"богатый","richest":"самый богатый","ride":"кататься, поездка","riding":"катается, едет верхом",
+  "right":"правильный, право","ringing":"звонит (о телефоне)","rise":"подниматься, восход","risk":"риск",
+  "risks":"риски","river":"река","riverbeds":"русла рек","rivers":"реки","road":"дорога","robot":"робот",
+  "rock":"камень, рок-музыка","rocket":"ракета","roof":"крыша","rooftop":"крыша","room":"комната",
+  "roommates":"соседи по квартире","rooms":"комнаты","route":"маршрут","routes":"маршруты",
+  "routine":"рутина, распорядок","row":"ряд","royal":"королевский","rude":"грубый","rug":"ковёр","rule":"правило",
+  "ruled":"правил (о короле)","rules":"правила","run":"бежать, бегать","runner":"бегун","running":"бег, бежит",
+  "runs":"бежит","rushed":"поспешил","rushing":"спешит","russian":"русский","s":"(окончание -s)",
+  "sadly":"к сожалению, грустно","safe":"безопасный","safer":"безопаснее","safety":"безопасность","sahara":"Сахара",
+  "said":"сказал","sailors'":"моряков (притяж.)","salary":"зарплата","sales":"продажи","same":"тот же самый",
+  "samples":"образцы","sand":"песок","sank":"затонул","sarah":"Сара (имя)","sat":"сидел","satisfied":"удовлетворён",
+  "saturday":"суббота","save":"сохранять, экономить","saved":"спас, сохранил","savings":"сбережения","saw":"увидел",
+  "say":"говорить, сказать","saying":"говорит; поговорка","says":"говорит","scared":"напуган","scene":"сцена",
+  "schedule":"расписание","school":"школа","science":"наука","scientist":"учёный","scientists":"учёные",
+  "screen":"экран","sea":"море","searching":"ищет","season":"сезон","seat":"место (сиденье)",
+  "seatbelt":"ремень безопасности","second":"второй; секунда","secret":"секрет","sections":"разделы",
+  "security":"безопасность","see":"видеть","seeds":"семена","seeing":"видит","seem":"казаться","seemed":"казалось",
+  "seen":"увиденный","sees":"видит","sell":"продавать","seller":"продавец","selling":"продаёт, продажа",
+  "send":"отправлять","sending":"отправляет, отправляющий","sends":"отправляет","sense":"смысл, чувство",
+  "sensitivity":"чувствительность","sensors":"датчики","sent":"отправил","sentence":"предложение (грам.)",
+  "servant":"слуга","servants":"слуги","service":"сервис, услуга","serviced":"обслужен",
+  "serving":"подаёт, обслуживает","setting":"обстановка, установка","seven":"семь","seventy":"семьдесят",
+  "several":"несколько","shaking":"трясётся","shame":"стыд, жаль","share":"делиться, доля",
+  "shared":"поделился, общий","shares":"акции; делится","sharp":"острый","she":"она","she's":"она есть",
+  "sheep":"овца","shelf":"полка","shepherd":"пастух","shining":"сияющий, сияет","ship":"корабль","ships":"корабли",
+  "shoe":"обувь (единичн.)","shoes":"обувь","shop":"магазин","shoppers":"покупатели","shopping":"покупки, шоппинг",
+  "short":"короткий","should":"следует, должен бы","shouldn't":"не следует (сокр.)","shouted":"крикнул",
+  "shouting":"кричит","shouts":"кричит","show":"показывать, шоу","showed":"показал","showing":"показывает",
+  "shows":"показывает; шоу","shy":"застенчивый","shyer":"более застенчивый","sighed":"вздохнул","sighs":"вздыхает",
+  "sign":"знак; подписывать","signal":"сигнал","signed":"подписал","signs":"знаки; подписывает",
+  "silent":"тихий, безмолвный","silently":"молча","similar":"похожий","similarly":"похожим образом",
+  "simple":"простой","simply":"просто","since":"с (какого-то времени)","singapore":"Сингапур","singing":"поёт, пение",
+  "single":"единственный, один","sings":"поёт","sir":"сэр","sister":"сестра","sisters":"сёстры","sit":"сидеть",
+  "site":"сайт, площадка","sits":"сидит","sitting":"сидит","situation":"ситуация","six":"шесть",
+  "sixteen":"шестнадцать","size":"размер","sized":"размера","skeptical":"скептический","ski":"кататься на лыжах",
+  "sky":"небо","sleep":"спать, сон","sleeping":"спящий","slept":"спал","slides":"горки, слайды","slippers":"тапочки",
+  "slow":"медленный","slowly":"медленно","small":"маленький","smaller":"меньше","smallest":"самый маленький",
+  "smart":"умный","smarter":"умнее","smell":"запах, пахнуть","smile":"улыбка; улыбаться","smiled":"улыбнулся",
+  "smiles":"улыбается; улыбки","smiling":"улыбается","smooth":"гладкий","smoother":"более гладкий",
+  "smoothly":"гладко","snacks":"перекусы","snow":"снег","so":"так, поэтому","solar":"солнечный","sold":"продал",
+  "solid":"твёрдый, надёжный","solutions":"решения","solve":"решать (проблему)","some":"несколько, некоторые",
+  "someone":"кто-то","something":"что-то","sometimes":"иногда","somewhere":"где-то","son":"сын","soon":"скоро",
+  "sooner":"раньше, скорее","sorry":"извини(те)","sorted":"отсортировал, разобрался","sounds":"звучит; звуки",
+  "sour":"кислый","souvenirs":"сувениры","space":"космос, пространство","spacecraft":"космический корабль",
+  "spanish":"испанский","spare":"запасной, свободный","speak":"говорить","special":"особенный",
+  "specializes":"специализируется","species":"вид (биол.)","specific":"конкретный","spectators":"зрители",
+  "spend":"тратить (время/деньги)","spicy":"острый (о еде)","spinning":"вращается",
+  "spite":"злоба; despite/in spite of","spoke":"говорил","spokesperson":"представитель, спикер",
+  "sponsored":"спонсировал","spoon":"ложка","sports":"спорт","spot":"место, пятно","spreading":"распространяется",
+  "square":"площадь, квадрат","squeeze":"сжимать","staff":"персонал","stairs":"лестница","stall":"прилавок, ларёк",
+  "stalls":"прилавки","stand":"стоять","standing":"стоит, стоящий","stands":"стоит","staring":"пристально смотрит",
+  "stars":"звёзды","start":"начинать, начало","started":"начал","starting":"начинает","starts":"начинает(ся)",
+  "station":"станция","station's":"станции (притяж.)","statues":"статуи","stay":"оставаться","stayed":"остался",
+  "staying":"остаётся","stays":"остаётся","steak":"стейк","step":"шаг; ступень","stepmother":"мачеха",
+  "stepped":"шагнул","stepsisters":"сводные сёстры","steward":"стюард","stick":"палка; приклеивать",
+  "sticks":"палки; приклеивает","still":"всё ещё","stood":"стоял","stop":"останавливать(ся)","stopped":"остановился",
+  "store":"магазин","stores":"магазины","stories":"истории","storm":"шторм, буря","stormy":"штормовой",
+  "story":"история","straight":"прямой, прямо","strange":"странный","strangely":"странно","stranger":"незнакомец",
+  "stranger's":"незнакомца (притяж.)","strangers":"незнакомцы","straw":"солома","streaming":"стриминг, потоковый",
+  "street":"улица","strength":"сила","stressed":"в стрессе, напряжён","stretched":"растянул(ся)","strict":"строгий",
+  "strong":"сильный","stronger":"сильнее","strongest":"самый сильный","stuck":"застрял","studied":"изучал",
+  "studies":"изучает; исследования","study":"учиться, изучать","studying":"изучает, учится",
+  "submit":"подать (заявку)","submitted":"подал (заявку)","succeed":"преуспеть","success":"успех",
+  "successful":"успешный","successfully":"успешно","such":"такой","suddenly":"внезапно",
+  "suggested":"предложил (идею)","suggestion":"предложение (идея)","suit":"костюм; подходить","suitcase":"чемодан",
+  "summer":"лето","summers":"лета (мн.ч.)","summit":"саммит, вершина","sun":"солнце","sunday":"воскресенье",
+  "sundays":"воскресенья","sunk":"затонувший","sunny":"солнечный","sunrise":"восход солнца","sunset":"закат",
+  "supplement":"добавка (напр. пищевая)","supplies":"припасы, поставки","support":"поддержка; поддерживать",
+  "supported":"поддержал","sure":"уверен","surface":"поверхность","surprise":"сюрприз, удивление",
+  "surprised":"удивлён","surprises":"сюрпризы; удивляет","surprising":"удивительный","surrounded":"окружён",
+  "survive":"выживать","survived":"выжил","survives":"выживает","swam":"плыл (прош.)","swan":"лебедь",
+  "swans":"лебеди","sweet":"сладкий","swim":"плавать","swimming":"плавание","syrup":"сироп","system":"система",
+  "table":"стол","tablets":"таблетки; планшеты","take":"брать","taken":"взятый","takeoff":"взлёт",
+  "takes":"берёт, занимает (время)","taking":"берёт, принимает","talk":"разговор; разговаривать",
+  "talked":"разговаривал","talking":"разговаривает","talks":"разговаривает; переговоры","tall":"высокий",
+  "tallest":"самый высокий","target":"цель","taste":"вкус; пробовать","taxi":"такси","tea":"чай","teacher":"учитель",
+  "teachers":"учителя","team":"команда","tears":"слёзы","tech":"технологии (сокр.)","technician":"техник",
+  "teeth":"зубы","telephone":"телефон","television":"телевидение","tell":"говорить, рассказывать",
+  "telling":"говорит, рассказывает","tells":"говорит, рассказывает","ten":"десять","tenge":"тенге (валюта)",
+  "term":"срок, термин","terrible":"ужасный","terribly":"ужасно","terrifying":"пугающий","test":"тест",
+  "testing":"тестирование, тестирует","texted":"написал сообщение","th":"(суффикс порядк. числ.)","than":"чем",
+  "thank":"благодарить","thanked":"поблагодарил","thanks":"спасибо","that":"тот, что","that's":"это (сокр.)",
+  "the":"определ. артикль","their":"их","them":"их, им","themselves":"сами, себя (они)","then":"тогда, затем",
+  "theories":"теории","there":"там","there's":"там есть","these":"эти","they":"они","they're":"они есть",
+  "they've":"они (уже) — сокр. have","thick":"толстый","thief":"вор","thing":"вещь","things":"вещи","think":"думать",
+  "thinking":"думает","thinks":"думает","third":"третий","thirty":"тридцать","this":"этот","thorns":"шипы",
+  "those":"те","though":"хотя","thought":"думал; мысль","thousand":"тысяча","thousands":"тысячи","three":"три",
+  "thriller":"триллер","throne":"трон","through":"через","throw":"бросать","throwing":"бросает","ticket":"билет",
+  "tickets":"билеты","tidying":"убирает, наводит порядок","tight":"тесный, плотный",
+  "tiled":"плиточный, выложен плиткой","time":"время","times":"времена, разы","tinker":"жестянщик, мастеровой",
+  "tiny":"крошечный","tip":"чаевые; совет","tired":"уставший","tiring":"утомительный","title":"название, титул",
+  "to":"к, в (частица инфинитива)","toast":"тост","today":"сегодня","today's":"сегодняшний","together":"вместе",
+  "tokyo":"Токио","told":"сказал","tomatoes":"помидоры","tomorrow":"завтра","tomorrow's":"завтрашний",
+  "tonight":"сегодня вечером","too":"тоже, слишком","took":"взял","tools":"инструменты","top":"верх; вершина",
+  "torn":"порванный","tortoise":"черепаха","total":"общий, итог","touched":"тронул, тронут","tourist":"турист",
+  "tourists":"туристы","towards":"по направлению к","tower":"башня","town":"город (небольшой)","toy":"игрушка",
+  "toys":"игрушки","trade":"торговля","trades":"торгует","traffic":"трафик, пробка","train":"поезд",
+  "trained":"обучен, тренировался","training":"тренировка, обучение","trains":"поезда","transformed":"преобразился",
+  "transport":"транспорт","trash":"мусор","travel":"путешествовать","traveled":"путешествовал",
+  "traveler":"путешественник","travelling":"путешествует","tray":"поднос","treasures":"сокровища",
+  "treat":"угощение; относиться (к кому-то)","treated":"относился, лечил","tree":"дерево","trees":"деревья",
+  "trend":"тренд","tricked":"обманул","tricks":"трюки, хитрости","tried":"пытался","tries":"пытается",
+  "trip":"поездка","trips":"поездки","true":"истинный, верный","truth":"правда","try":"пытаться","trying":"пытается",
+  "tuesday":"вторник","tuesdays":"вторники","turbine":"турбина","turn":"поворачивать, очередь",
+  "turned":"повернул, стал","turning":"поворачивает","turns":"поворачивает(ся)","twelfth":"двенадцатый",
+  "twenty":"двадцать","twice":"дважды","two":"два","umbrella":"зонт","uncertain":"неуверенный",
+  "uncomfortable":"неудобный","under":"под","understand":"понимать","understands":"понимает","underwater":"подводный",
+  "unfortunately":"к сожалению","unfriendly":"недружелюбный","unhappy":"несчастный","united":"объединённый",
+  "units":"единицы, юниты","universities":"университеты","university":"университет","unless":"если не, пока не",
+  "unpredictable":"непредсказуемый","until":"до тех пор пока","up":"вверх","update":"обновление; обновлять",
+  "upon":"на, по","upright":"вертикально, прямо","upstairs":"наверх, наверху","upward":"вверх","us":"нас, нам",
+  "use":"использовать","used":"использовал; привык","users":"пользователи","uses":"использует","using":"используя",
+  "usual":"обычный","usually":"обычно","vacation":"отпуск, каникулы","valley":"долина","vast":"обширный",
+  "venetian":"венецианский","venice":"Венеция","version":"версия","very":"очень","video":"видео","view":"вид, взгляд",
+  "village":"деревня","villagers":"жители деревни","vine":"лоза","violin":"скрипка","visit":"посещать",
+  "visited":"посетил","visiting":"посещает","visitor":"посетитель","visitors":"посетители",
+  "visits":"посещает; визиты","voice":"голос","voyage":"путешествие (морское)","wait":"ждать",
+  "waiting":"ждёт, ждущий","wake":"просыпаться","wakes":"просыпается","waking":"просыпается",
+  "walk":"идти пешком, прогулка","walked":"шёл, гулял","walking":"идёт пешком, гуляет","walks":"гуляет, идёт пешком",
+  "walls":"стены","wand":"волшебная палочка","wandering":"бродит","want":"хотеть","wanted":"хотел","wants":"хочет",
+  "warehouse":"склад","warm":"тёплый","warning":"предупреждение","warns":"предупреждает","was":"был",
+  "washing":"моет, стирает","wasn't":"не был (сокр.)","waste":"отходы; тратить впустую","watch":"смотреть; часы",
+  "watched":"смотрел (за чем-то)","watches":"часы; смотрит","watching":"смотрит","water":"вода","waves":"волны",
+  "way":"путь, способ","we":"мы","we'd":"мы бы (сокр.)","we'll":"мы будем (сокр.)","we're":"мы есть",
+  "we've":"мы (уже) — сокр. have","weakest":"самый слабый","wealthy":"богатый","wear":"носить (одежду)",
+  "wearing":"носит, носящий (одежду)","weather":"погода","website":"сайт","wedding":"свадьба","weddings":"свадьбы",
+  "wednesdays":"по средам","week":"неделя","weekend":"выходные","weekends":"выходные (мн.ч.)","weeks":"недели",
+  "welcomed":"поприветствовал","well":"хорошо","wendy":"Венди (имя)","went":"пошёл, поехал","were":"были",
+  "what":"что","wheel":"колесо, руль","when":"когда","where":"где","which":"который, какой",
+  "while":"пока, в то время как","whispered":"прошептал","white":"белый","whiteboard":"белая доска (маркерная)",
+  "who":"кто","who's":"кто есть","whoever":"кто бы ни","whole":"весь, целый","whose":"чей","why":"почему",
+  "wife":"жена","wifi":"вайфай","wild":"дикий","wildlife":"дикая природа","will":"буд. время; воля","window":"окно",
+  "windows":"окна","wins":"выигрывает","winter":"зима","winters":"зимы","wiping":"вытирает","wires":"провода",
+  "wisely":"мудро","wisest":"самый мудрый","wish":"желать, желание","wishes":"желает, желания","witch":"ведьма",
+  "with":"с","within":"в пределах, внутри","without":"без","woke":"проснулся","woken":"разбуженный","wolf":"волк",
+  "wolves":"волки","woman":"женщина","won":"выиграл","won't":"не буду/не будет (сокр.)",
+  "wonder":"интересно, удивляться","wonderful":"замечательный","wonders":"чудеса; удивляется","wooden":"деревянный",
+  "word":"слово","words":"слова","work":"работа, работать","worked":"работал","worker":"работник",
+  "workers":"работники","working":"работает, работающий","workload":"нагрузка","workout":"тренировка",
+  "works":"работает","world":"мир (свет)","worldwide":"по всему миру","worried":"обеспокоен","worry":"беспокоиться",
+  "worrying":"беспокоящий, беспокоится","worth":"стоящий (того)","would":"бы (условное)","wouldn't":"не бы (сокр.)",
+  "wounds":"раны","wow":"ого, вау","wreck":"обломки, крушение","write":"писать","writes":"пишет",
+  "written":"написанный","wrong":"неправильный","wrote":"написал","yard":"двор","year":"год",
+  "year's":"года (притяж.)","years":"годы","yes":"да","yesterday":"вчера","yet":"ещё, уже","you":"ты, вы",
+  "you'd":"ты бы (сокр.)","you'll":"ты будешь (сокр.)","you're":"ты есть","you've":"ты (уже) — сокр. have",
+  "young":"молодой","younger":"младше, моложе","your":"твой, ваш","yours":"твой, ваш (притяж.)",
+  "yourself":"себя, сам"
+  };
+
+  function wrapTapWords(root){
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    var textNodes = [];
+    var n;
+    while((n = walker.nextNode())){
+      if(n.nodeValue && /[A-Za-z]/.test(n.nodeValue)) textNodes.push(n);
+    }
+    textNodes.forEach(function(tn){
+      var text = tn.nodeValue;
+      var re = /[A-Za-z']+/g;
+      var lastIndex = 0, m, hit = false;
+      var frag = document.createDocumentFragment();
+      while((m = re.exec(text))){
+        var word = m[0];
+        var key = word.toLowerCase().replace(/^'+|'+$/g,"");
+        if(!VOCAB_DICT.hasOwnProperty(key)) continue;
+        hit = true;
+        if(m.index > lastIndex) frag.appendChild(document.createTextNode(text.slice(lastIndex, m.index)));
+        var span = document.createElement("span");
+        span.className = "tap-word";
+        span.dataset.w = key;
+        span.textContent = word;
+        frag.appendChild(span);
+        lastIndex = re.lastIndex;
+      }
+      if(!hit) return;
+      if(lastIndex < text.length) frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+      tn.parentNode.replaceChild(frag, tn);
+    });
+  }
+  // Only per-topic "Задания" (direct qitem children of .pane-quiz), not the
+  // standalone level tests / diagnostic, whose .qitem pool gets rebuilt from
+  // TEST_POOL_CACHE (plain HTML) every time that screen is opened.
+  document.querySelectorAll(".pane-quiz > .qitem").forEach(function(qi){ wrapTapWords(qi); });
+  // Тексты: story paragraphs and dialogue lines (speaker names have no dict
+  // entry, so they simply stay non-interactive — everything else is tappable).
+  document.querySelectorAll(".pane-texts .storytext, .pane-texts .dline").forEach(function(el){ wrapTapWords(el); });
+  document.querySelectorAll(".pane-texts").forEach(function(pane){
+    var hint = document.createElement("p");
+    hint.className = "tap-hint";
+    hint.textContent = "💡 Нажми на любое слово в тексте — появится перевод";
+    pane.insertBefore(hint, pane.firstChild);
+  });
+
+  var tapPopupEl = null, tapPopupWord = null;
+  function hideTapPopup(){
+    if(tapPopupEl){ tapPopupEl.remove(); tapPopupEl = null; }
+    if(tapPopupWord){ tapPopupWord.classList.remove("active"); tapPopupWord = null; }
+  }
+  function showTapPopup(w){
+    var bubble = document.createElement("div");
+    bubble.className = "tap-popup";
+    bubble.textContent = VOCAB_DICT[w.dataset.w] || "—";
+    document.body.appendChild(bubble);
+    var rect = w.getBoundingClientRect();
+    var top = rect.top - bubble.offsetHeight - 10;
+    var below = false;
+    if(top < 6){ top = rect.bottom + 10; below = true; }
+    var left = rect.left + rect.width/2 - bubble.offsetWidth/2;
+    left = Math.max(6, Math.min(left, window.innerWidth - bubble.offsetWidth - 6));
+    bubble.style.top = top + "px";
+    bubble.style.left = left + "px";
+    if(below) bubble.classList.add("below");
+    w.classList.add("active");
+    tapPopupEl = bubble;
+    tapPopupWord = w;
+  }
+  document.addEventListener("click", function(e){
+    var w = e.target.closest && e.target.closest(".tap-word");
+    if(w){
+      var already = tapPopupWord === w;
+      hideTapPopup();
+      if(!already) showTapPopup(w);
+    } else {
+      hideTapPopup();
+    }
+  });
+  window.addEventListener("scroll", hideTapPopup, {passive:true});
+  window.addEventListener("resize", hideTapPopup);
 
   function norm(s){
     return (s||"").toLowerCase().replace(/[’']/g,"'").replace(/[.,!?;:]/g,"").replace(/\s+/g," ").trim();
