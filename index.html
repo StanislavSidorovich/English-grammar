@@ -6647,7 +6647,7 @@
       + '<span class="continue-title en"></span></span>'
       + '<span class="continue-arrow">›</span></button>';
     box.querySelector(".continue-title").textContent = title;
-    box.querySelector(".continue-item").addEventListener("click", function(){ openTopic(lastId); });
+    box.querySelector(".continue-item").addEventListener("click", function(){ goTopic(lastId); });
   }
 
   // ---------- Tap-to-translate (offline dictionary, quiz tab words) ----------
@@ -7372,46 +7372,86 @@
     window.scrollTo(0,0);
   }
 
-  document.querySelectorAll("[data-open]").forEach(function(btn){
-    btn.addEventListener("click", function(){ openTopic(btn.dataset.open); });
-  });
-  var gateContinueBtn = document.getElementById("gateContinueBtn");
-  if(gateContinueBtn){
-    gateContinueBtn.addEventListener("click", function(){
-      try{ localStorage.setItem("diagnosticGateOKv1", "1"); }catch(e){}
-      openTopic("test-diagnostic");
-    });
-  }
-  document.querySelectorAll(".back-btn").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      var target = btn.dataset.backTarget;
-      if(target){ openTopic(target); } else { showHome(currentTopicId()); }
-    });
-  });
-  if(floatBack){
-    floatBack.addEventListener("click", function(){ showHome(currentTopicId()); });
-    window.addEventListener("scroll", updateFloatBack, {passive:true});
-  }
-  document.querySelectorAll(".subnav-btn").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      switchPane(btn.closest(".topic-screen"), btn.dataset.pane);
-    });
-  });
+  // ---------- История браузера и аппаратная кнопка "Назад" ----------
+  // Экраны переключаются классом .active, собственной истории у документа нет,
+  // поэтому системное "назад" на Android выгружало страницу и закрывало
+  // приложение с любого экрана. Заводим по записи в history на каждый шаг
+  // вглубь и рисуем экран по её состоянию:
+  //   вкладка "Задания"/"Тексты" -> "Правило" -> экран, откуда пришли -> главный,
+  // и уже на главном два нажатия подряд закрывают приложение.
+  //
+  // ВАЖНО: записи добавляются только внутри обработчиков клика. Chrome на
+  // Android помечает добавленные без действия пользователя записи как
+  // пропускаемые и проматывает их при возврате — служебная запись, поставленная
+  // при загрузке или прямо в popstate, не работает.
+  var exitTimer = null, exitToast = null, guardArmed = false;
 
-  // ---------- Аппаратная кнопка "Назад" (Android) ----------
-  // Приложение — один документ, поэтому системное "назад" по умолчанию сразу
-  // выгружает страницу и закрывает приложение с любого экрана. Держим в истории
-  // одну служебную запись и перехватываем popstate, отдавая шаг назад приложению:
-  //   вкладка темы -> "Правило" -> экран темы (или родительский) -> главный экран,
-  // и только на главном экране два нажатия подряд закрывают приложение.
-  var exitArmed = false, exitTimer = null, exitToast = null;
-
-  function pushBackGuard(){
-    try{ history.pushState({grammarBack:1}, ""); }catch(e){}
+  function navView(){
+    var st = history.state;
+    return (st && st.gm) ? st.gm : {view:"home", i:0};
   }
-  function disarmExit(){
-    if(!exitArmed) return;
-    exitArmed = false;
+  function pushView(view){
+    var cur = navView();
+    view.i = cur.i + 1;
+    view.from = {view:cur.view, id:cur.id};
+    try{ history.pushState({gm:view}, ""); }catch(e){}
+    navCurrent = view;
+  }
+  function replaceView(view){
+    var cur = navView();
+    view.i = cur.i;
+    view.from = cur.from;
+    try{ history.replaceState({gm:view}, ""); }catch(e){}
+    navCurrent = view;
+  }
+  function topicIdOfActive(){
+    var el = document.querySelector(".topic-screen.active");
+    return el ? el.id.replace(/^screen-/,"") : null;
+  }
+  // Переход на экран темы по клику: открываем и добавляем запись в историю.
+  function goTopic(id, replace){
+    openTopic(id);
+    var active = topicIdOfActive();      // openTopic может увести на экран-предупреждение
+    if(!active) return;
+    var view = {view:"topic", id:active, pane:"rule"};
+    if(replace) replaceView(view); else pushView(view);
+  }
+  // Переключение вкладки внутри темы. Держим над записью темы не больше одной
+  // записи вкладки — тогда "назад" с любой вкладки возвращает на "Правило".
+  function goPane(screen, paneKey){
+    if(!screen) return;
+    var id = screen.id.replace(/^screen-/,"");
+    var cur = navView();
+    var onPaneEntry = cur.view === "topic" && cur.id === id && cur.pane && cur.pane !== "rule";
+    switchPane(screen, paneKey);
+    if(paneKey === "rule"){
+      if(onPaneEntry) history.back();     // popstate дорисует "Правило"
+      return;
+    }
+    var view = {view:"topic", id:id, pane:paneKey};
+    if(onPaneEntry) replaceView(view); else pushView(view);
+  }
+  // Возврат на главный экран: отматываем историю до самого начала.
+  function goHome(){
+    var i = navView().i;
+    if(i > 0) history.go(-i);
+    else showHome(currentTopicId());
+  }
+  function renderView(view){
+    hideTapPopup();
+    if(view.view === "topic" && view.id){
+      var el = document.getElementById("screen-" + view.id);
+      if(el){
+        // Уже открытую тему не переоткрываем — иначе перетасуется пул теста.
+        if(!el.classList.contains("active")) openTopic(view.id);
+        if(el.querySelector(".subnav-btn")) switchPane(el, view.pane || "rule");
+        return;
+      }
+    }
+    showHome(currentTopicId());
+  }
+
+  function hideExitToast(){
     clearTimeout(exitTimer);
     if(exitToast) exitToast.classList.remove("show");
   }
@@ -7423,50 +7463,68 @@
       document.body.appendChild(exitToast);
     }
     exitToast.classList.add("show");
+    clearTimeout(exitTimer);
+    exitTimer = setTimeout(hideExitToast, 2500);
   }
-  // Один шаг назад внутри приложения. false — идти назад уже некуда.
-  function handleBackRequest(){
-    if(tapPopupEl){ hideTapPopup(); return true; }
-    var screen = document.querySelector(".topic-screen.active");
-    if(!screen) return false;
-    var hasSubnav = screen.querySelectorAll(".subnav-btn").length > 0;
-    if(hasSubnav){
-      var activeTab = screen.querySelector(".subnav-btn.active");
-      // Не на первой вкладке — сначала возвращаем на "Правило".
-      if(activeTab && activeTab.dataset.pane !== "rule"){
-        switchPane(screen, "rule");
-        return true;
-      }
+  // Лишняя запись поверх главного экрана — чтобы первое "назад" на нём
+  // предупреждало, а не закрывало приложение. Ставим при первом же касании:
+  // без жеста пользователя запись бесполезна (см. комментарий выше).
+  function armHomeGuard(){
+    if(guardArmed) return;
+    guardArmed = true;
+    document.addEventListener("pointerdown", placeHomeGuard, {capture:true, once:true});
+  }
+  function placeHomeGuard(){
+    guardArmed = false;
+    hideExitToast();
+    if(navView().i === 0 && document.getElementById("home").classList.contains("active")){
+      pushView({view:"home"});
     }
-    // Экраны глав книги ведут не на главный, а к списку глав — как их своя кнопка.
-    var ownBack = screen.querySelector(".back-btn[data-back-target]");
-    if(ownBack) openTopic(ownBack.dataset.backTarget);
-    else showHome(currentTopicId());
-    return true;
   }
 
-  window.addEventListener("popstate", function(){
-    if(handleBackRequest()){
-      disarmExit();
-      pushBackGuard();
-      return;
-    }
-    if(exitArmed){
-      disarmExit();
-      history.back(); // на главном экране второе нажатие отдаём системе
-      return;
-    }
-    exitArmed = true;
-    showExitToast();
-    pushBackGuard();
-    clearTimeout(exitTimer);
-    exitTimer = setTimeout(disarmExit, 2500);
+  window.addEventListener("popstate", function(e){
+    var prev = navCurrent;
+    var view = (e.state && e.state.gm) ? e.state.gm : {view:"home", i:0};
+    navCurrent = view;
+    renderView(view);
+    if(view.i > 0){ hideExitToast(); return; }
+    // Вернулись в самое начало истории: следующее "назад" закроет приложение.
+    if(prev && prev.view === "home" && prev.i === 1) showExitToast();
+    armHomeGuard();
   });
-  // Любое действие пользователя снимает "готовность к выходу".
-  document.addEventListener("click", disarmExit, true);
-  // Возврат из bfcache — служебной записи в истории уже нет, ставим заново.
-  window.addEventListener("pageshow", function(e){ if(e.persisted) pushBackGuard(); });
-  pushBackGuard();
+  var navCurrent = navView();
+  armHomeGuard();
+
+  document.querySelectorAll("[data-open]").forEach(function(btn){
+    btn.addEventListener("click", function(){ goTopic(btn.dataset.open); });
+  });
+  var gateContinueBtn = document.getElementById("gateContinueBtn");
+  if(gateContinueBtn){
+    gateContinueBtn.addEventListener("click", function(){
+      try{ localStorage.setItem("diagnosticGateOKv1", "1"); }catch(e){}
+      goTopic("test-diagnostic", true); // подменяем запись экрана-предупреждения
+    });
+  }
+  document.querySelectorAll(".back-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var target = btn.dataset.backTarget;
+      if(!target){ goHome(); return; }
+      var v = navView();
+      // Обычно предыдущая запись истории и есть нужный экран — тогда просто шаг назад.
+      if(v.i > 0 && v.from && v.from.id === target){ history.back(); }
+      else { goTopic(target); }
+    });
+  });
+  if(floatBack){
+    floatBack.addEventListener("click", goHome);
+    window.addEventListener("scroll", updateFloatBack, {passive:true});
+  }
+  document.querySelectorAll(".subnav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      goPane(btn.closest(".topic-screen"), btn.dataset.pane);
+    });
+  });
+
   // ---------- In-topic "Дальше" buttons (Правило -> Тексты -> Задания) ----------
   document.querySelectorAll(".topic-screen").forEach(function(screen){
     if(!screen.querySelector(".subnav")) return;
@@ -7477,7 +7535,7 @@
       btn1.type = "button";
       btn1.className = "pane-next-btn";
       btn1.innerHTML = "Дальше: Тексты для чтения <span class=\"pane-next-arrow\">→</span>";
-      btn1.addEventListener("click", function(){ switchPane(screen, "texts"); });
+      btn1.addEventListener("click", function(){ goPane(screen, "texts"); });
       paneRule.appendChild(btn1);
     }
     var paneQuiz = screen.querySelector(".pane-quiz");
@@ -7486,7 +7544,7 @@
       btn2.type = "button";
       btn2.className = "pane-next-btn";
       btn2.innerHTML = "Дальше: Задания <span class=\"pane-next-arrow\">→</span>";
-      btn2.addEventListener("click", function(){ switchPane(screen, "quiz"); });
+      btn2.addEventListener("click", function(){ goPane(screen, "quiz"); });
       paneTexts.appendChild(btn2);
     }
   });

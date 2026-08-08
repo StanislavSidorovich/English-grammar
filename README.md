@@ -46,7 +46,18 @@ Stanislav Sidorovich · Алматы · [LinkedIn](https://www.linkedin.com/in/s
 
 ## Лицензия
 
-MIT — см. LICENSE
+Репозиторий состоит из трёх частей с разными лицензиями:
+
+| Что | Лицензия | Файл |
+| --- | --- | --- |
+| Код — HTML/CSS/JavaScript, service worker, PWA-обвязка | MIT | `LICENSE` |
+| Учебные материалы — правила, тексты, задания, словарь, изображения | CC BY-NC-SA 4.0 | `LICENSE-CONTENT` |
+| Шрифты Manrope и Golos Text | SIL OFL 1.1 | `assets/fonts/OFL-*.txt` |
+
+Материалами можно свободно пользоваться и делиться в некоммерческих целях —
+на уроках, в кружках, с собственными детьми — с указанием автора и ссылки
+на этот репозиторий. Производные работы распространяются на тех же условиях.
+На коммерческое использование напишите автору.
 
 ---
 
@@ -57,5 +68,9 @@ Offline, single-file English grammar course (A1–B2) — no backend, no build s
 **Live demo:** https://stanislavsidorovich.github.io/English-grammar/
 
 44 topics, each with a rule (with contrast and common-mistakes notes), reading texts, and an auto-checked quiz. Level tests (A1: 13 questions, tenses: 12, B1: 15, B2: 10) plus a 20-question diagnostic test covering the whole course, each pulling a fresh set of questions from a pool on every attempt. Includes a review-by-error-rate section, a progress meter per level, and a bonus adapted reading book ("Around the World in 80 Days", 3 chapters). Progress is stored in `localStorage`; nothing is sent anywhere. Built for learners who already read English and know basic vocabulary — this is a grammar course, not a from-scratch beginner course.
+
+**Licensing:** the code is MIT (`LICENSE`); the course content — rules, texts,
+exercises, dictionary, images — is CC BY-NC-SA 4.0 (`LICENSE-CONTENT`); the
+Manrope and Golos Text fonts are SIL OFL 1.1 (`assets/fonts/OFL-*.txt`).
 
 **Known limitations:** progress doesn't sync across devices (no account); answer keys are visible in page source (not suitable for formal testing); quiz questions within a single topic don't rotate between attempts (only the level tests do).
