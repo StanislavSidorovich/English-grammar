@@ -510,6 +510,16 @@
     bottom:auto; top:-5px;
     border-top:none; border-bottom:5px solid #1C2430;
   }
+  .exit-toast{
+    position:fixed; z-index:1000; left:50%; bottom:26px; transform:translateX(-50%) translateY(8px);
+    width:max-content; max-width:calc(100vw - 32px);
+    background:#1C2430; color:#fff; font-family:var(--font-ru);
+    font-size:0.85rem; font-weight:500; line-height:1.35; text-align:center;
+    padding:10px 16px; border-radius:999px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.28);
+    pointer-events:none; opacity:0; transition:opacity .18s ease, transform .18s ease;
+  }
+  .exit-toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .qitem-translate{display:block; margin:14px 0;}
   .qitem-translate .translate-ru{
     display:block; font-family:var(--font-ru); font-weight:500; font-size:0.93rem;
@@ -7387,6 +7397,76 @@
       switchPane(btn.closest(".topic-screen"), btn.dataset.pane);
     });
   });
+
+  // ---------- Аппаратная кнопка "Назад" (Android) ----------
+  // Приложение — один документ, поэтому системное "назад" по умолчанию сразу
+  // выгружает страницу и закрывает приложение с любого экрана. Держим в истории
+  // одну служебную запись и перехватываем popstate, отдавая шаг назад приложению:
+  //   вкладка темы -> "Правило" -> экран темы (или родительский) -> главный экран,
+  // и только на главном экране два нажатия подряд закрывают приложение.
+  var exitArmed = false, exitTimer = null, exitToast = null;
+
+  function pushBackGuard(){
+    try{ history.pushState({grammarBack:1}, ""); }catch(e){}
+  }
+  function disarmExit(){
+    if(!exitArmed) return;
+    exitArmed = false;
+    clearTimeout(exitTimer);
+    if(exitToast) exitToast.classList.remove("show");
+  }
+  function showExitToast(){
+    if(!exitToast){
+      exitToast = document.createElement("div");
+      exitToast.className = "exit-toast";
+      exitToast.textContent = "Нажмите «Назад» ещё раз, чтобы выйти";
+      document.body.appendChild(exitToast);
+    }
+    exitToast.classList.add("show");
+  }
+  // Один шаг назад внутри приложения. false — идти назад уже некуда.
+  function handleBackRequest(){
+    if(tapPopupEl){ hideTapPopup(); return true; }
+    var screen = document.querySelector(".topic-screen.active");
+    if(!screen) return false;
+    var hasSubnav = screen.querySelectorAll(".subnav-btn").length > 0;
+    if(hasSubnav){
+      var activeTab = screen.querySelector(".subnav-btn.active");
+      // Не на первой вкладке — сначала возвращаем на "Правило".
+      if(activeTab && activeTab.dataset.pane !== "rule"){
+        switchPane(screen, "rule");
+        return true;
+      }
+    }
+    // Экраны глав книги ведут не на главный, а к списку глав — как их своя кнопка.
+    var ownBack = screen.querySelector(".back-btn[data-back-target]");
+    if(ownBack) openTopic(ownBack.dataset.backTarget);
+    else showHome(currentTopicId());
+    return true;
+  }
+
+  window.addEventListener("popstate", function(){
+    if(handleBackRequest()){
+      disarmExit();
+      pushBackGuard();
+      return;
+    }
+    if(exitArmed){
+      disarmExit();
+      history.back(); // на главном экране второе нажатие отдаём системе
+      return;
+    }
+    exitArmed = true;
+    showExitToast();
+    pushBackGuard();
+    clearTimeout(exitTimer);
+    exitTimer = setTimeout(disarmExit, 2500);
+  });
+  // Любое действие пользователя снимает "готовность к выходу".
+  document.addEventListener("click", disarmExit, true);
+  // Возврат из bfcache — служебной записи в истории уже нет, ставим заново.
+  window.addEventListener("pageshow", function(e){ if(e.persisted) pushBackGuard(); });
+  pushBackGuard();
   // ---------- In-topic "Дальше" buttons (Правило -> Тексты -> Задания) ----------
   document.querySelectorAll(".topic-screen").forEach(function(screen){
     if(!screen.querySelector(".subnav")) return;
