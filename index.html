@@ -1285,7 +1285,7 @@
   <button type="button" class="topic-row test-cta" data-open="speaking" style="--tint-color:var(--adv);">
     <span class="test-icon">🗣️</span>
     <span class="row-title en">Speaking · сцены с озвучкой</span>
-    <span class="test-count">3 сцены</span>
+    <span class="test-count">13 сцен</span>
     <span class="row-arrow" aria-hidden="true">›</span>
   </button>
 
@@ -7774,8 +7774,8 @@
   // (wrong) не просто краснеют: у каждого написано, чем он плох.
   // Три прохода одной сцены: ear (реплика только звучит, выбрать её смысл),
   // mc (выбрать свою реплику), build (собрать свою реплику из слов).
-  // Темы и фразы — из speaking-calls: уроки 1 (знакомство), 2 (мой день),
-  // 7 (встреча с клиентом).
+  // Темы и фразы — из speaking-calls: по сцене на каждый урок 1–12 в том же
+  // порядке, у урока 7 две (встреча с клиентом и звонок в его офис).
   var SP_KEY = "spDialogV1";
   var spVoice = null;   // английский голос системы; без него нет «на слух» и 🔊
   var spRun = null;     // {id, mode, i, wrong, missed, answered, pick, opts, build, feed, feedOk, bad}
@@ -7952,6 +7952,346 @@
       ]
     },
     {
+      id: "weekend",
+      icon: "🎒",
+      title: "Plans for the weekend",
+      sub: "Звонок подруге. Как прошли выходные, планы на субботу, договориться о времени и месте, отказ на воскресенье.",
+      steps: [
+        {
+          npc: { en: "Hi! How was your weekend?", ru: "Привет! Как прошли выходные?" },
+          goal: "Скажи, что выходные были отличные: вы ездили в горы.",
+          answer: "It was great. We went to the mountains.",
+          answerRu: "Отлично. Мы ездили в горы.",
+          wrong: [
+            { t: "It was great. We have gone to the mountains.", why: "Выходные уже закончились, а для законченного отрезка времени нужен Past Simple: we went. Present Perfect не ставится рядом с прошедшим, которое уже кончилось." },
+            { t: "It was great. We went in the mountains.", why: "Go задаёт направление, поэтому нужен to: went to the mountains. In the mountains — «в горах», где ты уже находишься." }
+          ],
+          note: "Про прошедшие выходные — <b>Past Simple</b>: <i>went, stayed, relaxed</i>. Неправильные формы: go → <b>went</b>, have → <b>had</b>."
+        },
+        {
+          npc: { en: "Lucky you! Any plans for this weekend?", ru: "Везёт! Есть планы на эти выходные?" },
+          goal: "Скажи, что в субботу утром у сына тренировка, а вечером ты свободен(на).",
+          answer: "My son has training on Saturday morning, but I'm free in the evening.",
+          answerRu: "В субботу утром у сына тренировка, но вечером я свободен(на).",
+          wrong: [
+            { t: "My son has training in Saturday morning, but I'm free in the evening.", why: "С днём недели ставится on, даже если к нему добавлена часть дня: on Saturday morning. In остаётся только для in the morning без дня." },
+            { t: "My son has training on Saturday morning, but I free in the evening.", why: "Free — прилагательное, а не глагол, поэтому без be предложение рассыпается: I'm free." }
+          ],
+          note: "Предлоги времени: <b>on</b> + день (<i>on Saturday, on Sunday afternoon</i>), <b>in</b> + часть дня (<i>in the evening</i>), <b>at</b> + час (<i>at seven</i>)."
+        },
+        {
+          npc: { en: "Great! Why don't we meet on Saturday evening?", ru: "Отлично! Почему бы нам не встретиться в субботу вечером?" },
+          goal: "Согласись: звучит отлично, тебе подходит.",
+          answer: "Sounds great! That works for me.",
+          answerRu: "Звучит отлично! Мне подходит.",
+          wrong: [
+            { t: "Sounds great! It's working for me.", why: "Это устойчивая фраза в Present Simple: That works for me. В Continuous она звучит как «прямо сейчас у меня работает»." },
+            { t: "Sounds great! That suits to me.", why: "Suit не требует предлога: That suits me. Но в разговоре чаще говорят That works for me." }
+          ],
+          note: "<b>That works for me</b> — «мне подходит» про время, место, план. Отказ звучит мягко: <i>I'm afraid I can't.</i>"
+        },
+        {
+          npc: { en: "How about the new sushi bar in the centre?", ru: "Как насчёт нового суши-бара в центре?" },
+          goal: "Скажи, что не очень любишь суши, и предложи итальянскую кухню.",
+          answer: "I'm not a big fan of sushi. Why don't we try Italian?",
+          answerRu: "Я не большой(ая) любитель(ница) суши. Может, попробуем итальянскую кухню?",
+          wrong: [
+            { t: "I'm not a big fan of sushi. Why we don't try Italian?", why: "В вопросе вспомогательный глагол встаёт перед подлежащим: Why don't we …? Порядок «why we don't» — как в утверждении." },
+            { t: "I'm not a big fan of sushi. Why don't we to try Italian?", why: "После don't глагол идёт в начальной форме без to: why don't we try." }
+          ],
+          note: "<b>Why don't we …?</b> — мягкое предложение «а давай …». <b>I'm not a big fan of …</b> — вежливое «не очень люблю», без резкого <i>I don't like</i>."
+        },
+        {
+          npc: { en: "Good idea! What time? Seven?", ru: "Хорошая мысль! Во сколько? В семь?" },
+          goal: "Попроси сдвинуть встречу на полвосьмого.",
+          answer: "Could we make it half past seven?",
+          answerRu: "А можно в полвосьмого?",
+          wrong: [
+            { t: "Could we make it half to eight?", why: "Русское «полвосьмого» считает до следующего часа, английское — от прошедшего: half past seven. Half to eight так не говорят." },
+            { t: "Could we make it seven and a half?", why: "Время так не называют. Нужно half past seven или seven thirty." }
+          ],
+          note: "<b>Could we make it …?</b> — сдвинуть время или день: <i>Could we make it Sunday?</i> Время: <b>half past seven</b> = <b>seven thirty</b>."
+        },
+        {
+          npc: { en: "Sure, no problem. Are you free on Sunday too? We could go for a walk.", ru: "Конечно, без проблем. А в воскресенье ты свободен(на)? Можно погулять." },
+          goal: "Откажись: в воскресенье ты едешь к родителям (уже договорились).",
+          answer: "I'm afraid I can't. I'm visiting my parents on Sunday.",
+          answerRu: "Боюсь, не получится. В воскресенье я еду к родителям.",
+          wrong: [
+            { t: "I'm afraid I can't. I visit my parents on Sunday.", why: "Present Simple звучит как привычка «по воскресеньям я езжу к родителям». Договорённость на конкретное воскресенье — Present Continuous: I'm visiting." },
+            { t: "I'm afraid I can't. I'm visiting to my parents on Sunday.", why: "Visit не требует предлога: visit my parents. Предлог нужен у go: go to my parents." }
+          ],
+          note: "Планы, о которых уже договорились, — <b>Present Continuous</b>: <i>I'm meeting a friend, I'm visiting my parents.</i> Намерение — <b>going to</b>: <i>I'm going to clean the flat.</i>"
+        },
+        {
+          npc: { en: "That's a pity! OK, see you on Saturday then.", ru: "Жаль! Ладно, тогда до субботы." },
+          goal: "Попрощайся и пообещай прислать адрес.",
+          answer: "See you on Saturday! I'll send you the address.",
+          answerRu: "До субботы! Я пришлю тебе адрес.",
+          wrong: [
+            { t: "See you on Saturday! I send you the address.", why: "Решение, принятое прямо в разговоре, оформляется через will: I'll send. Present Simple здесь звучит как привычка." },
+            { t: "See you on Saturday! I'll send to you the address.", why: "Схема send + кому + что идёт без to: send you the address. С to порядок другой: send the address to you." }
+          ],
+          note: "<b>I'll …</b> — обещание в момент разговора: <i>I'll send you the address, I'll call you.</i>"
+        }
+      ]
+    },
+    {
+      id: "hotel",
+      icon: "🏨",
+      title: "A problem at the hotel",
+      sub: "Стойка регистрации вечером. Вместо вида на море — парковка, свободных номеров нет. Вежливо, но настойчиво добиться другого номера.",
+      steps: [
+        {
+          npc: { en: "Good evening. How can I help?", ru: "Добрый вечер. Чем могу помочь?" },
+          goal: "Скажи, что, к сожалению, с номером проблема.",
+          answer: "Good evening. I'm afraid there's a problem with my room.",
+          answerRu: "Добрый вечер. Боюсь, с моим номером проблема.",
+          wrong: [
+            { t: "Good evening. I'm afraid there is problem with my room.", why: "Перед problem нужен артикль: a problem. Одна из многих возможных проблем — неопределённый артикль a." },
+            { t: "Good evening. I'm afraid there are a problem with my room.", why: "Problem в единственном числе, значит, и глагол в единственном: there's (there is) a problem." }
+          ],
+          note: "<b>I'm afraid …</b> — «боюсь, что …», смягчает плохую новость. С ним жалоба звучит вежливо, а не как претензия."
+        },
+        {
+          npc: { en: "Oh, I'm sorry to hear that. What's wrong with it?", ru: "Ой, жаль это слышать. Что с ним не так?" },
+          goal: "Объясни: ты бронировал(а) номер с видом на море, а из окна видна парковка.",
+          answer: "I booked a room with a sea view, but I can see the car park.",
+          answerRu: "Я бронировал(а) номер с видом на море, а вижу парковку.",
+          wrong: [
+            { t: "I booked a room with sea view, but I can see the car park.", why: "View — исчисляемое существительное, перед ним нужен артикль: with a sea view." },
+            { t: "I booked a room with a sea view, but I can see the parking.", why: "Стоянка по-британски — the car park (по-американски parking lot). Parking — сам процесс парковки." }
+          ],
+          note: "<b>a room with a sea view</b> — номер с видом на море. Британское <b>car park</b> = американское <i>parking lot</i>."
+        },
+        {
+          npc: { en: "Let me check… Yes, I see. I'm sorry, but the hotel is full tonight.", ru: "Сейчас проверю… Да, вижу. Простите, но сегодня отель полностью занят." },
+          goal: "Вежливо, но настойчиво спроси, можно ли что-нибудь сделать.",
+          answer: "I understand, but is there anything you can do?",
+          answerRu: "Понимаю, но можно что-нибудь сделать?",
+          wrong: [
+            { t: "I understand, but is there anything can you do?", why: "Вопрос уже начат словами is there. Вторая часть идёт в прямом порядке: anything you can do." },
+            { t: "I understand, but you can do something?", why: "Без вспомогательного глагола и с прямым порядком это звучит как упрёк. Вежливый вопрос: Is there anything you can do?" }
+          ],
+          note: "<b>Is there anything you can do?</b> — главная фраза настойчивой, но вежливой жалобы. Её можно повторить, если первый ответ «нет»."
+        },
+        {
+          npc: { en: "Well, I can offer you a room with a sea view tomorrow.", ru: "Что ж, могу предложить вам номер с видом на море завтра." },
+          goal: "Согласись и спроси, во сколько можно будет переехать.",
+          answer: "That would be great. What time can I move?",
+          answerRu: "Было бы здорово. Во сколько я смогу переехать?",
+          wrong: [
+            { t: "That would be great. What time I can move?", why: "В вопросе can встаёт перед подлежащим: What time can I …? «What time I can» — порядок утверждения." },
+            { t: "That would be great. What time can I to move?", why: "После can глагол идёт без to: can I move." }
+          ],
+          note: "Вопрос со словом-вопросом: <b>what time + can + I + глагол</b>. Так же <i>Where can I park? When can I check in?</i>"
+        },
+        {
+          npc: { en: "After twelve. The room will be ready by then.", ru: "После двенадцати. К этому времени номер будет готов." },
+          goal: "Попроси, чтобы в новом номере была двуспальная кровать.",
+          answer: "Could I have a double bed in the new room, please?",
+          answerRu: "Можно, чтобы в новом номере была двуспальная кровать?",
+          wrong: [
+            { t: "Could I have double bed in the new room, please?", why: "Bed — исчисляемое существительное, перед ним нужен артикль: a double bed." },
+            { t: "Could I have a double bed in a new room, please?", why: "Речь о конкретном номере, который уже обсуждали, поэтому артикль the: the new room. A new room — «какой-нибудь новый номер»." }
+          ],
+          note: "<b>Could I have …, please?</b> — вежливая просьба в отеле, кафе, магазине. <b>double bed</b> — двуспальная, <b>twin beds</b> — две отдельные."
+        },
+        {
+          npc: { en: "Of course, I'll make a note. And dinner tonight is on us, as an apology.", ru: "Конечно, я отмечу. А ужин сегодня за наш счёт — в качестве извинения." },
+          goal: "Поблагодари и скажи, что это очень мило с их стороны.",
+          answer: "Thank you very much. That's very kind of you.",
+          answerRu: "Большое спасибо. Это очень любезно с вашей стороны.",
+          wrong: [
+            { t: "Thank you very much. That's very kind from you.", why: "Устойчивое сочетание — kind of you. Русское «с вашей стороны» тянет за собой from, но здесь его нет." },
+            { t: "Thank you very much. That's very kindly of you.", why: "После that's нужно прилагательное kind. Kindly — наречие, оно описывает действие: speak kindly." }
+          ],
+          note: "<b>That's very kind of you</b> — благодарность за услугу. Так же <i>That's nice of you.</i>"
+        },
+        {
+          npc: { en: "You're welcome. Is there anything else I can do for you?", ru: "Пожалуйста. Могу я ещё чем-нибудь помочь?" },
+          goal: "Спроси, включён ли завтрак.",
+          answer: "Yes. Is breakfast included?",
+          answerRu: "Да. Завтрак включён?",
+          wrong: [
+            { t: "Yes. Breakfast is included?", why: "Без перестановки это утверждение с вопросительной интонацией. В вопросе is встаёт первым: Is breakfast included?" },
+            { t: "Yes. Is the breakfast included?", why: "Названия приёмов пищи обычно идут без артикля: breakfast, lunch, dinner." }
+          ],
+          note: "Без артикля: <b>breakfast, lunch, dinner</b>, <i>have breakfast</i>. Вопрос с be: <b>Is breakfast included?</b>"
+        }
+      ]
+    },
+    {
+      id: "job",
+      icon: "💼",
+      title: "Explaining my job",
+      sub: "Вечеринка, гость не из фармы. Объяснить простыми словами, чем занимается KAM, и ответить на наивные вопросы.",
+      steps: [
+        {
+          npc: { en: "So, what do you do?", ru: "Ну, а вы чем занимаетесь?" },
+          goal: "Скажи, что работаешь менеджером по ключевым клиентам в фармацевтической компании.",
+          answer: "I work as a key account manager at a pharmaceutical company.",
+          answerRu: "Я работаю менеджером по ключевым клиентам в фармацевтической компании.",
+          wrong: [
+            { t: "I work as key account manager at a pharmaceutical company.", why: "Перед должностью нужен артикль и после as: work as a key account manager." },
+            { t: "I work like a key account manager at a pharmaceutical company.", why: "«В качестве» — as. Like значит «как, похоже на»: work like a manager — работать, будто ты менеджер." }
+          ],
+          note: "<b>I work as a … at a …</b> — должность и компания одной фразой. Компания обычно с <b>at</b>: <i>at a pharmaceutical company</i>."
+        },
+        {
+          npc: { en: "So you sell medicine? Are you a doctor?", ru: "То есть вы продаёте лекарства? Вы врач?" },
+          goal: "Скажи, что ты не врач, а работаешь с аптечными сетями.",
+          answer: "No, I'm not a doctor. I work with pharmacy chains.",
+          answerRu: "Нет, я не врач. Я работаю с аптечными сетями.",
+          wrong: [
+            { t: "No, I'm not doctor. I work with pharmacy chains.", why: "Перед профессией артикль нужен и в отрицании: I'm not a doctor." },
+            { t: "No, I don't a doctor. I work with pharmacy chains.", why: "Don't отрицает обычные глаголы. С существительным работает be: I'm not a doctor." }
+          ],
+          note: "Отрицание с be — <b>I'm not</b>, с остальными глаголами — <b>I don't</b>: <i>I'm not a doctor, I don't sell to patients.</i>"
+        },
+        {
+          npc: { en: "Do you work in a pharmacy, then?", ru: "Значит, вы работаете в аптеке?" },
+          goal: "Объясни простыми словами: по сути, ты следишь, чтобы ваши продукты были на полках.",
+          answer: "Not exactly. Basically, I make sure our products are on the shelves.",
+          answerRu: "Не совсем. По сути, я слежу, чтобы наши продукты были на полках.",
+          wrong: [
+            { t: "Not exactly. Basically, I make sure our products to be on the shelves.", why: "После make sure идёт целое предложение со своим глаголом: our products are." },
+            { t: "Not exactly. Basically, I'm making sure our products are on the shelves.", why: "Постоянная работа описывается в Present Simple: I make sure. Continuous звучит как «прямо сейчас проверяю»." }
+          ],
+          note: "Для объяснения «на пальцах»: <b>Basically, I …</b>, <b>It's a bit like …</b>, <b>For example, …</b>"
+        },
+        {
+          npc: { en: "How do you do that?", ru: "А как вы это делаете?" },
+          goal: "Скажи, что ведёшь переговоры по годовым соглашениям с крупными сетями.",
+          answer: "I negotiate annual agreements with big chains.",
+          answerRu: "Я веду переговоры по годовым соглашениям с крупными сетями.",
+          wrong: [
+            { t: "I negotiate about annual agreements with big chains.", why: "Negotiate an agreement — без предлога: договор и есть предмет переговоров." },
+            { t: "I negotiate year agreements with big chains.", why: "«Годовой» — annual или yearly. Year agreement так не говорят." }
+          ],
+          note: "<b>negotiate an agreement / a contract / a price</b> — без предлога. <b>annual</b> = «годовой»: <i>annual target, annual agreement</i>."
+        },
+        {
+          npc: { en: "I see. And how long have you been in this job?", ru: "Понятно. И давно вы на этой работе?" },
+          goal: "Скажи, что ты на этой должности четыре года.",
+          answer: "I've been in this role for four years.",
+          answerRu: "Я на этой должности четыре года.",
+          wrong: [
+            { t: "I'm in this role for four years.", why: "Период, который начался в прошлом и длится сейчас, требует Present Perfect: I've been." },
+            { t: "I've been in this role since four years.", why: "Срок вводится через for: for four years. Since — начальная точка: since 2021." }
+          ],
+          note: "<b>I've been in this role for …</b> — та же схема, что <i>I've lived here for ten years</i>: Present Perfect + for/since."
+        },
+        {
+          npc: { en: "Sounds a bit boring. Is it?", ru: "Звучит скучновато. Так и есть?" },
+          goal: "Возрази: больше всего тебе в работе нравится общение с людьми.",
+          answer: "Not at all! What I like most about my job is working with people.",
+          answerRu: "Совсем нет! Больше всего в работе мне нравится общение с людьми.",
+          wrong: [
+            { t: "Not at all! What I like most about my job is work with people.", why: "После is нужно существительное, а действие становится существительным через -ing: is working with people." },
+            { t: "Not at all! Most of all I like in my job working with people.", why: "Это русский порядок слов. По-английски — What I like most about my job is …: сначала рамка, потом ответ." }
+          ],
+          note: "<b>What I like most about … is …</b> — готовая рамка для рассказа о работе. Пара к ней: <i>The most challenging part is …</i>"
+        },
+        {
+          npc: { en: "And what's the hardest part?", ru: "А что самое сложное?" },
+          goal: "Скажи, что самое сложное — планы продаж: они растут каждый год.",
+          answer: "The most challenging part is the targets. They grow every year.",
+          answerRu: "Самое сложное — планы. Они растут каждый год.",
+          wrong: [
+            { t: "The most challenging part is the plans. They grow every year.", why: "План продаж — target. Plan — план действий: what's your plan for Q4?" },
+            { t: "The most challenging part is the targets. They grows every year.", why: "Окончание -s бывает только у he, she, it. С they — grow." }
+          ],
+          note: "<b>target</b> — план продаж в цифрах: <i>reach / miss the target</i>. <b>plan</b> — что ты собираешься делать."
+        }
+      ]
+    },
+    {
+      id: "calendar",
+      icon: "📅",
+      title: "Finding a time to meet",
+      sub: "Коллега хочет обсудить запуск на следующей неделе. Сверить календари только вопросами, договориться, а потом перенести встречу онлайн.",
+      steps: [
+        {
+          npc: { en: "We need to meet next week to discuss the launch. Are you free on Monday?", ru: "Нам нужно встретиться на следующей неделе и обсудить запуск. Вы свободны в понедельник?" },
+          goal: "Скажи, что до одиннадцати у тебя созвон команды, а потом ты свободен(на).",
+          answer: "I have a team call until eleven, but I'm free after that.",
+          answerRu: "До одиннадцати у меня созвон команды, а потом я свободен(на).",
+          wrong: [
+            { t: "I have a team call to eleven, but I'm free after that.", why: "«До» во времени — until (или till). To работает только в паре from … to." },
+            { t: "I have team call until eleven, but I'm free after that.", why: "Call — исчисляемое существительное, перед ним нужен артикль: a team call." }
+          ],
+          note: "<b>until eleven</b> — «до одиннадцати», действие длится до этого момента. <b>after that</b> — «после этого»."
+        },
+        {
+          npc: { en: "Hmm, Monday is busy for me after that. What about Tuesday?", ru: "Хм, а у меня в понедельник потом всё занято. А вторник?" },
+          goal: "Скажи, что, к сожалению, во вторник ты весь день у клиентов.",
+          answer: "I'm afraid I'm visiting clients all day on Tuesday.",
+          answerRu: "Боюсь, во вторник я весь день у клиентов.",
+          wrong: [
+            { t: "I'm afraid I'm visiting clients all day in Tuesday.", why: "С днями недели — on: on Tuesday. In — для месяцев и частей дня." },
+            { t: "I'm afraid I'm visiting clients whole day on Tuesday.", why: "«Весь день» — all day или the whole day с артиклем. Whole day без the так не говорят." }
+          ],
+          note: "<b>I'm afraid I'm busy then</b> — вежливый отказ. Конкретная причина делает его ещё мягче: <i>I'm visiting clients.</i>"
+        },
+        {
+          npc: { en: "OK. How about Wednesday morning?", ru: "Хорошо. Как насчёт утра среды?" },
+          goal: "Скажи, что утро среды тебе не подходит, но ты свободен(на) с двух до четырёх.",
+          answer: "Wednesday morning doesn't work for me, but I'm free from two to four.",
+          answerRu: "Утро среды мне не подходит, но я свободен(на) с двух до четырёх.",
+          wrong: [
+            { t: "Wednesday morning don't work for me, but I'm free from two to four.", why: "Wednesday morning — это it, третье лицо, поэтому doesn't." },
+            { t: "Wednesday morning doesn't work for me, but I'm free since two to four.", why: "Промежуток — from … to …. Since значит «с тех пор» и живёт с Present Perfect." }
+          ],
+          note: "<b>from … to …</b> — промежуток: <i>from two to four, from Monday to Friday</i>. Отказ и встречное предложение в одной фразе экономят переписку."
+        },
+        {
+          npc: { en: "I'm only free after three. Shall we say three o'clock?", ru: "Я свободен только после трёх. Давайте в три?" },
+          goal: "Согласись: тебе подходит, увидитесь в среду в три.",
+          answer: "That works for me. See you on Wednesday at three.",
+          answerRu: "Мне подходит. До встречи в среду в три.",
+          wrong: [
+            { t: "That works for me. See you at Wednesday on three.", why: "Предлоги перепутаны: с днём — on (on Wednesday), с часом — at (at three)." },
+            { t: "That's work for me. See you on Wednesday at three.", why: "Works здесь глагол «подходит»: That works for me. That's work значит «это работа»." }
+          ],
+          note: "Подтверждение встречи повторяет день и час: <b>See you on Wednesday at three.</b> Так меньше шансов друг друга не понять."
+        },
+        {
+          npc: { en: "Oh no, I've just got a message. Can we make it online instead?", ru: "Ой, мне только что пришло сообщение. Можем сделать это онлайн?" },
+          goal: "Согласись и предложи прислать ссылку.",
+          answer: "Sure, no problem. Shall I send you a link?",
+          answerRu: "Конечно, без проблем. Прислать вам ссылку?",
+          wrong: [
+            { t: "Sure, no problem. Shall I send to you a link?", why: "Send + кому + что идёт без to: send you a link." },
+            { t: "Sure, no problem. Do I send you a link?", why: "Do I …? спрашивает о факте или привычке. Предложить помощь — Shall I …?" }
+          ],
+          note: "<b>Shall I …?</b> — предложить сделать что-то самому: <i>Shall I send you a link? Shall I book a room?</i>"
+        },
+        {
+          npc: { en: "Yes, please. And could you send the agenda too?", ru: "Да, пожалуйста. И не могли бы вы прислать повестку?" },
+          goal: "Пообещай прислать всё до конца дня.",
+          answer: "Of course. I'll send everything by the end of the day.",
+          answerRu: "Конечно. Я пришлю всё до конца дня.",
+          wrong: [
+            { t: "Of course. I'll send everything until the end of the day.", why: "Until — «всё время вплоть до», будто отправлять будешь до вечера без остановки. Срок выполнения — by the end of the day." },
+            { t: "Of course. I send everything by the end of the day.", why: "Обещание в момент разговора — will: I'll send. Present Simple звучит как распорядок." }
+          ],
+          note: "<b>by</b> — «не позже»: <i>by Friday, by the end of the day</i>. <b>until</b> — «вплоть до»: <i>I'm busy until eleven</i>."
+        },
+        {
+          npc: { en: "Perfect. Thanks, and see you on Wednesday!", ru: "Отлично. Спасибо, увидимся в среду!" },
+          goal: "Скажи, что ждёшь встречи с нетерпением.",
+          answer: "Thanks. I'm looking forward to it.",
+          answerRu: "Спасибо. Жду с нетерпением.",
+          wrong: [
+            { t: "Thanks. I'm looking forward to see you.", why: "To в look forward to — предлог, а не часть инфинитива. После него идёт -ing: looking forward to seeing you." },
+            { t: "Thanks. I look forward it.", why: "To здесь обязателен: look forward to it." }
+          ],
+          note: "<b>I'm looking forward to it</b> — в разговоре, <b>I look forward to …</b> — в письме. После to всегда -ing или существительное."
+        }
+      ]
+    },
+    {
       id: "client",
       icon: "💊",
       title: "Meeting a client",
@@ -8033,6 +8373,516 @@
             { t: "Let's summarise what we've agreed. I'll send you the details on email.", why: "Способ связи передаёт предлог by: by email, by phone, by post. On email так не говорят." }
           ],
           note: "Хороший конец встречи состоит из двух шагов: <b>Let's summarise</b> — что согласовано, <b>I'll send</b> — что ты сделаешь дальше."
+        }
+      ]
+    },
+    {
+      id: "call",
+      icon: "📞",
+      title: "Calling a client's office",
+      sub: "Звонок в офис закупщика сети. Его нет на месте: представиться, оставить сообщение, продиктовать фамилию по буквам.",
+      steps: [
+        {
+          npc: { en: "Good morning, Pharmacy Plus. How can I help you?", ru: "Доброе утро, «Фармаси Плюс». Чем могу помочь?" },
+          goal: "Представься: Алекс Ким из компании Avena Pharma.",
+          answer: "Hello, this is Alex Kim from Avena Pharma.",
+          answerRu: "Здравствуйте, это Алекс Ким из Avena Pharma.",
+          wrong: [
+            { t: "Hello, it's speaking Alex Kim from Avena Pharma.", why: "Это калька с «говорит Алекс Ким». По телефону представляются так: This is Alex Kim." },
+            { t: "Hello, here is Alex Kim from Avena Pharma.", why: "Here is — «вот, держите», когда что-то протягивают. Себя по телефону называют через this is." }
+          ],
+          note: "По телефону <b>this is</b>, а не <i>I am</i>: <b>This is Alex from …</b> Дальше сразу цель: <i>I'm calling about …</i>"
+        },
+        {
+          npc: { en: "Good morning, Alex. Who would you like to speak to?", ru: "Доброе утро, Алекс. С кем вы хотели бы поговорить?" },
+          goal: "Попроси соединить тебя с господином Новаком.",
+          answer: "Could I speak to Mr Novak, please?",
+          answerRu: "Могу я поговорить с господином Новаком?",
+          wrong: [
+            { t: "Could I to speak to Mr Novak, please?", why: "После could глагол идёт без to: could I speak." },
+            { t: "Can you give me Mr Novak, please?", why: "Это калька с «дайте мне Новака». По-английски просят поговорить: Could I speak to …?" }
+          ],
+          note: "<b>Could I speak to …, please?</b> — стандартная просьба. В британском <b>Mr</b> пишется без точки."
+        },
+        {
+          npc: { en: "I'm afraid he's in a meeting right now. Can I take a message?", ru: "Боюсь, он сейчас на совещании. Передать ему что-нибудь?" },
+          goal: "Согласись и скажи, что звонишь по поводу осенней акции.",
+          answer: "Yes, please. I'm calling about our autumn promotion.",
+          answerRu: "Да, пожалуйста. Я звоню по поводу нашей осенней акции.",
+          wrong: [
+            { t: "Yes, please. I call about our autumn promotion.", why: "Звонок идёт прямо сейчас, поэтому Present Continuous: I'm calling." },
+            { t: "Yes, please. I'm calling because of our autumn promotion.", why: "Because of — «из-за», то есть причина. «По поводу» — about." }
+          ],
+          note: "<b>I'm calling about …</b> — цель звонка одной фразой. На просьбу оставить сообщение: <i>Could I leave a message?</i>"
+        },
+        {
+          npc: { en: "OK. And how can he contact you?", ru: "Хорошо. А как он может с вами связаться?" },
+          goal: "Попроси, чтобы он перезвонил сегодня, и скажи, что номер у него есть.",
+          answer: "Could he call me back today? He has my number.",
+          answerRu: "Он мог бы перезвонить мне сегодня? Мой номер у него есть.",
+          wrong: [
+            { t: "Could he call back me today? He has my number.", why: "Местоимение встаёт внутрь фразового глагола: call me back. Call back me так не говорят." },
+            { t: "Could he call to me back today? He has my number.", why: "Call someone — «позвонить кому-то», без to." }
+          ],
+          note: "<b>call me back</b>, <b>call him back</b> — местоимение посередине. Если номера у него нет: <i>He can reach me on …</i>"
+        },
+        {
+          npc: { en: "Of course. Could you spell your surname, please?", ru: "Конечно. Продиктуйте, пожалуйста, вашу фамилию по буквам." },
+          goal: "Назови фамилию Kim и продиктуй её по буквам.",
+          answer: "Sure. My surname is Kim, K-I-M.",
+          answerRu: "Конечно. Моя фамилия Ким, K-I-M.",
+          wrong: [
+            { t: "Sure. My family is Kim, K-I-M.", why: "Family — «семья». Фамилия — surname или last name." },
+            { t: "Sure. It writes K-I-M.", why: "Это калька с «пишется». По-английски — It's spelt K-I-M или просто That's K-I-M." }
+          ],
+          note: "<b>surname</b> = <b>last name</b>. Буквы, которые путают: <b>I</b> читается [ай], <b>E</b> — [и:], <b>A</b> — [эй]."
+        },
+        {
+          npc: { en: "Thank you. I'll ask him to call you this afternoon.", ru: "Спасибо. Я попрошу его перезвонить вам после обеда." },
+          goal: "Поблагодари и скажи, что будешь ждать его звонка.",
+          answer: "Thank you. I'll wait for his call.",
+          answerRu: "Спасибо. Буду ждать его звонка.",
+          wrong: [
+            { t: "Thank you. I'll wait his call.", why: "Wait требует for: wait for his call. Без предлога — ошибка." },
+            { t: "Thank you. I'll expect for his call.", why: "Expect, наоборот, идёт без предлога: I'll expect his call." }
+          ],
+          note: "<b>wait for</b> + что-то, но <b>expect</b> + что-то без предлога. Перед этим <b>this afternoon</b> — «сегодня после обеда», без предлога."
+        },
+        {
+          npc: { en: "You're welcome. Have a nice day!", ru: "Не за что. Хорошего дня!" },
+          goal: "Поблагодари, верни пожелание и попрощайся.",
+          answer: "Thanks, you too. Goodbye!",
+          answerRu: "Спасибо, и вам. До свидания!",
+          wrong: [
+            { t: "Thanks, you also. Goodbye!", why: "Пожелание возвращают устойчивым You too. Also так в конце короткой реплики не ставят." },
+            { t: "Thanks, I too. Goodbye!", why: "I too значит «я тоже», будто ты сам себе желаешь хорошего дня. Пожелание собеседнику — You too." }
+          ],
+          note: "<b>You too</b> — ответ на любое пожелание: <i>Have a nice day / a good weekend!</i> Синоним: <i>Same to you.</i>"
+        }
+      ]
+    },
+    {
+      id: "review",
+      icon: "📊",
+      title: "Quarterly review",
+      sub: "Разбор квартала с руководителем. План по сети не выполнен на 10%: цифры, две причины, план на Q4 и просьба о помощи.",
+      steps: [
+        {
+          npc: { en: "Let's talk about Pharmacy Plus. What happened in Q3?", ru: "Давай поговорим о «Фармаси Плюс». Что случилось в третьем квартале?" },
+          goal: "Скажи прямо: вы не выполнили план на десять процентов.",
+          answer: "We missed the target by ten percent.",
+          answerRu: "Мы не выполнили план на десять процентов.",
+          wrong: [
+            { t: "We missed the target on ten percent.", why: "Разница в цифрах передаётся через by: by ten percent, increase by, drop by." },
+            { t: "We have missed the target by ten percent.", why: "Квартал закончился, это законченный отрезок времени, поэтому Past Simple: we missed." }
+          ],
+          note: "<b>reach / exceed / miss the target</b> — выполнить, перевыполнить, не выполнить план. Разница — <b>by</b>: <i>by ten percent</i>."
+        },
+        {
+          npc: { en: "What were the numbers exactly?", ru: "Какие точно были цифры?" },
+          goal: "Скажи: план — два миллиона, а продали вы на миллион восемьсот.",
+          answer: "The target was two million, and we sold one point eight million.",
+          answerRu: "План был два миллиона, а продали мы на один и восемь десятых миллиона.",
+          wrong: [
+            { t: "The target was two millions, and we sold one point eight millions.", why: "После числа million не принимает -s: two million, ten million." },
+            { t: "The target was two million, and we sold one comma eight million.", why: "Дробную часть в английском отделяет точка, и читается она point: one point eight. Запятой отделяют тысячи: 1,800,000." }
+          ],
+          note: "<b>1.8M</b> читается <b>one point eight million</b>. Million, thousand, hundred после числа — без -s."
+        },
+        {
+          npc: { en: "I see. What were the main reasons?", ru: "Понятно. Каковы главные причины?" },
+          goal: "Назови первую причину: конкурент провёл крупную акцию.",
+          answer: "The main reason was that a competitor ran a big promotion.",
+          answerRu: "Главная причина в том, что конкурент провёл крупную акцию.",
+          wrong: [
+            { t: "The main reason was that competitor ran big promotion.", why: "Без артиклей фраза звучит как телеграмма: a competitor — один из конкурентов, a big promotion — одна акция." },
+            { t: "The main reason was that a competitor runned a big promotion.", why: "Run — неправильный глагол: run → ran → run. Runned не существует." }
+          ],
+          note: "<b>The main reason was …</b> — сначала причина, потом детали. <b>run a promotion</b> — проводить акцию: run → <b>ran</b>."
+        },
+        {
+          npc: { en: "Was it only the competitor?", ru: "Дело только в конкуренте?" },
+          goal: "Добавь: из-за задержки поставки в августе часть полок была пустой.",
+          answer: "Not only. Because of a delivery delay in August, some shelves were empty.",
+          answerRu: "Не только. Из-за задержки поставки в августе часть полок пустовала.",
+          wrong: [
+            { t: "Not only. Thanks to a delivery delay in August, some shelves were empty.", why: "Thanks to — «благодаря», про хорошую причину. Плохую причину вводят через because of." },
+            { t: "Not only. Because a delivery delay in August, some shelves were empty.", why: "Because соединяет с целым предложением, а перед существительным нужно because of." }
+          ],
+          note: "<b>because of</b> + существительное, <b>because</b> + предложение: <i>because of a delay</i> — <i>because the delivery was late</i>."
+        },
+        {
+          npc: { en: "OK. What's your plan for Q4?", ru: "Хорошо. Какой у тебя план на четвёртый квартал?" },
+          goal: "Скажи, что в Q4 вы собираетесь провести совместную акцию с сетью.",
+          answer: "In Q4 we're going to run a joint promotion with the chain.",
+          answerRu: "В четвёртом квартале мы собираемся провести совместную акцию с сетью.",
+          wrong: [
+            { t: "In Q4 we going to run a joint promotion with the chain.", why: "Going to всегда идёт вместе с be: we're (we are) going to." },
+            { t: "In Q4 we're going to make a joint promotion with the chain.", why: "Акцию проводят — run или hold a promotion. Make a promotion так не говорят." }
+          ],
+          note: "План, который уже решён, — <b>be going to</b>: <i>We're going to run …, I'm going to meet …</i>"
+        },
+        {
+          npc: { en: "Do you think you can close the gap?", ru: "Думаешь, получится закрыть отставание?" },
+          goal: "Скажи уверенно, что вы можете выполнить годовой план.",
+          answer: "Yes, I'm confident we can reach the annual target.",
+          answerRu: "Да, я уверен(а), что мы можем выполнить годовой план.",
+          wrong: [
+            { t: "Yes, I'm confident we can reach to the annual target.", why: "Reach — «достичь» — идёт без предлога: reach the target." },
+            { t: "Yes, I'm confident we can to reach the annual target.", why: "После can глагол идёт без to: can reach." }
+          ],
+          note: "<b>I'm confident we can …</b> — уверенно, но без обещаний «точно». Так говорят руководителю после плохого квартала."
+        },
+        {
+          npc: { en: "Good. What do you need from me?", ru: "Хорошо. Что тебе нужно от меня?" },
+          goal: "Попроси конкретную помощь: дополнительный бюджет на акцию.",
+          answer: "Could I ask you for some extra budget for the promotion?",
+          answerRu: "Могу я попросить у вас дополнительный бюджет на акцию?",
+          wrong: [
+            { t: "Could I ask you some extra budget for the promotion?", why: "Ask you something — «спросить у тебя что-то». Попросить о чём-то — ask for: ask you for some extra budget." },
+            { t: "Could I ask from you some extra budget for the promotion?", why: "Это калька с «попросить у вас». From не нужен: ask you for." }
+          ],
+          note: "<b>ask</b> — спросить, <b>ask for</b> — попросить: <i>ask a question</i>, но <i>ask for help, ask for a budget</i>."
+        }
+      ]
+    },
+    {
+      id: "complaint",
+      icon: "📦",
+      title: "An unhappy client",
+      sub: "Закупщик раздражён: поставка опоздала и пришла не в том количестве. Извиниться, объяснить, предложить варианты и не обещать лишнего.",
+      steps: [
+        {
+          npc: { en: "This is the second time this year! Our shelves are empty.", ru: "Это уже второй раз в этом году! У нас пустые полки." },
+          goal: "Искренне извинись и скажи, что понимаешь, как это неприятно.",
+          answer: "I'm really sorry about this. I understand how frustrating it is.",
+          answerRu: "Мне очень жаль. Я понимаю, как это неприятно.",
+          wrong: [
+            { t: "I'm really sorry about this. I understand how frustrating is it.", why: "Внутри предложения вопрос теряет перестановку: I understand how frustrating it is. Порядок «is it» нужен только в самом вопросе." },
+            { t: "I'm really sorry about this. I understand how frustrated it is.", why: "-ed описывает чувства человека (I'm frustrated). Ситуация, которая раздражает, — frustrating." }
+          ],
+          note: "Извинение из двух частей: <b>I'm really sorry about this</b> + признание чувств клиента. Объяснения — потом."
+        },
+        {
+          npc: { en: "What happened this time?", ru: "Что случилось на этот раз?" },
+          goal: "Объясни: на складе была задержка, поэтому поставка пришла на две недели позже.",
+          answer: "There was a delay at the warehouse, so the delivery came two weeks late.",
+          answerRu: "На складе была задержка, поэтому поставка пришла на две недели позже.",
+          wrong: [
+            { t: "There was a delay on the warehouse, so the delivery came two weeks late.", why: "Место работы или склад — at: at the warehouse, at the office." },
+            { t: "There was a delay at the warehouse, so the delivery has come two weeks late.", why: "Это конкретный случай в прошлом, поэтому Past Simple: came. Present Perfect не сочетается с законченной историей." }
+          ],
+          note: "<b>The problem was …</b> / <b>There was a delay …</b> — коротко и без оправданий. <b>two weeks late</b> — на две недели позже срока."
+        },
+        {
+          npc: { en: "And the quantity was wrong too. We ordered five hundred boxes and got three hundred.", ru: "И количество не то. Мы заказали пятьсот упаковок, а получили триста." },
+          goal: "Признай ошибку и пообещай проверить заказ сегодня.",
+          answer: "You're right, we made a mistake. I'll check your order today.",
+          answerRu: "Вы правы, мы ошиблись. Я проверю ваш заказ сегодня.",
+          wrong: [
+            { t: "You have right, we made a mistake. I'll check your order today.", why: "«Вы правы» по-английски передаётся через be: You're right. You have right — калька с «иметь право»." },
+            { t: "You're right, we did a mistake. I'll check your order today.", why: "Ошибку «делают» глаголом make: make a mistake. Do a mistake так не говорят." }
+          ],
+          note: "<b>make a mistake</b>, <b>make a decision</b>, но <b>do a job</b>, <b>do business</b>. Признать ошибку быстро — лучший способ сбить градус."
+        },
+        {
+          npc: { en: "We want a twenty percent discount on the next order.", ru: "Мы хотим скидку двадцать процентов на следующий заказ." },
+          goal: "Мягко откажи: ты понимаешь позицию, но это невозможно.",
+          answer: "I see your point, but I'm afraid that's not possible.",
+          answerRu: "Понимаю вашу позицию, но, боюсь, это невозможно.",
+          wrong: [
+            { t: "I see your point, but I'm afraid that's no possible.", why: "Перед прилагательным отрицание — not: not possible. No ставится перед существительным: no problem." },
+            { t: "I see your point, but I afraid that's not possible.", why: "Afraid — прилагательное, ему нужен be: I'm afraid." }
+          ],
+          note: "Отказ без грубости: <b>I see your point, but …</b> + <b>I'm afraid that's not possible.</b> Не обещай того, чего не можешь дать."
+        },
+        {
+          npc: { en: "So what can you offer?", ru: "Тогда что вы можете предложить?" },
+          goal: "Предложи первый вариант: приоритетная поставка на следующей неделе.",
+          answer: "One option is a priority delivery next week.",
+          answerRu: "Один вариант — приоритетная поставка на следующей неделе.",
+          wrong: [
+            { t: "One option is a priority delivery on next week.", why: "Перед next, last, this предлог не нужен: next week, last month." },
+            { t: "One of option is a priority delivery next week.", why: "One of требует множественного числа: one of the options. Или проще: one option." }
+          ],
+          note: "<b>One option is … Another option is …</b> — предложить выбор вместо одного «да или нет»."
+        },
+        {
+          npc: { en: "That's not enough.", ru: "Этого недостаточно." },
+          goal: "Предложи второй вариант: бонус пять процентов, если сеть выполнит план.",
+          answer: "Another option is a five percent bonus if you reach the target.",
+          answerRu: "Другой вариант — бонус пять процентов, если вы выполните план.",
+          wrong: [
+            { t: "Another option is a five percent bonus if you will reach the target.", why: "После if про будущее ставится Present Simple: if you reach. Will здесь лишний." },
+            { t: "Other option is a five percent bonus if you reach the target.", why: "«Ещё один, другой» в единственном числе — another. Other без артикля ставится перед множественным: other options." }
+          ],
+          note: "Условие: <b>if + Present Simple</b>, даже про будущее: <i>if you reach the target, we'll pay the bonus.</i>"
+        },
+        {
+          npc: { en: "If this happens again, we'll delist your products.", ru: "Если это повторится, мы выведем ваши продукты из ассортимента." },
+          goal: "Сохрани спокойствие: пообещай, что это не повторится, и предложи найти решение для обеих сторон.",
+          answer: "It won't happen again. Let's find a solution that works for both of us.",
+          answerRu: "Это не повторится. Давайте найдём решение, которое устроит обе стороны.",
+          wrong: [
+            { t: "It doesn't happen again. Let's find a solution that works for both of us.", why: "Обещание о будущем — will not: It won't happen again. Present Simple звучит как факт «так не бывает»." },
+            { t: "It won't happen again. Let's find a solution that work for both of us.", why: "Solution — он, третье лицо: a solution that works." }
+          ],
+          note: "<b>Let's find a solution that works for both of us</b> — переводит угрозу в переговоры. Тон спокойный, фраза короткая."
+        }
+      ]
+    },
+    {
+      id: "recruiter",
+      icon: "🎧",
+      title: "A call from a recruiter",
+      sub: "Первый звонок HR международной компании. Рассказ о себе, текущая роль, почему ищешь работу, срок увольнения и зарплата.",
+      steps: [
+        {
+          npc: { en: "Hi, Alex. Thanks for taking the call. Can you tell me a bit about yourself?", ru: "Здравствуйте, Алекс. Спасибо, что нашли время на звонок. Расскажете немного о себе?" },
+          goal: "Начни с главного: у тебя двенадцать лет опыта в фарминдустрии.",
+          answer: "Sure. I have twelve years of experience in the pharmaceutical industry.",
+          answerRu: "Конечно. У меня двенадцать лет опыта в фармацевтической отрасли.",
+          wrong: [
+            { t: "Sure. I have twelve years of experiences in the pharmaceutical industry.", why: "Experience в значении «опыт работы» неисчисляемое, без -s. Experiences — «случаи, впечатления»." },
+            { t: "Sure. I have experience in the pharmaceutical industry twelve years.", why: "Срок ставится впереди: twelve years of experience. Русский порядок «опыт … двенадцать лет» здесь не работает." }
+          ],
+          note: "Первая фраза <b>Tell me about yourself</b> — опыт одной цифрой: <b>I have … years of experience in …</b>"
+        },
+        {
+          npc: { en: "Great. How did you start?", ru: "Отлично. С чего вы начинали?" },
+          goal: "Скажи, что начинал(а) карьеру медицинским представителем.",
+          answer: "I started my career as a medical representative.",
+          answerRu: "Я начинал(а) карьеру медицинским представителем.",
+          wrong: [
+            { t: "I have started my career as a medical representative.", why: "Начало карьеры — законченное событие в прошлом, поэтому Past Simple: I started." },
+            { t: "I started my career like a medical representative.", why: "«В качестве» — as. Like значит «как, похоже на»." }
+          ],
+          note: "Карьерный путь — в <b>Past Simple</b>: <i>I started …, Three years later I was promoted to …</i>"
+        },
+        {
+          npc: { en: "And what do you do now?", ru: "А чем вы занимаетесь сейчас?" },
+          goal: "Скажи, что с 2021 года работаешь менеджером по ключевым клиентам.",
+          answer: "Since 2021 I've been working as a key account manager.",
+          answerRu: "С 2021 года я работаю менеджером по ключевым клиентам.",
+          wrong: [
+            { t: "Since 2021 I work as a key account manager.", why: "Со since нужен Present Perfect: работа началась в 2021-м и идёт до сих пор. I've been working." },
+            { t: "From 2021 I've been working as a key account manager.", why: "Начальная точка периода, который длится до сих пор, — since. From работает в паре from … to." }
+          ],
+          note: "<b>Since + год + Present Perfect (Continuous)</b>: <i>Since 2021 I've been working …</i> Это мостик от прошлого к настоящему."
+        },
+        {
+          npc: { en: "Why are you looking for a new job?", ru: "Почему вы ищете новую работу?" },
+          goal: "Скажи, что ищешь позицию в международной команде.",
+          answer: "I'm looking for a role in an international team.",
+          answerRu: "Я ищу позицию в международной команде.",
+          wrong: [
+            { t: "I'm looking a role in an international team.", why: "«Искать» — look for. Без for остаётся look — «смотреть»." },
+            { t: "I'm looking for a role in international team.", why: "Team — исчисляемое существительное: an international team." }
+          ],
+          note: "Причина ухода — через то, к чему идёшь, а не от чего бежишь: <b>I'm looking for …</b>, <i>I'm looking for more responsibility.</i>"
+        },
+        {
+          npc: { en: "What's your notice period?", ru: "Какой у вас срок уведомления об увольнении?" },
+          goal: "Скажи: один месяц.",
+          answer: "My notice period is one month.",
+          answerRu: "Мой срок уведомления — один месяц.",
+          wrong: [
+            { t: "My notice period is during one month.", why: "During — «в течение чего-то» с событием (during the meeting). Срок называют просто: one month." },
+            { t: "I have one month of dismissal.", why: "Dismissal — увольнение по инициативе работодателя. Срок, который отрабатываешь, — notice period." }
+          ],
+          note: "<b>notice period</b> — сколько ты отрабатываешь после заявления. Рекрутеры спрашивают его почти всегда."
+        },
+        {
+          npc: { en: "And what are your salary expectations?", ru: "А каковы ваши ожидания по зарплате?" },
+          goal: "Не называй цифру первой: предложи обсудить позже и спроси вилку.",
+          answer: "I'd prefer to discuss it later. What's the range for this role?",
+          answerRu: "Я бы предпочёл(ла) обсудить это позже. Какая вилка у этой позиции?",
+          wrong: [
+            { t: "I'd prefer discuss it later. What's the range for this role?", why: "После would prefer инфинитив идёт с to: I'd prefer to discuss." },
+            { t: "I'd prefer to discuss it later. What the range is for this role?", why: "Это прямой вопрос, поэтому is встаёт перед подлежащим: What's the range …?" }
+          ],
+          note: "<b>What's the range for this role?</b> — вопрос о вилке. Так ты не называешь цифру первым(ой) и не теряешь в переговорах."
+        },
+        {
+          npc: { en: "That's fair. And how would you rate your English?", ru: "Справедливо. А как бы вы оценили свой английский?" },
+          goal: "Скажи, что уровень intermediate и ты занимаешься каждую неделю.",
+          answer: "It's intermediate, and I have lessons every week.",
+          answerRu: "Средний, и я занимаюсь каждую неделю.",
+          wrong: [
+            { t: "It's intermediate, and I have lessons in every week.", why: "С every предлог не нужен: every week, every day." },
+            { t: "It's intermediate, and I have lessons every weeks.", why: "После every существительное в единственном числе: every week." }
+          ],
+          note: "Честный уровень плюс то, что ты делаешь, звучит сильнее, чем <i>My English is not very good.</i>"
+        }
+      ]
+    },
+    {
+      id: "star",
+      icon: "⭐",
+      title: "A STAR story",
+      sub: "Поведенческий вопрос на интервью: конфликт с клиентом. Ситуация, задача, действия, результат и вывод — по схеме STAR.",
+      steps: [
+        {
+          npc: { en: "Tell me about a time when you had a conflict with a client.", ru: "Расскажите о случае, когда у вас был конфликт с клиентом." },
+          goal: "Ситуация: два года назад один из крупнейших клиентов хотел прекратить с вами работу.",
+          answer: "Two years ago, one of our biggest clients wanted to stop working with us.",
+          answerRu: "Два года назад один из наших крупнейших клиентов хотел прекратить с нами работать.",
+          wrong: [
+            { t: "Two years ago, one of our biggest client wanted to stop working with us.", why: "После one of — множественное число: one of our biggest clients." },
+            { t: "Two years ago, one of our biggest clients wanted to stop to work with us.", why: "Stop to work — «остановиться, чтобы поработать». Прекратить делать что-то — stop + -ing: stop working." }
+          ],
+          note: "<b>S — Situation</b>: когда и что случилось, одна-две фразы. Время — <b>Past Simple</b>: <i>two years ago, wanted</i>."
+        },
+        {
+          npc: { en: "Why did they want to leave?", ru: "Почему они хотели уйти?" },
+          goal: "Объясни: конкурент предложил им условия лучше.",
+          answer: "A competitor offered them better terms.",
+          answerRu: "Конкурент предложил им условия лучше.",
+          wrong: [
+            { t: "A competitor offered them more better terms.", why: "Better уже сравнительная степень. More better — двойное сравнение." },
+            { t: "A competitor offered to them better terms.", why: "Схема offer + кому + что идёт без to: offered them better terms." }
+          ],
+          note: "<b>terms</b> — условия договора: <i>better terms, payment terms</i>. good → <b>better</b> → <b>the best</b>."
+        },
+        {
+          npc: { en: "And what was your task?", ru: "И какая у вас была задача?" },
+          goal: "Задача: сохранить клиента и не потерять маржу.",
+          answer: "My task was to keep the client without losing our margin.",
+          answerRu: "Моя задача была сохранить клиента и не потерять маржу.",
+          wrong: [
+            { t: "My task was to keep the client without lose our margin.", why: "После предлога without глагол принимает -ing: without losing." },
+            { t: "My task was keep the client without losing our margin.", why: "После My task was нужен инфинитив с to: was to keep." }
+          ],
+          note: "<b>T — Task</b>: <b>My task was to …</b> — твоя личная цель, не цель компании."
+        },
+        {
+          npc: { en: "What did you do?", ru: "Что вы сделали?" },
+          goal: "Действия: сначала проанализировал(а) их продажи, потом подготовил(а) предложение.",
+          answer: "First I analysed their sales data, then I prepared a proposal.",
+          answerRu: "Сначала я проанализировал(а) их продажи, потом подготовил(а) предложение.",
+          wrong: [
+            { t: "First I analysed their sales data, then I prepare a proposal.", why: "В рассказе о прошлом все глаголы в прошедшем: analysed и prepared." },
+            { t: "First I analysed their sales datas, then I prepared a proposal.", why: "Data — неисчисляемое существительное, -s к нему не добавляется." }
+          ],
+          note: "<b>A — Action</b>: что сделал(а) именно ты, по шагам <b>first … then …</b> Британское написание — <i>analysed</i>."
+        },
+        {
+          npc: { en: "What was in the proposal?", ru: "Что было в предложении?" },
+          goal: "Скидка меньше, зато больше маркетинговой поддержки.",
+          answer: "A smaller discount, but more marketing support.",
+          answerRu: "Скидка меньше, но больше маркетинговой поддержки.",
+          wrong: [
+            { t: "A more small discount, but more marketing support.", why: "Короткие прилагательные сравниваются окончанием -er: smaller. More small так не говорят." },
+            { t: "A smaller discount, but more marketing supports.", why: "Support — неисчисляемое существительное, без -s." }
+          ],
+          note: "Короткие прилагательные — <b>-er</b>: <i>smaller, bigger, cheaper</i>. Длинные — <b>more</b>: <i>more profitable</i>."
+        },
+        {
+          npc: { en: "And what was the result?", ru: "И каков был результат?" },
+          goal: "Итог: подписали соглашение на два года, продажи выросли на двенадцать процентов.",
+          answer: "In the end, they signed a two-year agreement and sales grew by twelve percent.",
+          answerRu: "В итоге они подписали соглашение на два года, а продажи выросли на двенадцать процентов.",
+          wrong: [
+            { t: "In the end, they signed a two-years agreement and sales grew by twelve percent.", why: "В составном прилагательном через дефис число не ставит существительное во множественное: a two-year agreement." },
+            { t: "In the end, they signed a two-year agreement and sales growed by twelve percent.", why: "Grow — неправильный глагол: grow → grew → grown." }
+          ],
+          note: "<b>R — Result</b>: лучше всего с цифрой. <b>In the end</b> / <b>As a result</b> — сигнал, что история закончилась."
+        },
+        {
+          npc: { en: "What did you learn from it?", ru: "Чему вас это научило?" },
+          goal: "Вывод: иногда клиенту нужен партнёр, а не просто цена ниже.",
+          answer: "I learned that sometimes the client needs a partner, not just a lower price.",
+          answerRu: "Я понял(а), что иногда клиенту нужен партнёр, а не просто цена ниже.",
+          wrong: [
+            { t: "I learned that sometimes the client need a partner, not just a lower price.", why: "The client — он, третье лицо, поэтому needs." },
+            { t: "I learned that sometimes the client needs partner, not just lower price.", why: "Без артиклей фраза звучит как телеграмма: a partner, a lower price." }
+          ],
+          note: "Вывод <b>I learned that …</b> превращает историю из «вот как было» в «вот что я умею». Интервьюеры часто спрашивают именно его."
+        }
+      ]
+    },
+    {
+      id: "questions",
+      icon: "🙋",
+      title: "Questions for the employer",
+      sub: "Конец интервью: «У вас есть вопросы?» Спросить о команде, успехе в первые полгода, командировках и следующих шагах, вежливо попрощаться.",
+      steps: [
+        {
+          npc: { en: "So, do you have any questions for us?", ru: "Итак, у вас есть к нам вопросы?" },
+          goal: "Ответь, что есть, и попроси рассказать подробнее о команде.",
+          answer: "Yes, I do. Could you tell me more about the team?",
+          answerRu: "Да, есть. Расскажете подробнее о команде?",
+          wrong: [
+            { t: "Yes, I have. Could you tell me more about the team?", why: "Короткий ответ повторяет вспомогательный глагол вопроса: Do you have …? — Yes, I do." },
+            { t: "Yes, I do. Could you tell me more about team?", why: "Речь о конкретной команде, в которую ты идёшь, поэтому the team." }
+          ],
+          note: "Отвечать <i>No, I don't</i> на этот вопрос нельзя: это звучит как отсутствие интереса. Заготовь два-три вопроса."
+        },
+        {
+          npc: { en: "Of course. It's an international team of eight people in four countries.", ru: "Конечно. Это международная команда из восьми человек в четырёх странах." },
+          goal: "Спроси, как выглядит успех на этой позиции в первые полгода.",
+          answer: "What does success look like in this role in the first six months?",
+          answerRu: "Как выглядит успех на этой позиции в первые полгода?",
+          wrong: [
+            { t: "How does success look like in this role in the first six months?", why: "Это калька с «как выглядит». Look like уже содержит «как», поэтому вопрос начинается с what: What does it look like?" },
+            { t: "What success looks like in this role in the first six months?", why: "В прямом вопросе нужен does перед подлежащим: What does success look like?" }
+          ],
+          note: "<b>What does … look like?</b> — «как выглядит …?» Вопрос про успех показывает, что ты думаешь о результате."
+        },
+        {
+          npc: { en: "Good question. Mainly, building strong relationships with our two key distributors.", ru: "Хороший вопрос. В основном — выстроить прочные отношения с двумя ключевыми дистрибьюторами." },
+          goal: "Спроси, с кем ты будешь работать теснее всего.",
+          answer: "Who would I work with most closely?",
+          answerRu: "С кем я буду работать теснее всего?",
+          wrong: [
+            { t: "With who I would work most closely?", why: "В вопросе would встаёт перед подлежащим, а предлог обычно уходит в конец: Who would I work with?" },
+            { t: "Who would I work most closely?", why: "Без with теряется смысл «с кем». Предлог остаётся в конце вопроса." }
+          ],
+          note: "Предлог в конце вопроса — норма: <b>Who would I work with?</b> <i>What is it about? Who should I talk to?</i>"
+        },
+        {
+          npc: { en: "With the regional marketing manager and the sales director.", ru: "С региональным менеджером по маркетингу и директором по продажам." },
+          goal: "Спроси, как часто нужно будет ездить в командировки.",
+          answer: "How often would I need to travel?",
+          answerRu: "Как часто мне нужно будет ездить в командировки?",
+          wrong: [
+            { t: "How often I would need to travel?", why: "Порядок вопроса: how often + would + I. «How often I would» — порядок утверждения." },
+            { t: "How often would I need travel?", why: "Need как обычный глагол требует to: need to travel." }
+          ],
+          note: "<b>would</b> делает вопросы о будущей работе мягче: <i>Who would I report to? How often would I travel?</i>"
+        },
+        {
+          npc: { en: "About once a month, usually to Warsaw or Istanbul.", ru: "Примерно раз в месяц, обычно в Варшаву или Стамбул." },
+          goal: "Отреагируй и спроси о следующих шагах.",
+          answer: "That sounds interesting. What are the next steps?",
+          answerRu: "Звучит интересно. Какие следующие шаги?",
+          wrong: [
+            { t: "That sounds interestingly. What are the next steps?", why: "После sound, look, feel ставится прилагательное, а не наречие: sounds interesting." },
+            { t: "That's sounds interesting. What are the next steps?", why: "That's = that is. Рядом с глаголом sounds второй глагол не нужен: That sounds interesting." }
+          ],
+          note: "<b>What are the next steps?</b> — обязательный вопрос в конце: ты узнаёшь сроки и показываешь интерес."
+        },
+        {
+          npc: { en: "We'll make a decision by the end of next week, and I'll call you.", ru: "Мы примем решение до конца следующей недели, и я вам позвоню." },
+          goal: "Поблагодари за время и скажи, что будешь ждать ответа.",
+          answer: "Thank you for your time. I look forward to hearing from you.",
+          answerRu: "Спасибо за ваше время. Буду ждать ответа.",
+          wrong: [
+            { t: "Thank you for your time. I look forward to hear from you.", why: "To в look forward to — предлог, после него -ing: to hearing." },
+            { t: "Thank you for your time. I wait for your answer.", why: "Это калька с «жду ответа». По-английски звучит как «стою и жду», с нажимом. Вежливо — I look forward to hearing from you." }
+          ],
+          note: "<b>I look forward to hearing from you</b> — стандартный конец интервью и делового письма."
+        },
+        {
+          npc: { en: "Thank you, Alex. It was a pleasure to meet you.", ru: "Спасибо, Алекс. Было приятно с вами познакомиться." },
+          goal: "Ответь тем же и попрощайся.",
+          answer: "It was a pleasure to meet you too. Goodbye!",
+          answerRu: "Мне тоже было приятно. До свидания!",
+          wrong: [
+            { t: "Me too. Goodbye!", why: "Me too отвечает на фразу про «я» (I'm happy — Me too). На It was a pleasure отвечают полностью: It was a pleasure to meet you too." },
+            { t: "It is a pleasure to meet you too. Goodbye!", why: "Встреча уже закончилась, поэтому was: It was a pleasure." }
+          ],
+          note: "Прощание после интервью повторяет фразу собеседника с <b>too</b>. Короче: <i>Likewise. Thank you.</i>"
         }
       ]
     }
