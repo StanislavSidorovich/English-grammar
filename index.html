@@ -684,6 +684,112 @@
     .back-btn:hover{background:rgba(28,36,48,0.06);}
     .float-back:hover{opacity:0.9;}
   }
+
+  /* ---------- SPEAKING: сцены с озвучкой ----------
+     Сцена — разговор, где собеседник говорит первым, а дальше идёшь только
+     после верного хода. Три прохода одной сцены: на слух (узнать чужую
+     реплику), выбор (узнать свою), сборка из слов (вспомнить свою).
+     Свои классы .sp-*, а не .btn-check / .quiz-*: на те навешены обработчики
+     квизов, и сцена не должна на них попадать. */
+  .sp-intro{font-size:0.9rem; color:var(--muted); margin:14px 0;}
+  .sp-note{font-size:0.84rem; color:var(--muted); margin:0 0 12px;}
+  .sp-scene{background:var(--card); border:1.5px solid #E1E5E9; border-radius:14px; padding:14px; margin:0 0 12px;}
+  body.dark .sp-scene{border-color:#333B47;}
+  .sp-scene-head{display:flex; align-items:baseline; gap:8px;}
+  .sp-scene-icon{font-size:1.1rem; flex:0 0 auto;}
+  .sp-scene-title{font-family:var(--font-en); font-size:1.02rem; font-weight:800; flex:1;}
+  .sp-count{font-family:var(--font-en); font-size:0.72rem; font-weight:800; color:var(--muted); letter-spacing:0.05em; flex:0 0 auto;}
+  .sp-scene-sub{font-size:0.84rem; color:var(--muted); margin:4px 0 10px;}
+  .sp-modes{display:flex; gap:8px; flex-wrap:wrap;}
+  .sp-modes .sp-btn{flex:1 1 120px;}
+  .sp-btn{
+    font-family:var(--font-en); font-weight:800; font-size:0.78rem;
+    padding:12px 16px; min-height:44px; border-radius:20px; cursor:pointer;
+    border:1.5px solid #D7DBE0; background:transparent; color:var(--muted);
+  }
+  body.dark .sp-btn{border-color:#333B47;}
+  .sp-btn.pri{background:var(--tint-color,var(--adv)); border-color:var(--tint-color,var(--adv)); color:#fff;}
+  .sp-done{color:var(--ok); font-weight:800; margin-left:4px;}
+
+  #spStage:not(:empty){margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid #E1E5E9;}
+  body.dark #spStage:not(:empty){border-bottom-color:#2A313D;}
+  .sp-bar{display:flex; align-items:baseline; gap:8px; margin-bottom:10px;}
+  .sp-bar .sp-scene-title{font-size:0.92rem;}
+  .sp-mode-tag{
+    font-size:0.68rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--muted); background:var(--bg); border-radius:6px; padding:2px 6px; flex:0 0 auto;
+  }
+  body.dark .sp-mode-tag{background:#12161C;}
+
+  .sp-log{margin:0 0 12px;}
+  .sp-turn{margin-bottom:8px; max-width:88%;}
+  .sp-turn.me{margin-left:auto;}
+  .sp-who{
+    font-size:0.66rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--muted); margin-bottom:2px;
+  }
+  .sp-bubble{border-radius:12px; padding:9px 12px; background:var(--bg); border:1px solid #E1E5E9;}
+  body.dark .sp-bubble{border-color:#2A313D;}
+  /* Своя реплика — светлая плашка в обеих темах (как .tip и .trap): без
+     приколоченных цветов --ink и --muted переворачиваются и текст пропадает. */
+  .sp-turn.me .sp-bubble{background:var(--ok-tint); border-color:transparent; color:var(--ink-fixed);}
+  .sp-turn.me .sp-ru{color:#5B6673;}
+  .sp-turn.now .sp-bubble{border-color:var(--tint-color,var(--adv));}
+  .sp-en{font-family:var(--font-en); font-size:1.02rem; font-weight:700; line-height:1.35;}
+  .sp-ru{font-size:0.86rem; color:var(--muted); margin-top:3px;}
+  .sp-hidden{color:var(--muted); letter-spacing:0.2em;}
+
+  .sp-say{
+    font-size:0.85rem; line-height:1; padding:4px 8px; margin-left:6px; border-radius:8px;
+    border:1.5px solid #D7DBE0; background:var(--bg); color:var(--ink); cursor:pointer; vertical-align:middle;
+  }
+  body.dark .sp-say{border-color:#333B47;}
+  .sp-listen{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:4px;}
+  .sp-listen .sp-say{
+    font-family:var(--font-ru); font-weight:700; font-size:0.95rem; margin-left:0; padding:9px 14px; border-radius:10px;
+    border:1.5px solid var(--tint-color,var(--adv));
+  }
+
+  .sp-goal{font-size:0.9rem; margin:12px 0 10px; padding-left:10px; border-left:3px solid var(--tint-color,var(--adv));}
+  .sp-opts{display:grid; gap:8px;}
+  .sp-opt{
+    font-family:var(--font-en); font-size:0.94rem; font-weight:700; text-align:left;
+    padding:12px 14px; border-radius:10px; border:1.5px solid #D7DBE0; background:var(--bg); color:var(--ink);
+    cursor:pointer;
+  }
+  .sp-opt.tr{font-family:var(--font-ru); font-weight:600;}
+  /* :not(...) — чтобы тёмная рамка не перебивала зелёную и красную разбора. */
+  body.dark .sp-opt:not(.ok):not(.bad){border-color:#333B47;}
+  .sp-opt.ok{border-color:var(--ok); background:var(--ok-tint); color:var(--ink-fixed);}
+  .sp-opt.bad{border-color:var(--bad); background:var(--bad-tint); color:var(--ink-fixed);}
+  .sp-opt:disabled{cursor:default;}
+
+  .sp-line{
+    min-height:54px; display:flex; flex-wrap:wrap; gap:6px; padding:10px; border-radius:10px;
+    border:1.5px dashed #D7DBE0; background:var(--bg);
+  }
+  body.dark .sp-line{border-color:#333B47;}
+  .sp-line:empty::before{content:"Нажимай на слова по порядку"; color:var(--muted); font-size:0.82rem; align-self:center;}
+  .sp-line.ok{border:1.5px solid var(--ok); background:var(--ok-tint);}
+  .sp-line.bad{border:1.5px solid var(--bad); background:var(--bad-tint);}
+  .sp-bank{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;}
+  .sp-chip{
+    font-family:var(--font-en); font-size:0.95rem; font-weight:700; min-height:40px;
+    padding:8px 12px; border-radius:10px; border:1.5px solid #D7DBE0; background:var(--card); color:var(--ink);
+    cursor:pointer;
+  }
+  body.dark .sp-chip{border-color:#333B47;}
+  .sp-chip:disabled{cursor:default;}
+
+  .sp-why{font-size:0.86rem; margin-top:12px; padding:10px 12px; border-radius:10px; background:var(--bad-tint); color:var(--ink-fixed);}
+  .sp-why.ok{background:var(--ok-tint);}
+  .sp-yours{font-size:0.86rem; color:var(--muted); margin-top:12px;}
+  .sp-yours b{color:var(--ink); font-family:var(--font-en);}
+  .sp-yours-ru{display:block; margin-top:3px;}
+  .sp-actions{display:flex; gap:8px; margin-top:12px;}
+  .sp-actions .sp-btn{flex:1;}
+  .sp-final{font-size:0.9rem; margin:4px 0 0;}
+  .sp-final b{font-size:1.05rem;}
 </style>
 </head>
 <body>
@@ -1175,6 +1281,14 @@
     <span class="row-arrow" aria-hidden="true">›</span>
   </button>
 
+  <div class="level-divider"><span>Говорение · вслух</span></div>
+  <button type="button" class="topic-row test-cta" data-open="speaking" style="--tint-color:var(--adv);">
+    <span class="test-icon">🗣️</span>
+    <span class="row-title en">Speaking · сцены с озвучкой</span>
+    <span class="test-count">3 сцены</span>
+    <span class="row-arrow" aria-hidden="true">›</span>
+  </button>
+
   <div class="level-divider"><span>Бонус · длинное чтение</span></div>
   <button type="button" class="topic-row test-cta" data-open="book1" style="--tint-color:var(--b1);">
     <span class="test-icon">📖</span>
@@ -1185,6 +1299,28 @@
 
   <div class="reset-row"><button id="resetBtn" type="button">Сбросить прогресс</button></div>
 </main>
+</div>
+
+<!-- ============ SPEAKING ============
+     Экран без data-tense: сцены рисуются кодом из SP_SCENES, а не лежат
+     в разметке, поэтому к счётчику тем курса и к квизам он не относится. -->
+<div class="screen topic-screen" id="screen-speaking" style="--tint-color:var(--adv)">
+  <div class="topic-topbar"><button type="button" class="back-btn" data-back>← Все темы</button></div>
+  <div class="topic-header">
+    <span class="marker" style="background:var(--adv)"></span>
+    <h2 class="en">Speaking · сцены с озвучкой</h2>
+  </div>
+  <div class="topic-subtitle">Не отдельные фразы, а разговор целиком: собеседник говорит первым, ты отвечаешь, и разговор идёт дальше только после верного хода.</div>
+  <div class="pane active">
+
+    <div class="tip"><b>Почему у сцены три прохода.</b> Первый — <b>на слух</b>: реплика только звучит, текста нет, ты выбираешь, что она значит. Разговор рвётся на чужой фразе, поэтому начинать надо с неё. Второй — <b>выбор</b>: свою реплику достаточно узнать. Третий — <b>сборка из слов</b>: её приходится вспомнить целиком. Это называется <b>снятием опоры</b>: узнавание даётся легко и создаёт ощущение, что материал усвоен, а в живом разговоре нужно именно припоминание. «На слух» работает, если в системе есть английский голос; без него кнопки нет.</div>
+    <div class="sp-intro">Слушай реплики собеседника кнопкой 🔊 до того, как отвечать. У каждого неверного варианта подписано, чем он плох: ошибка названа, а не только отмечена красным.</div>
+    <div id="spStage"></div>
+    <div id="spScenes"></div>
+
+    <div class="trap"><b>Ловушка: русская калька.</b> «Спасибо, что нашли время» → <i>Thank you <u>that you found</u>…</i>, «мне 40 лет» → <i>I <u>have</u> 40</i>, «живу здесь с 2015» → <i>I live here <u>since</u> 2015</i>. Каждая такая ошибка собрана в неверных вариантах сцен: если выбрал её с первого раза, прочитай разбор и вернись к сцене завтра.</div>
+    <div class="tip"><b>Что делать, когда сцена кончилась.</b> Вернись и пройди её сборкой через день-два: интервал между двумя проходами работает сильнее, чем два прохода подряд. Потом произнеси свои реплики вслух, не глядя в текст.</div>
+  </div>
 </div>
 
 <div class="screen topic-screen b1" id="screen-about">
@@ -7329,6 +7465,7 @@
     floatBack.classList.toggle("show", show);
   }
   function showHome(scrollToId){
+    spStop();
     document.querySelectorAll(".topic-screen").forEach(function(s){ s.classList.remove("active"); });
     document.getElementById("home").classList.add("active");
     document.body.classList.remove("topic-open");
@@ -7355,6 +7492,8 @@
     el.classList.add("active");
     document.body.classList.add("topic-open");
     if(TEST_POOL_IDS.indexOf(id) !== -1){ shuffleTestPool(id); }
+    spStop();
+    if(id === "speaking"){ spOpen(); }
     el.querySelectorAll(".subnav-btn").forEach(function(b){ b.classList.toggle("active", b.dataset.pane==="rule"); });
     var hasSubnav = el.querySelectorAll(".subnav-btn").length > 0;
     el.querySelectorAll(".pane").forEach(function(p){
@@ -7579,6 +7718,7 @@
     btn.dataset.confirming = "0";
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(LAST_TOPIC_KEY);
+    localStorage.removeItem(SP_KEY);
     renderProgress();
     renderContinueBlock();
     document.querySelectorAll("input.blank").forEach(function(inp){ inp.value = ""; inp.classList.remove("ok","bad"); });
@@ -7627,6 +7767,665 @@
       try{ localStorage.setItem("tensesFontV1", next); }catch(e){}
     });
   }
+
+  // ---------- Speaking: сцены с озвучкой ----------
+  // Сцена — цепочка шагов. На каждом шаге собеседник (npc) говорит реплику,
+  // а у ученика есть цель (goal) и верный ответ (answer). Неверные варианты
+  // (wrong) не просто краснеют: у каждого написано, чем он плох.
+  // Три прохода одной сцены: ear (реплика только звучит, выбрать её смысл),
+  // mc (выбрать свою реплику), build (собрать свою реплику из слов).
+  // Темы и фразы — из speaking-calls: уроки 1 (знакомство), 2 (мой день),
+  // 7 (встреча с клиентом).
+  var SP_KEY = "spDialogV1";
+  var spVoice = null;   // английский голос системы; без него нет «на слух» и 🔊
+  var spRun = null;     // {id, mode, i, wrong, missed, answered, pick, opts, build, feed, feedOk, bad}
+
+  var SP_SCENES = [
+    {
+      id: "meet",
+      icon: "🤝",
+      title: "Meeting someone new",
+      sub: "Кофе-брейк на конференции. Знакомство, откуда ты, давно ли живёшь в городе, работа, семья и прощание.",
+      steps: [
+        {
+          npc: { en: "Hi! I don't think we've met. I'm Tom.", ru: "Привет! Кажется, мы не знакомы. Я Том." },
+          goal: "Назови своё имя и скажи, что тебе приятно познакомиться.",
+          answer: "Nice to meet you, Tom. I'm Alex.",
+          answerRu: "Приятно познакомиться, Том. Я Алекс.",
+          wrong: [
+            { t: "Nice to meet you too, Tom. I'm Alex.", why: "«Too» значит «тоже»: так отвечают на чужое Nice to meet you. Том его ещё не сказал, поэтому «тоже» повисает в воздухе." },
+            { t: "Glad to know you, Tom. I'm Alex.", why: "Know — «знать» уже знакомого человека. При первой встрече говорят to meet: Nice to meet you, Pleased to meet you." }
+          ],
+          note: "Двух коротких фраз достаточно. <b>I'm Alex</b> проще и естественнее, чем <i>My name is Alex</i>: так говорят и на деловых встречах."
+        },
+        {
+          npc: { en: "Nice to meet you too! So, where are you based?", ru: "Мне тоже приятно! Так где вы базируетесь?" },
+          goal: "Скажи, что ты из Караганды, но сейчас живёшь в Алматы.",
+          answer: "I'm from Karaganda, but now I live in Almaty.",
+          answerRu: "Я из Караганды, но сейчас живу в Алматы.",
+          wrong: [
+            { t: "I from Karaganda, but now I live in Almaty.", why: "В английском предложении нужен глагол, даже когда по-русски его нет: «Я из Караганды» — это I'm from, а не I from." },
+            { t: "I'm from Karaganda, but now I live at Almaty.", why: "Перед городом ставится in: I live in Almaty. At — для точки поменьше: at work, at the station." }
+          ],
+          note: "<b>Where are you based?</b> — «в каком городе вы работаете?». Отвечать можно просто городом: <i>I'm based in Almaty.</i>"
+        },
+        {
+          npc: { en: "Almaty, great city! How long have you lived there?", ru: "Алматы, отличный город! Как давно вы там живёте?" },
+          goal: "Скажи, что живёшь там уже десять лет.",
+          answer: "I've lived here for ten years.",
+          answerRu: "Я живу здесь десять лет.",
+          wrong: [
+            { t: "I live here since ten years.", why: "Since называет момент начала (since 2015), а срок — это for ten years. И раз речь о периоде до сегодняшнего дня, нужен Present Perfect: I've lived." },
+            { t: "I'm living here for ten years.", why: "Present Continuous не сочетается с for + срок. Для «живу уже десять лет» берут Present Perfect: I've lived here for ten years." }
+          ],
+          note: "На вопрос <b>How long have you …?</b> отвечают через <b>for</b> (срок) или <b>since</b> (начало): <i>for ten years</i>, <i>since 2015</i>."
+        },
+        {
+          npc: { en: "And what do you do?", ru: "А чем вы занимаетесь?" },
+          goal: "Скажи, что ты менеджер по ключевым клиентам и работаешь с крупными аптечными сетями.",
+          answer: "I'm a key account manager. I work with big pharmacy chains.",
+          answerRu: "Я менеджер по ключевым клиентам. Я работаю с крупными аптечными сетями.",
+          wrong: [
+            { t: "I'm key account manager. I work with big pharmacy chains.", why: "Перед названием должности ставится артикль: I'm a key account manager. В русском артиклей нет, поэтому его легко забыть." },
+            { t: "I'm a key account manager. I'm working with big pharmacy chains.", why: "Present Continuous — про то, что происходит сейчас или временно. Постоянную работу описывают через Present Simple: I work with." }
+          ],
+          note: "<b>What do you do?</b> значит «кем вы работаете», а не «что вы делаете сейчас» — отсюда Present Simple в ответе."
+        },
+        {
+          npc: { en: "Interesting! Do you have kids?", ru: "Интересно! У вас есть дети?" },
+          goal: "Скажи, что у тебя есть сын и ему девять лет.",
+          answer: "Yes, I have a son. He's nine.",
+          answerRu: "Да, у меня сын. Ему девять.",
+          wrong: [
+            { t: "Yes, I have a son. He has nine.", why: "Возраст в английском передаётся глаголом be, а не have: He's nine. Калька «у него девять» звучит странно." },
+            { t: "Yes, I have a son. He is nine years.", why: "Слово years без old так не используется: либо He's nine, либо He's nine years old." }
+          ],
+          note: "Тот же принцип, что в <i>I'm 40</i>: возраст — это «быть», а не «иметь». Слова <b>years old</b> можно опустить."
+        },
+        {
+          npc: { en: "Nice! What do you like doing in your free time?", ru: "Здорово! Что вы любите делать в свободное время?" },
+          goal: "Скажи, что любишь гулять и читать, и верни вопрос собеседнику.",
+          answer: "I like walking and reading. What about you?",
+          answerRu: "Я люблю гулять и читать. А вы?",
+          wrong: [
+            { t: "I like walk and reading. What about you?", why: "После like однородные части стоят в одной форме: walking and reading или to walk and to read. Смешивать нельзя." },
+            { t: "I'm liking walking and reading. What about you?", why: "Like — глагол состояния, в Continuous он не используется. Говорят просто I like." }
+          ],
+          note: "<b>What about you?</b> — самый короткий способ вернуть вопрос. Он превращает ответ в разговор."
+        },
+        {
+          npc: { en: "Same here, when I find the time! Oh, my session is starting. It was great talking to you.", ru: "У меня так же, когда нахожу время! О, моя сессия начинается. Было приятно поговорить." },
+          goal: "Попрощайся: скажи, что тебе тоже было приятно поговорить.",
+          answer: "Nice talking to you too. See you later!",
+          answerRu: "Мне тоже было приятно поговорить. До встречи!",
+          wrong: [
+            { t: "Nice to meet you. Bye!", why: "Nice to meet you — фраза для знакомства. На прощание говорят Nice talking to you или Nice meeting you." },
+            { t: "Nice talking to you too. See you after!", why: "See you after без продолжения не говорят. Устойчивые варианты: See you later, See you soon, See you tomorrow." }
+          ],
+          note: "<b>Nice talking to you</b> — прощание после разговора. Знакомство закрывают так же: <i>It was nice meeting you.</i>"
+        }
+      ]
+    },
+    {
+      id: "day",
+      icon: "🌙",
+      title: "How was your day?",
+      sub: "Вечерний звонок близкому человеку. Рассказ о прошедшем дне: утро, конец рабочего дня, ужин и усталость.",
+      steps: [
+        {
+          npc: { en: "Hi! How was your day?", ru: "Привет! Как прошёл твой день?" },
+          goal: "День закончился. Скажи, что он был длинным и что у тебя было много встреч.",
+          answer: "It was a long day. I had a lot of meetings.",
+          answerRu: "Это был длинный день. У меня было много встреч.",
+          wrong: [
+            { t: "It's a long day. I have a lot of meetings.", why: "Спросили про уже прошедший день, значит, и глаголы нужны в прошедшем: It was, I had." },
+            { t: "I'm fine, thanks. And you?", why: "Это ответ на How are you?. Вопрос How was your day? о прошедшем дне, а не о самочувствии, и отвечать надо в прошедшем." }
+          ],
+          note: "«Был» — <b>was</b>, «было» — <b>had</b>. Вопрос <b>How was your day?</b> всегда требует прошедшего времени."
+        },
+        {
+          npc: { en: "Tell me everything! What was your morning like?", ru: "Расскажи всё! Каким было твоё утро?" },
+          goal: "Расскажи по порядку со словами first … then: сын — в школу, затем дорога в офис на машине.",
+          answer: "First I took my son to school, then I drove to the office.",
+          answerRu: "Сначала я отвёз(ла) сына в школу, потом поехал(а) в офис.",
+          wrong: [
+            { t: "First I take my son to school, then I drove to the office.", why: "В одном рассказе о прошлом все глаголы стоят в прошедшем: took и drove. Take в настоящем рядом с drove ломает рассказ." },
+            { t: "First I took my son to school, then I droved to the office.", why: "Drive — неправильный глагол: вторая форма drove, а не droved." }
+          ],
+          note: "Связки <b>first … then …</b> держат рассказ в порядке. Неправильные формы здесь: take → <b>took</b>, drive → <b>drove</b>."
+        },
+        {
+          npc: { en: "Sounds busy. What time did you finish work?", ru: "Звучит насыщенно. Во сколько закончился рабочий день?" },
+          goal: "Скажи, что в шесть часов ты ушёл(ла) с работы.",
+          answer: "I left work at six.",
+          answerRu: "Я ушёл(ла) с работы в шесть.",
+          wrong: [
+            { t: "I leaved work at six.", why: "Leave — неправильный глагол: вторая форма left. Окончание -ed здесь не добавляется." },
+            { t: "I left the work at six.", why: "В значении «ушёл с работы» говорят left work без артикля. The work — это сама работа как задача или результат." }
+          ],
+          note: "Без артикля: <b>leave work</b>, <b>get to work</b>, <b>be at work</b>. Так же <i>go home</i> — без to."
+        },
+        {
+          npc: { en: "Did you pick up your son from training?", ru: "Ты забрал(а) сына с тренировки?" },
+          goal: "Подтверди: ты забрал(а) его с футбольной тренировки.",
+          answer: "Yes, I picked him up from football training.",
+          answerRu: "Да, я забрал(а) его с футбольной тренировки.",
+          wrong: [
+            { t: "Yes, I picked up him from football training.", why: "Если вместо существительного стоит местоимение, оно встаёт внутрь фразового глагола: pick him up. Pick up him так не говорят." },
+            { t: "Yes, I did picked him up from football training.", why: "После did глагол возвращается в начальную форму: I did pick. А в обычном ответе проще вовсе обойтись без did: I picked him up." }
+          ],
+          note: "Фразовые глаголы с местоимением: <b>pick him up</b>, <b>take it off</b>, <b>call them back</b>. С существительным можно оба порядка: <i>pick up the boy / pick the boy up</i>."
+        },
+        {
+          npc: { en: "And dinner? What did you have?", ru: "А ужин? Что вы ели?" },
+          goal: "Скажи: поужинали пастой, а потом ты помог(ла) сыну с домашним заданием.",
+          answer: "We had pasta, and then I helped him with his homework.",
+          answerRu: "Мы поужинали пастой, а потом я помог(ла) ему с домашкой.",
+          wrong: [
+            { t: "We had pasta, and then I helped he with his homework.", why: "После глагола нужна форма him, а не he: he — подлежащее, him — дополнение (helped him)." },
+            { t: "We had pasta, and then I helped to him with his homework.", why: "Help не требует to перед человеком: help someone with something." }
+          ],
+          note: "Схема <b>help + кому + with + чем</b>: <i>help him with his homework</i>. Для еды тоже <b>have</b>: <i>have pasta, have dinner</i>."
+        },
+        {
+          npc: { en: "Did anything funny happen today?", ru: "Случилось сегодня что-нибудь смешное?" },
+          goal: "Ответь, что ничего особенного не было.",
+          answer: "Not really. Nothing special happened.",
+          answerRu: "Не особо. Ничего особенного не случилось.",
+          wrong: [
+            { t: "Not really. Nothing special didn't happen.", why: "В английском предложении только одно отрицание. Nothing уже отрицает, поэтому didn't лишнее: Nothing special happened." },
+            { t: "Not really. Nothing special happened yesterday.", why: "Спрашивали про сегодня, а yesterday уводит рассказ на другой день: ответ перестаёт совпадать с вопросом." }
+          ],
+          note: "Одно отрицание на фразу: <b>Nothing happened</b>. Совсем коротко отвечают даже без глагола: <i>Nothing special.</i>"
+        },
+        {
+          npc: { en: "You must be exhausted. Go and get some rest!", ru: "Ты, наверное, совсем без сил. Иди отдыхай!" },
+          goal: "Согласись, что ты без сил, и попрощайся до завтра.",
+          answer: "Yes, I'm exhausted. Talk to you soon!",
+          answerRu: "Да, я без сил. Созвонимся!",
+          wrong: [
+            { t: "Yes, I'm exhausting. Talk to you soon!", why: "-ing описывает то, что утомляет других (an exhausting day). Своё состояние передаёт -ed: I'm exhausted." },
+            { t: "Yes, I'm exhaust. Talk to you soon!", why: "Exhaust — глагол «истощать». Состояние выражает прилагательное exhausted." }
+          ],
+          note: "Пара <b>-ed / -ing</b>: I'm tired — it's tiring, I'm bored — it's boring. -ed говорит, как ты себя чувствуешь, -ing — какова вещь."
+        }
+      ]
+    },
+    {
+      id: "client",
+      icon: "💊",
+      title: "Meeting a client",
+      sub: "Встреча с закупщиком аптечной сети. Приветствие, цель встречи, предложение по акции, скидка, обещание и итоги.",
+      steps: [
+        {
+          npc: { en: "Good morning. Please, sit down. How are you?", ru: "Доброе утро. Присаживайтесь. Как вы?" },
+          goal: "Ответь на вопрос и поблагодари, что нашли время на встречу.",
+          answer: "Fine, thank you. Thank you for finding the time to meet.",
+          answerRu: "Хорошо, спасибо. Спасибо, что нашли время встретиться.",
+          wrong: [
+            { t: "Fine, thank you. Thank you that you found the time to meet.", why: "Русское «спасибо, что …» не переносится дословно. После thank you for идёт существительное или -ing: for finding the time." },
+            { t: "Good morning. Thank you for finding the time to meet.", why: "Закупщик спросил How are you?, а ответ пропущен. Сначала короткий ответ (Fine, thank you), потом дело." }
+          ],
+          note: "<b>Thank you for + -ing</b> — формула вежливости для встреч и писем: <i>Thank you for coming, Thank you for your time.</i>"
+        },
+        {
+          npc: { en: "My pleasure. It's a busy season for us — lots of colds.", ru: "Не за что. У нас сейчас горячий сезон — много простуд." },
+          goal: "Посочувствуй и предложи начать.",
+          answer: "I can imagine. Shall we start?",
+          answerRu: "Могу себе представить. Начнём?",
+          wrong: [
+            { t: "I can imagine. We start?", why: "Вопрос без вспомогательного слова звучит как утверждение с вопросительной интонацией. Нужна форма Shall we …?" },
+            { t: "I can imagine. Do we start?", why: "Do we start? спрашивает, начинаем ли мы вообще, будто это не решено. Предложение «давайте начнём» — это Shall we start? или Let's start." }
+          ],
+          note: "<b>Shall we …?</b> — вежливое предложение от первого лица: <i>Shall we begin? Shall we move on?</i> Звучит мягче, чем Let's start."
+        },
+        {
+          npc: { en: "Sure. So, what's on the agenda today?", ru: "Конечно. Итак, что у нас сегодня в повестке?" },
+          goal: "Назови цель встречи: обсудить осеннюю акцию.",
+          answer: "The purpose of today's meeting is to discuss our autumn promotion.",
+          answerRu: "Цель сегодняшней встречи — обсудить нашу осеннюю акцию.",
+          wrong: [
+            { t: "The purpose of today's meeting is discussing our autumn promotion.", why: "После The purpose is … нужен инфинитив с to: is to discuss. Форма -ing здесь не подходит." },
+            { t: "The purpose from today's meeting is to discuss our autumn promotion.", why: "Цель чего-то — purpose of, а не from. Предлог of показывает, чья это цель." }
+          ],
+          note: "Заготовка для начала любой встречи: <b>The purpose of … is to …</b>. Она занимает пять секунд и сразу задаёт рамку."
+        },
+        {
+          npc: { en: "OK. What do you suggest?", ru: "Хорошо. Что вы предлагаете?" },
+          goal: "Предложи провести акцию на противопростудные препараты.",
+          answer: "We'd like to run a promotion on our cold and flu products.",
+          answerRu: "Мы хотели бы провести акцию на наши противопростудные препараты.",
+          wrong: [
+            { t: "We want to make a promotion on our cold and flu products.", why: "Want звучит как требование, а клиенту предлагают мягче: We'd like to. И акцию проводят — run или hold a promotion, а не make." },
+            { t: "We would like run a promotion on our cold and flu products.", why: "После would like инфинитив идёт с to: would like to run." }
+          ],
+          note: "<b>We'd like to …</b> — деловая норма для предложений. Устойчивые сочетания: <i>run / hold a promotion, run a campaign</i>."
+        },
+        {
+          npc: { en: "What kind of discount?", ru: "Какая скидка?" },
+          goal: "Назови условия: десять процентов покупателю плюс бонус для сети.",
+          answer: "Ten percent for the customer, plus a bonus for your chain.",
+          answerRu: "Десять процентов покупателю, плюс бонус для вашей сети.",
+          wrong: [
+            { t: "Ten percents for the customer, plus a bonus for your chain.", why: "Percent не принимает окончание -s после числа: ten percent, fifty percent." },
+            { t: "Ten percent for customer, plus bonus for your chain.", why: "Без артиклей звучит как телеграмма: the customer — понятно какой покупатель, a bonus — один из возможных бонусов." }
+          ],
+          note: "Числа с <b>percent</b> — без -s. Слово <b>plus</b> удобно, когда перечисляешь условия предложения."
+        },
+        {
+          npc: { en: "Hmm. We'll need more shelf space for that.", ru: "Хм. Для этого нам понадобится больше места на полке." },
+          goal: "Признай замечание и пообещай вернуться с ответом до пятницы.",
+          answer: "That's a good point. I'll check and come back to you by Friday.",
+          answerRu: "Справедливое замечание. Я уточню и вернусь к вам до пятницы.",
+          wrong: [
+            { t: "That's a good point. I check and come back to you by Friday.", why: "Обещание, принятое в момент разговора, оформляется через will: I'll check. Настоящее время тут звучит как привычка, а не обещание." },
+            { t: "That's a good point. I'll check and come back to you until Friday.", why: "By Friday — «не позднее пятницы», until Friday — «вплоть до пятницы», то есть всё это время. Срок выполнения передаёт by." }
+          ],
+          note: "<b>I'll … by Friday</b> — готовая формула обещания с дедлайном. Работает и в письмах: <i>I'll send it by Monday.</i>"
+        },
+        {
+          npc: { en: "Good. Is there anything else we should agree today?", ru: "Хорошо. Нужно ли нам ещё что-то согласовать сегодня?" },
+          goal: "Подведи итог и пообещай прислать детали письмом.",
+          answer: "Let's summarise what we've agreed. I'll send you the details by email.",
+          answerRu: "Давайте подведём итог тому, о чём договорились. Я пришлю вам детали письмом.",
+          wrong: [
+            { t: "Let me to summarise what we've agreed. I'll send you the details by email.", why: "После let me инфинитив идёт без to: let me summarise. А предложение «давайте подведём итог» — Let's summarise." },
+            { t: "Let's summarise what we've agreed. I'll send you the details on email.", why: "Способ связи передаёт предлог by: by email, by phone, by post. On email так не говорят." }
+          ],
+          note: "Хороший конец встречи состоит из двух шагов: <b>Let's summarise</b> — что согласовано, <b>I'll send</b> — что ты сделаешь дальше."
+        }
+      ]
+    }
+  ];
+
+  function spEl(id){ return document.getElementById(id); }
+  function spEsc(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function spShuffle(a){
+    a = a.slice();
+    for(var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function spLoad(){
+    try{ return JSON.parse(localStorage.getItem(SP_KEY) || "{}") || {}; }catch(e){ return {}; }
+  }
+  function spSave(p){
+    try{ localStorage.setItem(SP_KEY, JSON.stringify(p)); }catch(e){}
+  }
+  function spScene(id){
+    for(var i = 0; i < SP_SCENES.length; i++){ if(SP_SCENES[i].id === id) return SP_SCENES[i]; }
+    return null;
+  }
+  // Сверка ответа без регистра и пунктуации; апостроф сохраняем (I'm, we've).
+  function spNorm(s){
+    return String(s || "").toLowerCase().replace(/[‘’]/g,"'")
+      .replace(/[.,!?;:—–-]/g,"").replace(/\s+/g," ").trim();
+  }
+  // Пунктуация в фишках сборки подсказывала бы порядок («please.» — только
+  // в конец), поэтому её снимаем; spNorm снимает её и с ответа при сверке.
+  function spWords(answer){
+    return answer.replace(/[.,!?]/g,"").split(/\s+/).filter(Boolean);
+  }
+
+  // ----- голос -----
+  function spPickVoice(){
+    var list = [];
+    try{ list = window.speechSynthesis ? speechSynthesis.getVoices() : []; }catch(e){}
+    var best = null, bestScore = 0;
+    (list || []).forEach(function(v){
+      var lang = String(v.lang || "").replace("_","-").toLowerCase();
+      if(!/^en(-|$)/.test(lang)) return;
+      var score = lang === "en-us" ? 3 : lang === "en-gb" ? 2 : 1;
+      if(/natural|google|premium|enhanced|online/i.test(v.name || "")) score += 0.5;
+      if(score > bestScore){ best = v; bestScore = score; }
+    });
+    spVoice = best;
+  }
+  function spSpeak(text, rate){
+    if(!spVoice || !text) return;
+    try{
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.voice = spVoice;
+      u.lang = spVoice.lang;
+      u.rate = rate || 0.95;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  function spStop(){
+    try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  }
+  function spSayBtn(text){
+    return spVoice ? ' <button type="button" class="sp-say" data-say="'+spEsc(text)+'" aria-label="Прослушать">🔊</button>' : "";
+  }
+
+  // ----- разметка -----
+  function spBubble(who, cls, en, ru, sayBtn){
+    return '<div class="sp-turn '+cls+'"><div class="sp-who">'+who+'</div><div class="sp-bubble">' +
+      '<div class="sp-en">'+spEsc(en)+(sayBtn ? spSayBtn(en) : "")+'</div>' +
+      (ru ? '<div class="sp-ru">'+spEsc(ru)+'</div>' : "") +
+      '</div></div>';
+  }
+
+  function spOpen(){
+    spRun = null;
+    spPickVoice();
+    spRender();
+  }
+  function spRender(){
+    spRenderScenes();
+    spRenderStage();
+  }
+
+  function spModeBtn(sc, mode, label, done, pri){
+    return '<button type="button" class="sp-btn'+(pri ? " pri" : "")+'" data-sp="start" data-scene="'+sc.id+'" data-mode="'+mode+'">' +
+      label+(done ? '<span class="sp-done">✓</span>' : "")+'</button>';
+  }
+  function spRenderScenes(){
+    var box = spEl("spScenes");
+    if(!box) return;
+    if(spRun){ box.innerHTML = ""; return; }
+    var prog = spLoad();
+    var html = spVoice ? "" :
+      '<p class="sp-note">В этом браузере нет английского голоса, поэтому «На слух» и кнопки 🔊 скрыты. Они появятся там, где в системе установлена английская озвучка.</p>';
+    html += SP_SCENES.map(function(sc){
+      var d = prog[sc.id] || {};
+      return '<div class="sp-scene">' +
+        '<div class="sp-scene-head"><span class="sp-scene-icon">'+sc.icon+'</span>' +
+          '<span class="sp-scene-title">'+spEsc(sc.title)+'</span>' +
+          '<span class="sp-count">'+sc.steps.length+' реплик</span></div>' +
+        '<div class="sp-scene-sub">'+spEsc(sc.sub)+'</div>' +
+        '<div class="sp-modes">' +
+          (spVoice ? spModeBtn(sc, "ear", "На слух", d.ear, false) : "") +
+          spModeBtn(sc, "mc", "Выбор", d.mc, false) +
+          spModeBtn(sc, "build", "Сборка", d.build, true) +
+        '</div></div>';
+    }).join("");
+    box.innerHTML = html;
+  }
+
+  function spBuildHtml(){
+    var b = spRun.build, sc = spScene(spRun.id), step = sc.steps[spRun.i];
+    var words = spWords(step.answer), done = spRun.answered;
+    function chip(id){
+      return '<button type="button" class="sp-chip" data-spchip="'+id+'"'+(done ? " disabled" : "")+'>'+spEsc(words[id])+'</button>';
+    }
+    var cls = "sp-line" + (done ? " ok" : spRun.bad ? " bad" : "");
+    return '<div class="'+cls+'">'+b.line.map(chip).join("")+'</div>' +
+      '<div class="sp-bank">'+b.bank.filter(function(id){ return b.line.indexOf(id) === -1; }).map(chip).join("")+'</div>';
+  }
+
+  function spRenderStage(){
+    var box = spEl("spStage");
+    if(!box) return;
+    if(!spRun){ box.innerHTML = ""; return; }
+    var sc = spScene(spRun.id);
+    if(spRun.i >= sc.steps.length){ box.innerHTML = spFinishHtml(sc); return; }
+
+    var step = sc.steps[spRun.i], mode = spRun.mode, ans = spRun.answered;
+    var head = '<div class="sp-bar"><span class="sp-scene-title">'+spEsc(sc.title)+'</span>' +
+      '<span class="sp-mode-tag">'+(mode === "ear" ? "на слух" : mode === "mc" ? "выбор" : "сборка")+'</span>' +
+      '<span class="sp-count">'+(spRun.i+1)+' / '+sc.steps.length+'</span></div>';
+
+    // В логе только предыдущий обмен: контекст нужен, а весь разговор
+    // уводил бы текущую реплику под сгиб экрана.
+    var log = "";
+    if(spRun.i > 0){
+      var prev = sc.steps[spRun.i - 1];
+      log += spBubble("Собеседник", "", prev.npc.en, prev.npc.ru, false);
+      log += spBubble("Ты", "me", prev.answer, prev.answerRu, false);
+    }
+
+    var body = "", acts = "", goal = "";
+    if(mode === "ear"){
+      // Текст реплики и цель шага скрыты, пока ученик не ответил: цель
+      // «Назови свой город» выдаёт, о чём спросили.
+      log += ans
+        ? spBubble("Собеседник", "now", step.npc.en, step.npc.ru, true)
+        : '<div class="sp-turn now"><div class="sp-who">Собеседник</div><div class="sp-bubble">' +
+            '<div class="sp-en sp-hidden">• • •</div><div class="sp-listen">' +
+              '<button type="button" class="sp-say" data-say="'+spEsc(step.npc.en)+'">🔊 Послушать</button>' +
+              '<button type="button" class="sp-say" data-say="'+spEsc(step.npc.en)+'" data-rate="0.7">🐢 Медленнее</button>' +
+            '</div></div></div>';
+      if(ans) goal = step.goal;
+      body = '<div class="sp-opts">' + spRun.opts.map(function(o, idx){
+        var cls = "sp-opt tr";
+        if(ans){ if(o.ok) cls += " ok"; else if(idx === spRun.pick) cls += " bad"; }
+        return '<button type="button" class="'+cls+'" data-sppick="'+idx+'"'+(ans ? " disabled" : "")+'>'+spEsc(sc.steps[o.si].npc.ru)+'</button>';
+      }).join("") + '</div>';
+    } else {
+      log += spBubble("Собеседник", "now", step.npc.en, step.npc.ru, true);
+      goal = step.goal;
+      if(mode === "mc"){
+        body = '<div class="sp-opts">' + spRun.opts.map(function(o, idx){
+          var cls = "sp-opt";
+          if(ans){ if(o.ok) cls += " ok"; else if(idx === spRun.pick) cls += " bad"; }
+          return '<button type="button" class="'+cls+'" data-sppick="'+idx+'"'+(ans ? " disabled" : "")+'>'+spEsc(o.t)+'</button>';
+        }).join("") + '</div>';
+      } else {
+        body = '<div id="spBuild">'+spBuildHtml()+'</div>';
+      }
+    }
+
+    var feed = spRun.feed ? '<div class="sp-why'+(spRun.feedOk ? " ok" : "")+'">'+spRun.feed+'</div>' : "";
+    if(ans && mode !== "ear"){
+      feed += '<div class="sp-yours">Твоя реплика: <b>'+spEsc(step.answer)+'</b>'+spSayBtn(step.answer) +
+        '<span class="sp-yours-ru">'+spEsc(step.answerRu)+'</span></div>';
+    }
+
+    var last = spRun.i >= sc.steps.length - 1;
+    if(ans){
+      acts = '<button type="button" class="sp-btn pri" data-sp="next">'+(last ? "Закончить" : "Дальше")+'</button>';
+    } else if(mode === "build"){
+      acts = '<button type="button" class="sp-btn pri" data-sp="check">Проверить</button>' +
+        (spRun.missed ? '<button type="button" class="sp-btn" data-sp="reveal">Показать ответ</button>' : "");
+    }
+
+    box.innerHTML = head +
+      '<div class="sp-log">'+log+'</div>' +
+      (goal ? '<div class="sp-goal">'+spEsc(goal)+'</div>' : "") +
+      body + feed +
+      '<div class="sp-actions">'+acts+'</div>';
+  }
+
+  function spFinishHtml(sc){
+    var lines = sc.steps.map(function(s){
+      return spBubble("Собеседник", "", s.npc.en, s.npc.ru, true) +
+             spBubble("Ты", "me", s.answer, s.answerRu, true);
+    }).join("");
+    // Лесенка проходов: на слух → выбор → сборка → снова на слух.
+    var next = spRun.mode === "ear" ? "mc" : spRun.mode === "mc" ? "build" : (spVoice ? "ear" : "mc");
+    var nextLabel = next === "mc" ? "Пройти выбором" : next === "build" ? "Пройти сборкой" : "Ещё раз на слух";
+    return '<div class="sp-bar"><span class="sp-scene-title">'+spEsc(sc.title)+'</span>' +
+        '<span class="sp-mode-tag">пройдено</span></div>' +
+      '<p class="sp-final"><b>Сцена пройдена.</b> ' +
+        (spRun.wrong ? 'Промахов: '+spRun.wrong+' из '+sc.steps.length+'. Стоит вернуться к ней завтра.'
+                     : 'Без единого промаха.') + '</p>' +
+      '<div class="sp-log" style="margin-top:12px">'+lines+'</div>' +
+      '<div class="sp-actions">' +
+        '<button type="button" class="sp-btn" data-sp="close">К сценам</button>' +
+        '<button type="button" class="sp-btn pri" data-sp="start" data-scene="'+sc.id+'" data-mode="'+next+'">'+nextLabel+'</button>' +
+      '</div>';
+  }
+
+  // ----- ход сцены -----
+  function spStart(id, mode){
+    var sc = spScene(id);
+    if(!sc) return;
+    // «На слух» без голоса невозможен — откатываемся на выбор.
+    var m = mode === "build" ? "build" : (mode === "ear" && spVoice) ? "ear" : "mc";
+    spRun = { id:id, mode:m, i:0, wrong:0, missed:false, answered:false, pick:-1, opts:null, build:null, feed:null, feedOk:false, bad:false };
+    spPrepare();
+    spRender();
+    spScroll();
+    spAutoPlay();
+  }
+  // Над сценой стоят пояснения, поэтому прокрутка к началу страницы увела бы
+  // разговор под сгиб: каждый шаг подводит к началу сцены.
+  function spScroll(){
+    var box = spEl("spStage");
+    if(box) box.scrollIntoView({block:"start"});
+  }
+  // В «на слух» реплика звучит сама. Вызывается только из обработчика клика:
+  // без жеста пользователя браузер озвучку не пустит.
+  function spAutoPlay(){
+    if(!spRun || spRun.mode !== "ear" || spRun.answered) return;
+    var sc = spScene(spRun.id), step = sc.steps[spRun.i];
+    if(step) spSpeak(step.npc.en);
+  }
+  // Варианты тасуются один раз на шаг: перерисовка не должна менять порядок
+  // под пальцем уже после того, как ученик его прочитал.
+  function spPrepare(){
+    var sc = spScene(spRun.id), step = sc.steps[spRun.i];
+    spRun.answered = false; spRun.missed = false; spRun.bad = false;
+    spRun.opts = null; spRun.pick = -1; spRun.build = null;
+    spRun.feed = null; spRun.feedOk = false;
+    if(!step) return;
+    if(spRun.mode === "ear"){
+      // Отвлекающие — переводы других реплик собеседника в этой сцене.
+      // Храним номер шага, а не текст. Одинаковые переводы отсеиваем,
+      // чтобы верных вариантов не вышло два.
+      var seen = {}, others = [];
+      seen[step.npc.ru] = 1;
+      sc.steps.forEach(function(s, si){
+        if(si === spRun.i || seen[s.npc.ru]) return;
+        seen[s.npc.ru] = 1;
+        others.push({ si:si, ok:false });
+      });
+      spRun.opts = spShuffle([{ si:spRun.i, ok:true }].concat(spShuffle(others).slice(0, 2)));
+    } else if(spRun.mode === "mc"){
+      spRun.opts = spShuffle([{ t:step.answer, ok:true }].concat(step.wrong.map(function(w){
+        return { t:w.t, why:w.why, ok:false };
+      })));
+    } else {
+      var ids = spWords(step.answer).map(function(w, k){ return k; });
+      var bank = spShuffle(ids), tries = 0;
+      // Фишки не должны сразу лежать в правильном порядке.
+      while(ids.length > 1 && bank.join() === ids.join() && tries++ < 8) bank = spShuffle(ids);
+      spRun.build = { bank:bank, line:[] };
+    }
+  }
+
+  function spResolve(step, ok, lead){
+    spRun.answered = true;
+    spRun.feedOk = ok;
+    spRun.feed = (lead ? lead + "<br><br>" : "") + step.note;
+    spRenderStage();
+  }
+  function spPick(idx){
+    if(!spRun || spRun.mode === "build" || spRun.answered) return;
+    var sc = spScene(spRun.id), step = sc.steps[spRun.i];
+    var picked = spRun.opts[idx];
+    if(!picked) return;
+    if(!picked.ok) spRun.wrong++;
+    spRun.pick = idx;
+    if(spRun.mode === "ear"){
+      spRun.answered = true;
+      spRun.feedOk = !!picked.ok;
+      spRun.feed = picked.ok ? "Верно."
+        : "<b>"+spEsc(sc.steps[picked.si].npc.ru)+"</b> — это перевод другой реплики. Что прозвучало на самом деле, видно в пузыре выше.";
+      spRenderStage();
+      return;
+    }
+    spResolve(step, !!picked.ok, picked.ok ? "" : "<b>"+spEsc(picked.t)+"</b> — "+picked.why);
+  }
+  function spChip(id){
+    if(!spRun || spRun.mode !== "build" || spRun.answered || !spRun.build) return;
+    var b = spRun.build, k = b.line.indexOf(id);
+    if(k === -1) b.line.push(id); else b.line.splice(k, 1);
+    spRun.bad = false;
+    var box = spEl("spBuild");
+    if(!box) return;
+    box.innerHTML = spBuildHtml();
+    var again = box.querySelector('[data-spchip="'+id+'"]');
+    if(again) again.focus();
+  }
+  function spFinishScene(){
+    var p = spLoad();
+    if(!p[spRun.id]) p[spRun.id] = {};
+    p[spRun.id][spRun.mode] = 1;
+    spSave(p);
+  }
+
+  function spAction(btn){
+    var action = btn.dataset.sp;
+    if(action === "start"){ spStart(btn.dataset.scene, btn.dataset.mode); return; }
+    if(!spRun) return;
+    var sc = spScene(spRun.id), step = sc.steps[spRun.i];
+
+    if(action === "close"){
+      spRun = null;
+      spStop();
+      spRender();
+      window.scrollTo(0, 0);
+      return;
+    }
+    if(action === "next"){
+      spRun.i++;
+      spPrepare();
+      // Сцена засчитывается ровно один раз — когда пройден последний шаг.
+      if(spRun.i >= sc.steps.length) spFinishScene();
+      spRenderStage();
+      spScroll();
+      spAutoPlay();
+      return;
+    }
+    if(!step || spRun.answered || spRun.mode !== "build") return;
+    if(action === "check"){
+      var words = spWords(step.answer), b = spRun.build;
+      if(b.line.length < words.length){
+        spRun.feed = "Собери реплику целиком: использованы не все слова.";
+        spRun.feedOk = false;
+        spRenderStage();
+        return;
+      }
+      var got = b.line.map(function(id){ return words[id]; }).join(" ");
+      if(spNorm(got) === spNorm(step.answer)){
+        // Промах уже посчитан на прошлой попытке — собранная со второго
+        // раза реплика показывается как верная, без второго упрёка.
+        spResolve(step, true, "");
+        return;
+      }
+      spRun.bad = true;
+      if(!spRun.missed){ spRun.missed = true; spRun.wrong++; }
+      spRun.feed = "Не то. Слова все нужные — другой порядок.";
+      spRun.feedOk = false;
+      spRenderStage();
+      return;
+    }
+    if(action === "reveal"){
+      spRun.build.line = spWords(step.answer).map(function(w, k){ return k; });
+      spResolve(step, false, "Так эта реплика собирается целиком.");
+    }
+  }
+
+  var spScreen = spEl("screen-speaking");
+  if(spScreen){
+    spScreen.addEventListener("click", function(e){
+      var t = e.target.closest ? e.target.closest("[data-say],[data-sp],[data-sppick],[data-spchip]") : null;
+      if(!t || !spScreen.contains(t)) return;
+      if(t.hasAttribute("data-say")){ spSpeak(t.getAttribute("data-say"), parseFloat(t.getAttribute("data-rate")) || 0); return; }
+      if(t.hasAttribute("data-sppick")){ spPick(parseInt(t.getAttribute("data-sppick"), 10)); return; }
+      if(t.hasAttribute("data-spchip")){ spChip(parseInt(t.getAttribute("data-spchip"), 10)); return; }
+      spAction(t);
+    });
+  }
+  // Голоса в браузерах подгружаются асинхронно: список сцен перерисуем, если
+  // английский голос появился, пока ученик ещё не начал сцену.
+  if(window.speechSynthesis){
+    var spOnVoices = function(){
+      var had = !!spVoice;
+      spPickVoice();
+      if(!!spVoice !== had && !spRun && spScreen && spScreen.classList.contains("active")) spRender();
+    };
+    if(speechSynthesis.addEventListener) speechSynthesis.addEventListener("voiceschanged", spOnVoices);
+    else speechSynthesis.onvoiceschanged = spOnVoices;
+  }
+  spPickVoice();
 
   renderTimeBadges();
   renderProgress();
