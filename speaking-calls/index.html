@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speaking Calls</title>
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="icon" href="../assets/icons/favicon-32.png">
+<meta name="apple-mobile-web-app-title" content="Speaking">
+<style>
+:root{
+  --bg:#f6f4ef;--card:#ffffff;--ink:#1e2226;--muted:#5d646c;--line:#e2ded4;
+  --accent:#1d6b58;--accent-ink:#ffffff;--accent-soft:#e1f0ea;
+  --her:#1d6b58;--her-soft:#e9f4f0;--host:#3a4d88;--host-soft:#e9edf8;
+  --warn:#8a5300;--warn-soft:#fbf0db;--hide:#d9d4c8;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141618;--card:#1d2023;--ink:#e7e5e0;--muted:#a1a7ad;--line:#31353a;
+    --accent:#5cc2a3;--accent-ink:#0f1a16;--accent-soft:#1b302a;
+    --her:#5cc2a3;--her-soft:#182723;--host:#a3b3ea;--host-soft:#1f2538;
+    --warn:#e3ac4f;--warn-soft:#30271a;--hide:#3a3e44;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141618;--card:#1d2023;--ink:#e7e5e0;--muted:#a1a7ad;--line:#31353a;
+  --accent:#5cc2a3;--accent-ink:#0f1a16;--accent-soft:#1b302a;
+  --her:#5cc2a3;--her-soft:#182723;--host:#a3b3ea;--host-soft:#1f2538;
+  --warn:#e3ac4f;--warn-soft:#30271a;--hide:#3a3e44;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700;margin-right:auto;text-decoration:none;color:var(--ink);white-space:nowrap}
+.nav{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer;text-decoration:none;color:var(--ink)}
+.nav.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+main{max-width:860px;margin:0 auto;padding:18px 16px 80px}
+h1{font-size:26px;line-height:1.25;margin:4px 0 6px}
+h2{font-size:19px;margin:0 0 4px;display:flex;gap:10px;align-items:baseline}
+h2 .n{color:var(--accent);font-variant-numeric:tabular-nums}
+h3{font-size:16px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 18px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.hint{color:var(--muted);font-size:14px;margin:0 0 12px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 16px}
+.tag{font-size:13px;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:2px 10px}
+.tag.w{background:var(--warn-soft);color:var(--warn)}
+ol.q,ul.q{margin:0;padding-left:22px}
+ol.q li,ul.q li{margin:5px 0}
+.row{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.en{font-weight:600}
+.ru{color:var(--muted)}
+.recall .row .en{background:var(--hide);color:transparent;border-radius:6px;cursor:pointer;user-select:none}
+.recall .row .en.shown{background:transparent;color:var(--ink);cursor:default;user-select:auto}
+.recall .row{grid-template-columns:1fr 1fr auto}
+.recall .row .ru{order:-1;color:var(--ink)}
+.say{border:1px solid var(--line);background:var(--bg);border-radius:8px;width:34px;height:30px;display:inline-grid;place-items:center;cursor:pointer;padding:0;flex:none}
+.say svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.say:hover{border-color:var(--accent);color:var(--accent)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:0 0 10px}
+.seg button{border:0;background:var(--card);padding:5px 14px;font-size:14px;cursor:pointer}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:14px}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.model .ln{padding:5px 0;display:flex;gap:8px;align-items:flex-start}
+.model .ln .tx{flex:1}
+.model .tr{display:none;color:var(--muted);font-size:14px}
+.model.withtr .tr{display:block}
+.card{border-radius:12px;padding:12px 14px;margin:10px 0}
+.card.her{background:var(--her-soft);border-left:4px solid var(--her)}
+.card.host{background:var(--host-soft);border-left:4px solid var(--host)}
+.card .who{font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.card.her .who{color:var(--her)}
+.card.host .who{color:var(--host)}
+.card ul{margin:6px 0 0;padding-left:20px}
+.card li{margin:3px 0}
+.twist{margin-top:8px;font-size:14px;background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:6px 10px}
+details{margin-top:8px}
+summary{cursor:pointer;font-weight:600;color:var(--host)}
+.box{background:var(--warn-soft);border-radius:12px;padding:12px 14px;margin:10px 0;font-size:15px}
+.box h3{color:var(--warn)}
+.box table{border-collapse:collapse;width:100%;font-size:14px}
+.box td,.box th{padding:4px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+textarea{width:100%;min-height:92px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;resize:vertical}
+label.p{display:block;font-weight:600;margin:12px 0 6px;font-size:15px}
+label.p small{display:block;font-weight:400;color:var(--muted)}
+.calls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.calls .btn.on{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.unit{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.unit:hover{border-color:var(--accent)}
+.unit .num{font-size:13px;color:var(--muted)}
+.unit .tt{font-weight:700;margin:2px 0}
+.unit .st{font-size:13px;color:var(--accent);margin-top:6px}
+.blockh{margin:22px 0 8px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.blockh span{color:var(--muted);font-size:14px}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0 4px}
+.prog i{display:block;height:100%;background:var(--accent)}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;padding:8px 0 8px 40px;position:relative;border-top:1px solid var(--line)}
+.steps li:first-child{border-top:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:14px}
+.plan td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.plan{border-collapse:collapse;width:100%;font-size:15px}
+.plan td:first-child{white-space:nowrap;color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.err td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.err{border-collapse:collapse;width:100%;font-size:15px}
+.err td:first-child{color:var(--warn);text-decoration:line-through}
+.err td:nth-child(2){font-weight:600}
+@media (max-width:620px){
+  .row,.recall .row{grid-template-columns:1fr auto}
+  .row .ru{grid-column:1}
+  .row .say{grid-row:1;grid-column:2}
+  h1{font-size:22px}
+  .bar{gap:4px;padding:8px 12px}
+  .brand{flex-basis:100%;margin:0 0 2px}
+  .nav{padding:4px 9px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="brand" href="#home">Speaking · созвоны</a>
+  <a class="nav" data-r="home" href="#home">Уроки</a>
+  <a class="nav" data-r="how" href="#how">Как заниматься</a>
+  <a class="nav" data-r="sos" href="#sos">Фразы-выручалки</a>
+  <a class="nav" data-r="log" href="#log">Ошибки</a>
+  <button class="nav" id="theme" type="button" aria-label="Тема">◐</button>
+</div></header>
+<main id="app"></main>
+
+<script>
+const UNITS=[];function U(o){UNITS.push(o)}
+const BLOCKS={
+  1:{t:"Я и моя жизнь",w:"недели 1–4",d:"О себе, день, выходные, поездки. Цель — спокойно рассказать о своей жизни и ответить на вопросы."},
+  2:{t:"Моя работа",w:"недели 5–9",d:"Должность, рабочая неделя, встреча с клиентом, цифры, проблемы и переговоры."},
+  3:{t:"Собеседование",w:"недели 10–12",d:"Рассказ о себе, истории по схеме STAR, мотивация, пробное интервью."}
+};
+
+/* ===== Блок 1 ===== */
+U({id:1,block:1,t:"About me",ru:"Знакомство: о себе",gr:["Present Simple","to be","have got / have"],
+warm:["What's your name? Where are you from?","Where do you live now? How long have you lived there?","Who do you live with?","How old is your son? What does he like?","What do you do?","What do you like doing in your free time?","What are you good at? What are you not very good at?","What do you like about your city?"],
+ph:[["I'm from … , but now I live in …","Я из …, но сейчас живу в …"],["I've lived here for ten years.","Я живу здесь десять лет."],["I live with my family.","Я живу с семьёй."],["My son is nine. He goes to school.","Моему сыну девять. Он ходит в школу."],["He's really into football.","Он очень увлекается футболом."],["I work for a pharmaceutical company.","Я работаю в фармацевтической компании."],["I'm a key account manager.","Я менеджер по ключевым клиентам."],["I work with big pharmacy chains.","Я работаю с крупными аптечными сетями."],["In my free time I like walking and reading.","В свободное время я люблю гулять и читать."],["I'm not very good at cooking.","Готовка у меня не очень получается."],["To be honest, I don't have much free time.","Честно говоря, свободного времени у меня немного."],["What about you?","А вы? / А ты?"],["Nice to meet you.","Приятно познакомиться."]],
+box:{t:"Частые ошибки этого урока",h:"<table><tr><td>I have 40 years</td><td><b>I'm 40.</b></td></tr><tr><td>I live here since 2015</td><td><b>I've lived here since 2015.</b></td></tr><tr><td>I work in pharmaceutical company</td><td><b>in <u>a</u> pharmaceutical company</b></td></tr><tr><td>He like football</td><td><b>He like<u>s</u> football.</b></td></tr><tr><td>Where you live?</td><td><b>Where <u>do</u> you live?</b></td></tr></table>"},
+model:{t:"Образец: Марина рассказывает о себе",lines:[["Hi! My name is Marina.","Привет! Меня зовут Марина."],["I'm from Karaganda, but now I live in Almaty with my family.","Я из Караганды, но сейчас живу в Алматы с семьёй."],["I've lived here for ten years.","Я живу здесь десять лет."],["My son is nine. He goes to school, and he's really into football.","Моему сыну девять. Он ходит в школу и очень увлекается футболом."],["I work for a pharmaceutical company.","Я работаю в фармацевтической компании."],["I'm a key account manager, so I work with big pharmacy chains.","Я менеджер по ключевым клиентам, поэтому работаю с крупными аптечными сетями."],["My job is interesting, but it's quite busy.","Работа интересная, но довольно напряжённая."],["In my free time I like walking in the park and reading.","В свободное время я люблю гулять в парке и читать."],["To be honest, I don't have much free time!","Честно говоря, свободного времени у меня немного!"],["On weekends we usually visit my parents or go to the mountains.","По выходным мы обычно ездим к моим родителям или в горы."]]},
+roles:[
+ {t:"Кофе-брейк на конференции",her:{goal:"Познакомься, расскажи о себе 4–5 предложениями и задай собеседнику минимум 3 вопроса.",hints:["Nice to meet you.","Where are you from?","What do you do?","What about you?"]},host:{brief:"Вы коллега из немецкого офиса. Отвечайте коротко, чтобы она задавала вопросы. Спросите про семью и работу.",moves:["Hi! I don't think we've met. I'm Tom.","So, where are you based?","Do you have kids?"],twist:"Неожиданный вопрос: «Why did you choose pharma?»"}},
+ {t:"Новый сосед",her:{goal:"Расскажи о семье и сыне, спроси про район: где магазин, хорошая ли школа рядом.",hints:["We live on the third floor.","Is there a good school near here?","Where's the nearest supermarket?"]},host:{brief:"Вы только что въехали. Спросите, сколько она здесь живёт, чем занимается сын.",moves:["Hi, I'm your new neighbour. We moved in yesterday.","How long have you lived here?","What does your son like doing?"],twist:"Пригласите её на кофе в субботу — ей нужно вежливо согласиться или отказаться."}}],
+fu:["Why?","How long …?","What do you like most about …?","Can you tell me more about …?","Really? Why is that?"],
+my:[["Расскажи о себе 6–8 предложениями","Кто, откуда, где живёшь, семья, работа, хобби. Сначала по-английски, русский — только если застряла."],["Три вопроса новому знакомому","Те, что ты сама задашь, а не только ответишь."]],
+s432:"Расскажи о себе",
+hw:["Каждый день 1 минута на диктофон: «About me». К концу недели — без бумажки.","Включить фразы урока 🔊 и повторять одновременно с диктором (shadowing), 5 минут.","Написать 5 предложений о сыне: что любит, что умеет, куда ходит."]});
+
+U({id:2,block:1,t:"My day",ru:"Мой день: обычный и вчерашний",gr:["Present Simple — обычно","Past Simple — вчера","неправильные глаголы"],
+warm:["What time do you usually get up?","How do you get to work? How long does it take?","What did you do yesterday?","What time did you get home?","Who picked up your son?","What did you have for dinner?","What did you do in the evening?","Was yesterday a good day? Why?"],
+ph:[["I usually get up at seven.","Обычно я встаю в семь."],["I wake up at half past six, but I get up at seven.","Просыпаюсь в полседьмого, а встаю в семь."],["First I make breakfast, then I take my son to school.","Сначала готовлю завтрак, потом отвожу сына в школу."],["I drive to work. It takes me about thirty minutes.","Я езжу на работу на машине. Это занимает около 30 минут."],["I had a lot of meetings.","У меня было много встреч."],["I had lunch with a colleague.","Я пообедала с коллегой."],["I left work at six.","Я ушла с работы в шесть."],["I picked up my son from football training.","Я забрала сына с футбольной тренировки."],["We had dinner at home.","Мы поужинали дома."],["I helped him with his homework.","Я помогла ему с домашкой."],["It was a long day. I was exhausted.","Был длинный день. Я страшно устала."],["After that … / Then … / Finally …","После этого… / Потом… / Наконец…"],["Nothing special.","Ничего особенного."],["How was your day?","Как прошёл твой день?"]],
+box:{t:"Неправильные глаголы этого урока",h:"<table><tr><th>сейчас</th><th>вчера</th><th></th></tr><tr><td>get up</td><td><b>got up</b></td><td>вставать</td></tr><tr><td>wake up</td><td><b>woke up</b></td><td>просыпаться</td></tr><tr><td>take</td><td><b>took</b></td><td>отвозить, занимать (время)</td></tr><tr><td>drive</td><td><b>drove</b></td><td>ехать за рулём</td></tr><tr><td>have</td><td><b>had</b></td><td>иметь, есть (еду)</td></tr><tr><td>leave</td><td><b>left</b></td><td>уходить</td></tr><tr><td>go</td><td><b>went</b></td><td>идти, ехать</td></tr><tr><td>make</td><td><b>made</b></td><td>делать, готовить</td></tr></table><p>Отрицание и вопрос — через <b>did</b>, а глагол снова простой: <i>I didn't <b>go</b>. Did you <b>go</b>?</i></p>"},
+model:{t:"Образец: вчерашний день",lines:[["Yesterday was a busy day.","Вчера был насыщенный день."],["I woke up at half past six, but I got up at seven.","Я проснулась в полседьмого, но встала в семь."],["I made breakfast and took my son to school.","Я приготовила завтрак и отвезла сына в школу."],["Then I drove to the office. It took me forty minutes because of the traffic.","Потом поехала в офис. Дорога заняла 40 минут из-за пробок."],["In the morning I had two online meetings.","Утром у меня было две онлайн-встречи."],["After lunch I visited the office of a pharmacy chain.","После обеда я съездила в офис аптечной сети."],["I left work at six and picked up my son from football training.","Ушла с работы в шесть и забрала сына с футбола."],["We had dinner at home, and I helped him with his homework.","Мы поужинали дома, и я помогла ему с домашкой."],["I went to bed at eleven.","Легла спать в одиннадцать."],["I was tired, but it was a good day.","Я устала, но день был хороший."]]},
+roles:[
+ {t:"Вечерний звонок подруге",her:{goal:"Расскажи про свой день минимум 6 предложениями со связками first / then / after that. В конце спроси: How was your day?",hints:["First I …","Then I …","After that …","In the evening …"]},host:{brief:"Вы подруга. Слушайте и задавайте уточнения.",moves:["Hi! How was your day?","What time did you finish?","Why so late?"],twist:"«Did anything funny happen today?» — ей нужно что-то придумать на ходу."}},
+ {t:"Детектив: алиби",her:{goal:"Тебя подозревают. Докажи, где ты была вчера с утра до вечера, называя точное время.",hints:["At nine o'clock I was …","I was at the office from … to …","I can prove it. My colleague saw me."]},host:{brief:"Вы детектив. Спрашивайте про конкретное время. Записывайте её ответы.",moves:["Where were you yesterday at three p.m.?","Who were you with?","What did you do after that?"],twist:"Перепутайте деталь: «So you left the office at five?» — она должна поправить: «No, I left at six.»"}}],
+fu:["What happened next?","How long did it take?","Who were you with?","How did you feel?","Is it always like this?"],
+my:[["Мой обычный будний день","Present Simple: I get up… I take… I usually…"],["Мой вчерашний день","Past Simple: I got up… I took… I had…"]],
+s432:"Мой вчерашний день",
+hw:["Каждый вечер неделю: 1 минута на диктофон «Today I…». Это главная домашка блока.","Выписать 10 глаголов, которые ты чаще всего говоришь о своём дне, и их формы прошедшего времени.","Тема в приложении: Past Simple (если ошибки с did / went)."]});
+
+U({id:3,block:1,t:"Weekends and plans",ru:"Выходные, хобби, планы",gr:["Past Simple","going to / Present Continuous для планов","like / enjoy + -ing"],
+warm:["What did you do last weekend?","What are you doing this weekend?","Do you prefer staying at home or going out?","What's your favourite place in your city?","What do you enjoy doing on Sundays?","What are you going to do on your next holiday?"],
+ph:[["Last weekend we went to the mountains.","В прошлые выходные мы ездили в горы."],["We stayed at home and relaxed.","Мы остались дома и отдохнули."],["This Saturday I'm meeting a friend.","В эту субботу я встречаюсь с подругой (уже договорились)."],["I'm going to clean the flat.","Я собираюсь убраться в квартире (план)."],["I'm not sure yet. Maybe we'll go to the cinema.","Ещё не знаю. Может, сходим в кино."],["It depends on the weather.","Зависит от погоды."],["I prefer staying at home to going out.","Я предпочитаю сидеть дома, а не ходить куда-то."],["I enjoy cooking. / I can't stand shopping.","Я люблю готовить. / Терпеть не могу шопинг."],["Any plans for the weekend?","Есть планы на выходные?"],["Why don't we meet on Sunday?","Почему бы нам не встретиться в воскресенье?"],["Sounds great! / That works for me.","Звучит отлично! / Мне подходит."],["I'm afraid I can't. I'm busy on Saturday.","Боюсь, не смогу. В субботу я занята."],["Really? Wow! / Lucky you! / That's a pity.","Правда? Ого! / Везёт тебе! / Жаль."]],
+model:{t:"Образец: прошлые и следующие выходные",lines:[["Last weekend was really nice.","Прошлые выходные были очень приятными."],["On Saturday morning my son had a football match, so we went to watch it. His team won!","В субботу утром у сына был матч, мы пошли смотреть. Его команда выиграла!"],["In the afternoon we stayed at home and relaxed.","Днём мы остались дома и отдыхали."],["On Sunday we went to the mountains with friends. The weather was great.","В воскресенье поехали в горы с друзьями. Погода была отличная."],["This weekend I'm going to clean the flat — not very exciting!","В эти выходные я собираюсь убраться — не очень захватывающе!"],["On Saturday evening I'm meeting an old friend from university.","В субботу вечером встречаюсь со старой подругой из университета."],["We're having dinner at a new Italian restaurant.","Ужинаем в новом итальянском ресторане."],["On Sunday I'm not sure yet. Maybe we'll go to the cinema. It depends on the weather.","Насчёт воскресенья ещё не знаю. Может, пойдём в кино. Зависит от погоды."]]},
+roles:[
+ {t:"Договориться о встрече",her:{goal:"Найдите время и место для встречи. Твоё расписание: суббота утро — тренировка сына; суббота вечер — свободна; воскресенье — у родителей.",hints:["Are you free on …?","How about …?","I'm afraid I'm busy then.","That works for me."]},host:{brief:"Вы свободны только в субботу вечером и в воскресенье днём. Сначала предложите воскресенье.",moves:["Let's meet this weekend!","How about Sunday afternoon?"],twist:"Предложите место, которое ей не нравится («a sushi bar») — ей нужно предложить другое: Why don't we …?"}},
+ {t:"Понедельник в офисе",her:{goal:"Расскажи, как прошли выходные, и спроси в ответ. Реагируй на то, что услышишь.",hints:["It was great / quiet / busy.","What about you?","Really? What was it like?"]},host:{brief:"Вы коллега у кофемашины.",moves:["Morning! How was your weekend?","Did you do anything special?"],twist:"Скажите что-то неожиданное: «I went skydiving!» — ей нужно отреагировать и задать 2 вопроса."}}],
+fu:["Who did you go with?","Did you enjoy it?","Would you do it again?","What's your perfect weekend?"],
+my:[["Мои прошлые выходные","6 предложений в Past Simple."],["Мой идеальный выходной","I'd like to… / I'd love to…"]],
+s432:"Мои прошлые выходные",
+hw:["В понедельник: 1 минута на диктофон «Last weekend I…».","В пятницу: 3 предложения о планах (I'm going to… / I'm meeting…).","Выучить 5 реакций: Really? / Wow! / Lucky you! / That's a pity. / Me too."]});
+
+U({id:4,block:1,t:"Travel and experience",ru:"Поездки и жизненный опыт",gr:["Present Perfect: have you ever …?","Past Simple: когда именно","сравнение"],
+warm:["Have you ever been abroad?","Where did you go on your last holiday?","What's the most beautiful place you've ever seen?","Have you ever travelled for work?","Do you prefer the sea or the mountains? Why?","Where would you like to go next?"],
+ph:[["Have you ever been to Turkey?","Ты когда-нибудь была в Турции?"],["Yes, I have. I went there in 2019.","Да. Я ездила туда в 2019-м."],["No, I've never been there.","Нет, никогда там не была."],["I've been to Georgia twice.","Я была в Грузии дважды."],["We stayed in a small hotel near the sea.","Мы жили в маленьком отеле у моря."],["We flew there. It was a four-hour flight.","Мы летели самолётом, перелёт четыре часа."],["The food was amazing.","Еда была потрясающая."],["The best part was … / The worst part was …","Лучшее было … / Хуже всего было …"],["I've always wanted to go to Italy.","Я всегда хотела поехать в Италию."],["I've never tried …","Я никогда не пробовала …"],["I went on a business trip to Istanbul.","Я ездила в командировку в Стамбул."],["I'd definitely go back.","Я бы точно вернулась туда."],["I'm afraid there's a problem with my room.","Боюсь, с моим номером проблема."],["Could you … , please?","Не могли бы вы … ?"]],
+box:{t:"Present Perfect или Past Simple?",h:"<p><b>Have you ever been…?</b> — опыт вообще, когда — неважно. <b>When did you go?</b> — как только появилось «когда», переходим в Past Simple.</p><p><i>I've been to Turkey. — I went there <u>in 2019</u>.</i></p><p>Ошибка: <s>I have been there last year</s> → <b>I was there last year.</b></p>"},
+model:{t:"Образец: моё путешествие",lines:[["I love travelling, but I don't travel very often.","Я люблю путешествовать, но езжу нечасто."],["I've been to Turkey twice and to Georgia once.","Я была в Турции дважды и в Грузии один раз."],["Last summer we went to Georgia with my son.","Прошлым летом мы с сыном ездили в Грузию."],["We flew to Tbilisi, and then we went to Batumi by train.","Мы прилетели в Тбилиси, а потом поехали в Батуми на поезде."],["We stayed in a small hotel near the sea.","Жили в маленьком отеле у моря."],["The food was amazing — I've never eaten so much cheese in my life!","Еда была потрясающая — я никогда в жизни не ела столько сыра!"],["The best part was the mountains. The worst part was the heat.","Лучше всего были горы. Хуже всего — жара."],["I've also been on a business trip to Istanbul for a conference.","Ещё я ездила в командировку в Стамбул на конференцию."],["I've always wanted to go to Italy. Maybe next year!","Всегда хотела в Италию. Может, в следующем году!"]]},
+roles:[
+ {t:"Турагентство",her:{goal:"Ты клиент. Нужен отпуск для тебя и сына: лето, море, 7 дней, бюджет ограничен. Объясни, что хочешь, и задай минимум 3 вопроса.",hints:["I'm looking for a holiday by the sea.","How much is it?","Is breakfast included?","How far is it from the beach?"]},host:{brief:"Вы турагент. Предложите два варианта: Турция (дороже, всё включено) и Грузия (дешевле, только завтраки).",moves:["How can I help you?","When would you like to go?","What's your budget?"],twist:"После её выбора: «I'm sorry, that hotel is fully booked in July.» — ей нужно решить, что делать."}},
+ {t:"Проблема при заселении",her:{goal:"В номере две отдельные кровати и вид на парковку, а ты бронировала вид на море. Вежливо, но настойчиво добейся другого номера.",hints:["I'm afraid there's a problem with my room.","I booked a room with a sea view.","Could you check, please?","Is there anything you can do?"]},host:{brief:"Вы администратор отеля. Сначала говорите, что свободных номеров нет.",moves:["Good evening. How can I help?","I'm sorry, the hotel is full tonight."],twist:"Если она вежлива и настойчива — предложите номер лучше завтра или бесплатный ужин."}}],
+fu:["When was that?","Who did you go with?","What was the best part?","Would you go there again?"],
+my:[["Моё лучшее путешествие","Куда, когда, с кем, что было лучше и хуже всего."],["Где я была и где не была","5 предложений: I've been to… / I've never been to… / I've always wanted to…"]],
+s432:"Моё лучшее путешествие",
+hw:["1 минута на диктофон: моё лучшее путешествие.","Составить 5 вопросов Have you ever…? и задать их ведущему на следующем созвоне.","Тема в приложении: Present Perfect vs Past Simple."]});
+
+/* ===== Блок 2 ===== */
+U({id:5,block:2,t:"My job",ru:"Моя работа: должность и обязанности",gr:["Present Simple","Present Perfect: I've been … for …","профессиональная лексика"],
+warm:["What do you do?","What kind of company do you work for?","What are your main responsibilities?","Who are your clients?","How long have you worked there?","What do you like about your job?","What's the most difficult part?"],
+ph:[["I work as a key account manager at a pharmaceutical company.","Я работаю менеджером по ключевым клиентам в фармкомпании."],["I'm responsible for our work with pharmacy chains.","Я отвечаю за работу с аптечными сетями."],["I manage relationships with key clients — big chains and distributors.","Я веду отношения с ключевыми клиентами — крупными сетями и дистрибьюторами."],["My main task is to …","Моя главная задача — …"],["I negotiate annual agreements and marketing contracts.","Я веду переговоры по годовым соглашениям и маркетинговым договорам."],["I make sure our products are on the shelves.","Я слежу, чтобы наши продукты были на полках."],["I analyse sales data every month.","Каждый месяц я анализирую данные продаж."],["I work closely with the marketing team and medical reps.","Я тесно работаю с маркетингом и медпредставителями."],["I report to the head of key accounts.","Я подчиняюсь руководителю отдела ключевых клиентов."],["I've been in this role for four years.","Я на этой должности четыре года."],["What I like most about my job is …","Больше всего в работе мне нравится …"],["The most challenging part is …","Самое сложное — …"]],
+box:{t:"Словарь фармы",h:"<table><tr><td><b>pharmacy chain</b></td><td>аптечная сеть</td></tr><tr><td><b>distributor</b></td><td>дистрибьютор</td></tr><tr><td><b>OTC (over-the-counter) / Rx (prescription) drugs</b></td><td>безрецептурные / рецептурные препараты</td></tr><tr><td><b>listing</b>, to list a product</td><td>ввод в ассортимент</td></tr><tr><td><b>shelf space</b>, planogram</td><td>место на полке, планограмма</td></tr><tr><td><b>promotion</b></td><td>акция</td></tr><tr><td><b>sell-in / sell-out</b></td><td>отгрузки в сеть / продажи из аптек покупателям</td></tr><tr><td><b>target</b>, to hit / miss a target</td><td>план, выполнить / не выполнить</td></tr><tr><td><b>trade terms</b>, discount, bonus</td><td>коммерческие условия, скидка, бонус</td></tr><tr><td><b>purchasing manager / buyer</b></td><td>закупщик</td></tr><tr><td><b>medical rep</b></td><td>медицинский представитель</td></tr><tr><td><b>tender</b></td><td>тендер (госзакупки, больницы)</td></tr></table>"},
+model:{t:"Образец: моя работа",lines:[["I work as a key account manager at a pharmaceutical company.","Я работаю менеджером по ключевым клиентам в фармкомпании."],["I've been in this role for four years.","Я на этой должности четыре года."],["I'm responsible for our work with big pharmacy chains in my region.","Я отвечаю за работу с крупными аптечными сетями в своём регионе."],["My main task is to make sure that our products are on the shelves and that the chains buy enough of them.","Моя главная задача — чтобы наши продукты были на полках и сети закупали их достаточно."],["I negotiate annual agreements, plan promotions and analyse sales data every month.","Я веду переговоры по годовым соглашениям, планирую акции и каждый месяц анализирую продажи."],["I work closely with the marketing team and our medical representatives.","Я тесно работаю с маркетингом и нашими медпредставителями."],["I report to the head of key accounts.","Я подчиняюсь руководителю отдела ключевых клиентов."],["What I like most about my job is working with people.","Больше всего мне нравится работать с людьми."],["The most challenging part is the targets — they grow every year!","Самое сложное — планы: они растут каждый год!"]]},
+roles:[
+ {t:"Объяснить работу человеку не из фармы",her:{goal:"Гость на вечеринке ничего не знает о фарме. Объясни простыми словами, чем ты занимаешься и зачем это нужно.",hints:["It's a bit like …","Basically, I …","For example, …","No, I'm not a doctor. I …"]},host:{brief:"Вы англоязычный гость на вечеринке. Задавайте наивные вопросы.",moves:["So, what do you do?","So you sell medicine? Are you a doctor?","Do you work in a pharmacy?"],twist:"«Sounds a bit boring. Is it?» — ей нужно объяснить, что интересного в работе."}},
+ {t:"Нетворкинг на конференции",her:{goal:"Ты говоришь с KAM из другой страны. Опиши своих клиентов, команду и одну типичную проблему. Задай ему 2 вопроса о его рынке.",hints:["My biggest client has about … pharmacies.","In our market …","How does it work in your country?"]},host:{brief:"Вы KAM из Польши. Сравнивайте рынки, рассказывайте про свои сети.",moves:["In Poland, chains are getting bigger every year. Is it the same in your country?","How many clients do you have?","What's your biggest challenge right now?"],twist:"«Would you like to work abroad one day?»"}}],
+fu:["What does a key account manager do exactly?","How many clients do you have?","What's a typical day like?","What would you change in your job?"],
+my:[["Моя работа","Должность, сколько лет, клиенты, задачи, с кем работаю, что нравится. 6–8 предложений."],["Как объяснить мою работу человеку не из фармы","3–4 простых предложения, без терминов."]],
+s432:"Моя работа",
+hw:["1 минута на диктофон: «My job».","Выбрать 8 слов из словаря фармы, которые реально нужны, и составить с каждым предложение про свою работу.","Сравнить ответ в «Моей версии» с образцом: что у тебя по-другому и как это сказать."]});
+
+U({id:6,block:2,t:"My working week",ru:"Рабочая неделя, планы и текущие проекты",gr:["частотность: usually, twice a week","Present Continuous: сейчас работаю над …","have to / don't have to"],
+warm:["What does a typical working week look like for you?","How often do you visit clients?","Do you work from home sometimes?","What are you working on at the moment?","Which day is the busiest? Why?","What do you spend most of your time on?"],
+ph:[["On Mondays we usually have a team call.","По понедельникам у нас обычно созвон команды."],["I visit clients two or three times a week.","Я встречаюсь с клиентами два-три раза в неделю."],["I work from home on Fridays.","По пятницам я работаю из дома."],["At the moment I'm working on a promotion with one of our chains.","Сейчас я работаю над акцией с одной из наших сетей."],["We're launching a new product next month.","В следующем месяце у нас запуск нового продукта."],["I spend a lot of time on emails and in the car.","Я много времени трачу на почту и в машине."],["I have to send a report every Friday.","Каждую пятницу я должна отправлять отчёт."],["I don't have to be in the office every day.","Мне не обязательно быть в офисе каждый день."],["The busiest time is the end of the quarter.","Самое горячее время — конец квартала."],["We're on track. / I'm a bit behind schedule.","Идём по плану. / Я немного отстаю."],["I try to plan my week in advance.","Я стараюсь планировать неделю заранее."],["Are you free on Wednesday afternoon?","Вы свободны в среду после обеда?"],["I'm afraid I'm busy then. How about Thursday?","Боюсь, я тогда занята. Может, в четверг?"]],
+box:{t:"Как часто",h:"<p>always → usually → often → sometimes → rarely → never</p><p>Эти слова стоят <b>перед</b> глаголом: <i>I <u>usually</u> visit…</i>, но <b>после</b> am / is / are: <i>I'm <u>always</u> busy on Mondays.</i></p><p>Точная частота — в конце: <i>twice a week, every Friday, once a month.</i></p>"},
+model:{t:"Образец: моя рабочая неделя",lines:[["My working week is quite busy.","Моя рабочая неделя довольно насыщенная."],["On Monday mornings we have a team call, where we discuss plans and results.","В понедельник утром — созвон команды, обсуждаем планы и результаты."],["From Tuesday to Thursday I usually visit clients — two or three meetings a day.","Со вторника по четверг обычно езжу к клиентам — две-три встречи в день."],["I work from home on Fridays and prepare reports.","По пятницам работаю из дома и готовлю отчёты."],["I spend a lot of time on emails and in the car.","Много времени уходит на почту и на дорогу."],["At the moment I'm working on a promotion with one of our biggest chains.","Сейчас я готовлю акцию с одной из наших крупнейших сетей."],["We're also launching a new product next month, so I'm preparing a presentation.","В следующем месяце ещё запуск нового продукта, так что я готовлю презентацию."],["The busiest time is the end of the quarter — everybody is checking the numbers!","Самое горячее время — конец квартала: все проверяют цифры!"],["I try to plan my week in advance, but plans often change.","Стараюсь планировать неделю заранее, но планы часто меняются."]]},
+roles:[
+ {t:"Найти время для встречи",her:{goal:"Найдите час для встречи на следующей неделе. Не показывайте друг другу календари — только спрашивайте.",hints:["Are you free on …?","How about … at …?","I'm afraid I have a meeting then.","That works for me. See you on …"],table:"<div class='box'><table><tr><td>Пн</td><td>9–11 созвон команды, после — свободна</td></tr><tr><td>Вт</td><td>весь день у клиентов</td></tr><tr><td>Ср</td><td>свободна 14:00–16:00</td></tr><tr><td>Чт</td><td>свободна 10:00–12:00</td></tr><tr><td>Пт</td><td>из дома, свободна весь день</td></tr></table></div>"},host:{brief:"Ваш календарь ниже. Подходит только одно время: среда 15:00–16:00. Не подсказывайте.",table:"<div class='box'><table><tr><td>Mon</td><td>busy all day</td></tr><tr><td>Tue</td><td>busy</td></tr><tr><td>Wed</td><td>free 15:00–17:00</td></tr><tr><td>Thu</td><td>busy until 13:00</td></tr><tr><td>Fri</td><td>day off</td></tr></table></div>",moves:["We need to meet next week to discuss the launch.","Are you free on Monday?"],twist:"Когда договорились: «Oh no, I've just got a message — can we make it online instead?»"}},
+ {t:"Вопросы нового коллеги",her:{goal:"Новый KAM в команде спрашивает, как всё устроено. Объясни и дай 2–3 совета.",hints:["We usually …","You have to … / You don't have to …","You should … / I wouldn't …","My advice is …"]},host:{brief:"Вы новичок, ваша первая неделя.",moves:["How often do we report to the manager?","What tools do you use for sales data?","What's the hardest part of the week?"],twist:"«Could you help me prepare for my first client meeting?» — она даёт советы."}}],
+fu:["What do you do first on Monday morning?","What takes most of your time?","What would you delegate if you could?","Is this week typical?"],
+my:[["Моя рабочая неделя по дням","On Mondays I… From Tuesday to Thursday…"],["Над чем я работаю сейчас","At the moment I'm working on… / We're launching…"]],
+s432:"Моя рабочая неделя",
+hw:["1 минута на диктофон: «This week I'm working on…».","Записать 5 своих рабочих дел с частотой: I … twice a week, I … every month.","Тема в приложении: Present Simple vs Present Continuous."]});
+
+U({id:7,block:2,t:"Meeting a client",ru:"Встреча с клиентом и звонок",gr:["вежливые просьбы: could, would","will для обещаний","вопросы"],
+warm:["How do you usually start a meeting with a client?","What do you talk about before business?","How do you prepare for an important meeting?","What do clients usually ask for?","Do you prefer meetings in person or online? Why?"],
+ph:[["Thank you for finding the time to meet.","Спасибо, что нашли время встретиться."],["How's business? / How are things?","Как бизнес? / Как дела?"],["Shall we start?","Начнём?"],["The purpose of today's meeting is to discuss …","Цель сегодняшней встречи — обсудить …"],["I'd like to show you our proposal.","Я хотела бы показать наше предложение."],["We're ready to offer …","Мы готовы предложить …"],["How does that sound?","Как вам такое?"],["Could you tell me more about …?","Расскажите подробнее о …?"],["That's a good point.","Справедливое замечание."],["I'll check and come back to you by Friday.","Я уточню и вернусь к вам до пятницы."],["Let's summarise what we've agreed.","Давайте подведём итог."],["I'll send you an email with the details.","Я пришлю письмо с деталями."],["Hello, this is … from … . I'm calling about …","Здравствуйте, это … из … . Я звоню по поводу …"],["Could I leave a message?","Могу я оставить сообщение?"],["Could you spell that, please?","Продиктуйте по буквам, пожалуйста."]],
+model:{t:"Образец: встреча с закупщиком",lines:[["KAM: Good morning, Mr Novak. Thank you for finding the time to meet.","KAM: Доброе утро. Спасибо, что нашли время."],["Buyer: Good morning. Please, sit down. How are you?","Закупщик: Доброе утро. Присаживайтесь. Как вы?"],["KAM: Fine, thanks. How's business?","KAM: Хорошо, спасибо. Как бизнес?"],["Buyer: Not bad. It's a busy season — lots of colds.","Закупщик: Неплохо. Сезон горячий — много простуд."],["KAM: I can imagine. Shall we start? The purpose of today's meeting is to discuss our autumn promotion.","KAM: Представляю. Начнём? Цель встречи — обсудить осеннюю акцию."],["Buyer: OK. What do you suggest?","Закупщик: Хорошо. Что вы предлагаете?"],["KAM: We'd like to run a promotion on our cold and flu products in October and November.","KAM: Мы хотим провести акцию на противопростудные в октябре и ноябре."],["KAM: We're ready to support it with a discount and materials for the pharmacies.","KAM: Готовы поддержать скидкой и материалами для аптек."],["Buyer: What kind of discount?","Закупщик: Какая скидка?"],["KAM: Ten percent for the customer, plus a bonus for your chain if you reach the target.","KAM: Десять процентов покупателю плюс бонус сети при выполнении плана."],["Buyer: Hmm. We'll need more shelf space for that.","Закупщик: Хм. Для этого понадобится больше места на полке."],["KAM: That's a good point. I'll check with marketing and come back to you by Friday.","KAM: Справедливо. Уточню у маркетинга и вернусь к вам до пятницы."],["KAM: So, let's summarise. We agree on the dates, and I'll send you the details by email.","KAM: Итак, подведём итог: даты согласованы, детали пришлю письмом."]]},
+roles:[
+ {t:"Звонок, чтобы назначить встречу",her:{goal:"Позвони в офис закупщика сети. Его нет — оставь сообщение и договорись, когда он перезвонит.",hints:["Hello, this is … from … .","Could I speak to …?","Could I leave a message?","He can reach me on …"]},host:{brief:"Вы ассистент закупщика. Он на совещании до вечера.",moves:["Good morning, Pharmacy Plus, how can I help you?","I'm afraid he's in a meeting right now.","Can I take a message?"],twist:"Попросите продиктовать фамилию и email по буквам: «Could you spell that, please?»"}},
+ {t:"Переговоры об осенней акции",her:{goal:"Договорись об акции на октябрь–ноябрь. Можешь дать до 10% скидки; 12% — только если сеть даст дополнительную полку. В конце — следующий шаг.",hints:["The purpose of today's meeting is …","We're ready to offer …","We could go up to … if you …","Let's summarise."]},host:{brief:"Вы закупщик. Хотите 15% и не уверены насчёт полки.",moves:["What's in it for us?","Ten percent is not enough.","What if the sales don't grow?"],twist:"«Your competitor offered us fifteen percent.» — ей нужно ответить, не соглашаясь сразу: I understand, but …"}}],
+fu:["Why should we choose you?","What exactly will you do to support the promotion?","When can you send the details?"],
+my:[["Как я начинаю встречу","3–4 фразы: приветствие, small talk, переход к делу."],["Моё типичное предложение клиенту","Что я предлагаю и что прошу взамен."]],
+s432:"Как прошла моя последняя встреча с клиентом",
+hw:["Проговорить вслух начало и конец встречи (фразы 1–4 и 10–12) три раза за неделю.","1 минута на диктофон: последняя встреча с клиентом — что обсуждали, о чём договорились.","Написать короткое письмо по итогам встречи: Thank you for … / As agreed, … / I'll …"]});
+
+U({id:8,block:2,t:"Numbers and results",ru:"Цифры, результаты, динамика",gr:["числа и проценты","increase / decrease by","сравнение: more than, twice as much"],
+warm:["How do you measure success in your job?","Did you reach your target last year?","Which product sells best?","How has the market changed in the last few years?","What was your best quarter? Why?"],
+ph:[["Sales increased by fifteen percent.","Продажи выросли на 15%."],["Sales dropped slightly.","Продажи немного упали."],["We reached / exceeded / missed the target.","Мы выполнили / перевыполнили / не выполнили план."],["Compared to last year, …","По сравнению с прошлым годом …"],["It's twice as much as last year.","Это вдвое больше, чем в прошлом году."],["About / around / almost / more than …","Около / примерно / почти / больше …"],["The main reason was …","Главной причиной было …"],["Thanks to … / Because of …","Благодаря … / Из-за …"],["Our market share grew to twelve percent.","Наша доля рынка выросла до 12%."],["Sales stayed the same.","Продажи остались на том же уровне."],["There was a sharp drop in August.","В августе был резкий спад."],["We're on track to reach the annual target.","Мы идём к выполнению годового плана."]],
+box:{t:"Как произносить числа",h:"<table><tr><td>13 / 30</td><td>thir<b>TEEN</b> / <b>THIR</b>ty — ударение решает всё</td></tr><tr><td>15 / 50</td><td>fif<b>TEEN</b> / <b>FIF</b>ty</td></tr><tr><td>1,500</td><td>one thousand five hundred</td></tr><tr><td>2.5</td><td>two point five (точка, а не запятая!)</td></tr><tr><td>1.2M</td><td>one point two million</td></tr><tr><td>0.5%</td><td>zero point five percent</td></tr><tr><td>2019</td><td>twenty nineteen</td></tr><tr><td>Q3</td><td>the third quarter / Q three</td></tr></table>"},
+model:{t:"Образец: результаты года",lines:[["Last year was quite successful for my team.","Прошлый год был довольно успешным для моей команды."],["Our sales in the key chains increased by eighteen percent, and we exceeded the target by three percent.","Продажи в ключевых сетях выросли на 18%, план перевыполнили на 3%."],["The main reason was a new agreement with our biggest client.","Главная причина — новое соглашение с крупнейшим клиентом."],["Thanks to this agreement, we got more shelf space in two hundred pharmacies.","Благодаря ему мы получили больше места на полке в 200 аптеках."],["However, not everything was perfect.","Но не всё было идеально."],["Sales of one product dropped slightly because of a new competitor.","Продажи одного продукта немного упали из-за нового конкурента."],["In the first quarter of this year the growth is smaller — about seven percent.","В первом квартале этого года рост меньше — около 7%."],["But we're on track to reach the annual target.","Но мы идём к выполнению годового плана."]]},
+roles:[
+ {t:"Опиши график",her:{goal:"У тебя продажи продукта A по кварталам, у ведущего — продукта B. Опиши свои цифры, запиши его цифры, потом сравните: какой продукт рос быстрее?",hints:["In the first quarter sales were …","In Q2 they increased to …","Then they dropped slightly to …","Product A grew faster than …"],table:"<div class='box'><table><tr><th>Product A</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr><tr><td>sales</td><td>1.2M</td><td>1.5M</td><td>1.4M</td><td>2.0M</td></tr></table></div>"},host:{brief:"Ваши цифры ниже. Сначала слушайте и записывайте её цифры, переспрашивайте 13/30 и 15/50.",table:"<div class='box'><table><tr><th>Product B</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr><tr><td>sales</td><td>0.8M</td><td>0.9M</td><td>1.3M</td><td>1.3M</td></tr></table></div>",moves:["Sorry, was that fifteen or fifty?","So in Q3 your sales went down?"],twist:"«Why do you think sales dropped in Q3?» — ей нужно придумать причину."}},
+ {t:"Квартальный разбор с руководителем",her:{goal:"План по одной сети не выполнен: план 2M, факт 1.8M (−10%). Объясни причины (акция конкурента, задержка поставки в августе) и предложи план на Q4.",hints:["We missed the target by ten percent.","The main reasons were …","In Q4 we're going to …","I'm confident we can …"]},host:{brief:"Вы руководитель. Спокойный, но требовательный.",moves:["Let's talk about Pharmacy Plus. What happened?","Was it only the competitor?","What's your plan for Q4?"],twist:"«OK. What do you need from me?» — ей нужно попросить конкретную помощь."}}],
+fu:["Why do you think that happened?","What will you do differently?","What's the forecast for next year?"],
+my:[["Мои результаты за прошлый год в цифрах","Рост, план, главная причина. Можно округлить или изменить цифры — важна речь, а не секреты компании."],["Один успех и одна неудача в цифрах","Что выросло, что упало и почему."]],
+s432:"Мои результаты за год",
+hw:["Каждый день прочитать вслух 10 любых чисел из рабочих отчётов по-английски.","1 минута на диктофон: «Last year our sales…».","Сказать 5 предложений по графику из своей работы: increased / dropped / stayed the same."]});
+
+U({id:9,block:2,t:"Problems and negotiations",ru:"Проблемы, мнения, переговоры",gr:["should / could / would","условные: if you …, we could …","мнение и несогласие"],
+warm:["What problems do you usually solve at work?","How do you deal with a difficult client?","Do you like negotiating? Why?","Is it better to work in an office or from home?","Big company or small company — what do you prefer?"],
+ph:[["I think … / In my opinion, …","Я думаю … / По-моему …"],["I see your point, but …","Понимаю вашу позицию, но …"],["I'm afraid that's not possible.","Боюсь, это невозможно."],["What if we …?","А что если мы …?"],["We could … if you …","Мы могли бы …, если вы …"],["Would you be ready to …?","Вы были бы готовы …?"],["That's the best I can offer.","Это лучшее, что я могу предложить."],["Let me think about it.","Дайте подумать."],["I'm sorry for the delay. It won't happen again.","Простите за задержку. Это не повторится."],["The problem is that …","Проблема в том, что …"],["One option is … Another option is …","Один вариант — … Другой — …"],["Let's find a solution that works for both of us.","Давайте найдём решение, удобное обеим сторонам."],["Fair enough.","Справедливо."]],
+model:{t:"Образец: проблема с поставкой",lines:[["Last month we had a problem with one of our clients.","В прошлом месяце у нас была проблема с одним клиентом."],["Because of a delay at the warehouse, the delivery came two weeks late, and some pharmacies had empty shelves.","Из-за задержки на складе поставка пришла на две недели позже, и в части аптек полки опустели."],["The client was very angry.","Клиент был очень недоволен."],["First, I called the purchasing manager and apologised.","Сначала я позвонила закупщику и извинилась."],["Then I explained the reason and gave him a new delivery date.","Потом объяснила причину и назвала новую дату поставки."],["I also offered extra marketing support for the next month.","Ещё предложила дополнительную маркетинговую поддержку на следующий месяц."],["In the end, he agreed, and we kept the contract.","В итоге он согласился, и контракт мы сохранили."],["I think the main lesson is: tell the client about a problem early, don't wait.","Главный урок: сообщать клиенту о проблеме рано, не ждать."]]},
+roles:[
+ {t:"Недовольный клиент",her:{goal:"Поставка задержалась, и пришло не то количество. Извинись, объясни, предложи варианты (приоритетная поставка, бонус 5%). Не обещай того, чего не можешь.",hints:["I'm really sorry about this.","The problem was …","One option is … Another option is …","I'm afraid I can't promise …, but I can …"]},host:{brief:"Вы закупщик сети, раздражены. Требуете компенсацию 20%.",moves:["This is the second time this year!","Our shelves are empty. Who's going to pay for that?","We want a twenty percent discount on the next order."],twist:"«If this happens again, we'll delist your products.» — ей нужно сохранить спокойствие."}},
+ {t:"Мини-дебаты",her:{goal:"Тема: офис или удалёнка (или большая компания против маленькой). 2 минуты защищай свою сторону, потом поменяйтесь сторонами.",hints:["In my opinion, …","The main advantage is …","On the other hand, …","I see your point, but …"]},host:{brief:"Защищайте противоположную сторону. Чаще говорите «I don't agree» и требуйте примеров.",moves:["I don't agree. Can you give an example?","But what about …?"],twist:"После смены сторон ей придётся спорить с собственными аргументами."}}],
+fu:["Why do you think so?","Can you give an example?","What would you do in my place?","What did you learn from it?"],
+my:[["Сложная ситуация с клиентом и как я её решила","Что случилось → что я сделала → чем закончилось → чему научилась."],["Моё мнение: офис или удалёнка","3 аргумента и 1 «но»."]],
+s432:"Сложная ситуация с клиентом",
+hw:["1 минута на диктофон: сложная ситуация на работе и как ты её решила. Эта история пригодится на собеседовании.","Выучить 4 фразы для вежливого несогласия.","Тема в приложении: модальные глаголы (should / could / would)."]});
+
+/* ===== Блок 3 ===== */
+U({id:10,block:3,t:"Tell me about yourself",ru:"Рассказ о себе и карьерный путь",gr:["Present Perfect: I've been working …","Past Simple: I started …","be going to / would like to"],
+warm:["Tell me about yourself.","Walk me through your CV.","Why did you choose the pharmaceutical industry?","What was your first job?","Why are you looking for a new job?","Where do you see yourself in five years?"],
+ph:[["I have twelve years of experience in the pharmaceutical industry.","У меня 12 лет опыта в фарминдустрии."],["I started my career as a medical representative.","Я начинала карьеру медицинским представителем."],["Three years later I was promoted to …","Через три года меня повысили до …"],["Since 2021 I've been working as a key account manager.","С 2021 года я работаю менеджером по ключевым клиентам."],["I'm responsible for partnerships with the biggest chains in the region.","Я отвечаю за партнёрства с крупнейшими сетями региона."],["My key achievement is …","Моё главное достижение — …"],["I'm good at negotiating and building long-term relationships.","Я сильна в переговорах и долгосрочных отношениях."],["I have a background in pharmacy / economics.","У меня образование в фармации / экономике."],["Now I'm looking for a role in an international team.","Сейчас я ищу позицию в международной команде."],["That's why I'm interested in this position.","Поэтому мне интересна эта вакансия."],["I'm looking for more responsibility.","Я ищу больше ответственности."],["In five years I see myself leading a team.","Через пять лет я вижу себя руководителем команды."],["My notice period is one month.","Мой срок увольнения — один месяц."],["I'd prefer to discuss salary at a later stage.","Я бы предпочла обсудить зарплату позже."]],
+box:{t:"Схема «Tell me about yourself» — 60–90 секунд",h:"<table><tr><td><b>1. Сейчас</b></td><td>кто я, сколько лет опыта, текущая роль</td></tr><tr><td><b>2. Путь</b></td><td>2–3 шага карьеры, одно цифровое достижение</td></tr><tr><td><b>3. Сильные стороны</b></td><td>две, связанные с вакансией</td></tr><tr><td><b>4. Дальше</b></td><td>что ищу и почему эта позиция</td></tr></table><p>Не с детства и не со школы. Не пересказ резюме по годам. Интервьюер спрашивает: «почему вы подходите нам?»</p>"},
+model:{t:"Образец: Tell me about yourself (замените факты на свои)",lines:[["I have twelve years of experience in the pharmaceutical industry.","У меня 12 лет опыта в фарминдустрии."],["I started my career as a medical representative, where I learned how the market works from the inside.","Начинала медпредставителем — там узнала рынок изнутри."],["Three years later I was promoted to regional manager.","Через три года меня повысили до регионального менеджера."],["Since 2021 I've been working as a key account manager at a large international company.","С 2021 года работаю менеджером по ключевым клиентам в крупной международной компании."],["I'm responsible for our partnerships with the biggest pharmacy chains in the region.","Отвечаю за партнёрства с крупнейшими аптечными сетями региона."],["My key achievement is a new long-term agreement with our largest client — it increased our sales by eighteen percent.","Главное достижение — новое долгосрочное соглашение с крупнейшим клиентом, оно дало рост продаж на 18%."],["I'm good at negotiating and building long-term relationships.","Я сильна в переговорах и в долгосрочных отношениях."],["Now I'm looking for a role in an international team, where I can use my experience on a bigger market.","Сейчас ищу роль в международной команде, где смогу применить опыт на большем рынке."],["That's why I'm interested in this position.","Поэтому мне интересна эта позиция."]]},
+roles:[
+ {t:"Первый звонок рекрутера",her:{goal:"10 минут скрининга. Расскажи о себе, о текущей роли, почему ищешь работу. Ответь про срок увольнения и зарплату, не называя цифру первой.",hints:["I have … years of experience in …","I'm looking for …","My notice period is …","I'd prefer to discuss it later. What's the range for this role?"]},host:{brief:"Вы HR-рекрутер международной компании. Дружелюбны, но идёте по списку.",moves:["Thanks for taking the call. Can you tell me a bit about yourself?","Why are you looking for a new job?","What's your notice period?","What are your salary expectations?","How would you rate your English?"],twist:"«Can you describe your current role in just two sentences?»"}},
+ {t:"Elevator pitch — 30 секунд",her:{goal:"Региональный директор на конференции. У тебя 30 секунд, чтобы он тебя запомнил.",hints:["I'm a key account manager at …","I work with …","Recently we …","I'd love to …"]},host:{brief:"Вы региональный директор крупной компании. Засеките 30 секунд.",moves:["So, what do you do?"],twist:"«Interesting. Why should I remember you?»"}}],
+fu:["Why did you leave …?","What exactly did you do there?","What did you learn in that role?","Why now?"],
+my:[["Tell me about yourself — моя версия","По схеме: сейчас → путь → сильные стороны → что ищу. 60–90 секунд вслух."],["Мой путь","Работа → годы → главное, что сделала. По одной строке на каждую должность."],["Почему я хочу в международную компанию","2–3 причины, честно."],["Срок увольнения и зарплата","Что я отвечу, если спросят в первом же звонке."]],
+s432:"Tell me about yourself",
+hw:["Записать «Tell me about yourself» на диктофон 3 раза за неделю. Каждый раз — не дольше 90 секунд.","Переслушать запись: где пауза, где «эээ», какое слово не нашлось. Найти это слово.","Сократить свой рассказ до 30 секунд (elevator pitch)."]});
+
+U({id:11,block:3,t:"STAR stories",ru:"Истории по схеме STAR",gr:["Past Simple + Past Continuous","связки: first, then, as a result","managed to / had to"],
+warm:["Tell me about your biggest achievement.","Tell me about a time when you had a conflict with a client.","Describe a situation when you failed.","Give me an example of teamwork.","Tell me about a difficult negotiation.","Tell me about a time when you had to change your plans quickly."],
+ph:[["At that time I was working as …","В то время я работала …"],["The situation was …","Ситуация была такая: …"],["My task was to …","Моя задача была …"],["So I decided to …","Поэтому я решила …"],["First I …, then I …","Сначала я …, потом …"],["I took the initiative and …","Я взяла инициативу и …"],["I asked my manager for support.","Я попросила поддержки у руководителя."],["We managed to …","Нам удалось …"],["As a result, … / In the end, …","В результате … / В итоге …"],["It was a challenge because …","Это было сложно, потому что …"],["We found a compromise.","Мы нашли компромисс."],["I learned that …","Я поняла, что …"],["Looking back, I would …","Сейчас я бы …"]],
+box:{t:"STAR: как строить историю",h:"<table><tr><td><b>S — Situation</b></td><td>где, когда, что за проблема. 2 предложения.</td></tr><tr><td><b>T — Task</b></td><td>что было нужно сделать <u>тебе</u>. 1 предложение.</td></tr><tr><td><b>A — Action</b></td><td>что ты сделала, по шагам. Самая длинная часть.</td></tr><tr><td><b>R — Result</b></td><td>чем кончилось, лучше с цифрой, и чему научилась.</td></tr></table><p>Говори <b>I</b>, а не <b>we</b>: интервьюер оценивает тебя, а не команду. Вся история — в Past Simple.</p>"},
+model:{t:"Образец: конфликт с клиентом (STAR)",lines:[["Two years ago, one of our biggest clients wanted to stop working with us.","Два года назад один из крупнейших клиентов хотел прекратить с нами работу."],["They were unhappy because a competitor offered them better terms.","Были недовольны: конкурент предложил им условия лучше."],["My task was to keep the client without losing our margin.","Моя задача — сохранить клиента и не потерять маржу."],["First, I analysed their sales data and found which of our products were the most profitable for them.","Сначала я проанализировала их продажи и нашла, какие наши продукты им выгоднее всего."],["Then I prepared a proposal: a smaller discount, but more marketing support and staff training in their pharmacies.","Потом подготовила предложение: скидка меньше, зато больше маркетинга и обучение персонала аптек."],["I met their commercial director twice and listened carefully to their problems.","Дважды встретилась с коммерческим директором и внимательно выслушала их проблемы."],["In the end, they signed a new two-year agreement, and our sales grew by twelve percent.","В итоге они подписали новое соглашение на два года, а продажи выросли на 12%."],["I learned that sometimes the client needs a partner, not just a lower price.","Я поняла: иногда клиенту нужен партнёр, а не просто цена ниже."]]},
+roles:[
+ {t:"Поведенческое интервью",her:{goal:"Ответь на 3 вопроса по схеме STAR, около 1,5 минуты каждый. Свои записи — только как ключевые слова, не читать.",hints:["The situation was …","My task was …","First I … Then I …","As a result, …"]},host:{brief:"Задайте 3 вопроса из разминки в случайном порядке. После каждого — один уточняющий.",moves:["And what was the result?","What would you do differently?","What exactly did you do — not the team?"],twist:"Вопрос, к которому она не готовилась: «Tell me about a time you disagreed with your manager.»"}},
+ {t:"Копнуть глубже",her:{goal:"Одна история — пять уточняющих вопросов подряд. Говори без записей.",hints:["Actually, …","Let me explain.","The reason was …"]},host:{brief:"Возьмите любую её историю и спрашивайте «почему» и «как именно» пять раз подряд.",moves:["Why?","How exactly?","Who else was involved?","How did you measure it?","What did your manager say?"],twist:"«If you had to do it again tomorrow, what would you change?»"}}],
+fu:["What exactly did YOU do?","How did you measure the result?","What was the most difficult moment?","What did you learn?"],
+my:[["Достижение","S / T / A / R — ключевые слова по-английски."],["Конфликт с клиентом","S / T / A / R"],["Неудача и чему научилась","S / T / A / R. Хорошая неудача — та, после которой что-то изменилось."],["Командная работа","S / T / A / R"],["Сложные переговоры","S / T / A / R. Можно взять историю из урока 9."]],
+s432:"Моё главное достижение",
+hw:["Подготовить 5 историй в «Моей версии». Ключевые слова, не сплошной текст.","Каждый день рассказать одну историю на диктофон, не дольше 2 минут.","Проверить: в каждой ли истории есть цифра или конкретный результат?"]});
+
+U({id:12,block:3,t:"Mock interview",ru:"Мотивация, сильные стороны, пробное интервью",gr:["would / could в вежливых ответах","I'm used to … -ing","вопросы работодателю"],
+warm:["Why do you want to work for us?","Why are you leaving your current job?","What are your strengths?","What is your biggest weakness?","Why should we hire you?","How do you deal with stress?","Do you have any questions for us?"],
+ph:[["I've followed your company for a while, and I like …","Я давно слежу за вашей компанией, и мне нравится …"],["I'm looking for a new challenge.","Я ищу новый вызов."],["One of my strengths is … For example, …","Одна из моих сильных сторон — … Например, …"],["I sometimes … , but I'm working on it.","Иногда я …, но работаю над этим."],["I work well under pressure.","Я хорошо работаю под давлением."],["I'm a fast learner.","Я быстро учусь."],["I believe I can bring … to your team.","Думаю, я могу принести вашей команде …"],["Could you tell me more about the team?","Расскажите подробнее о команде?"],["What does success look like in this role in the first six months?","Как выглядит успех на этой позиции в первые полгода?"],["What are the next steps?","Какие следующие шаги?"],["Sorry, could you repeat the question?","Простите, повторите вопрос?"],["Thank you for your time. I look forward to hearing from you.","Спасибо за время. Буду ждать ответа."]],
+box:{t:"Вопросы, которые стоит задать в конце",h:"<ul style='margin:0;padding-left:18px'><li>What does a typical week look like in this role?</li><li>What are the biggest challenges for the team right now?</li><li>What does success look like in the first six months?</li><li>How is the team structured? Who would I work with most?</li><li>What are the next steps in the process?</li></ul><p>«No, I don't have any questions» — худший ответ: звучит как отсутствие интереса.</p>"},
+model:{t:"Образец: слабая сторона и «почему вас»",lines:[["Interviewer: What is your biggest weakness?","Интервьюер: Какая ваша самая слабая сторона?"],["Candidate: I sometimes take on too many tasks myself, because I want everything to be perfect.","Кандидат: Иногда я беру на себя слишком много задач — хочу, чтобы всё было идеально."],["In the past this meant I often worked late.","Раньше из-за этого я часто задерживалась."],["Now I'm working on it — I plan my week more carefully and I delegate more.","Сейчас работаю над этим: тщательнее планирую неделю и больше делегирую."],["For example, last quarter I gave the monthly reports to a junior colleague, and it worked very well.","Например, в прошлом квартале передала ежемесячные отчёты младшему коллеге, и всё получилось."],["Interviewer: Why should we hire you?","Интервьюер: Почему мы должны взять вас?"],["Candidate: I have strong experience with key clients, and I know how to grow sales in a competitive market.","Кандидат: У меня сильный опыт с ключевыми клиентами, я умею растить продажи на конкурентном рынке."],["I'm also a good negotiator and a team player.","Ещё я хороший переговорщик и командный игрок."],["I believe I can bring this experience to your international team.","Думаю, могу принести этот опыт в вашу международную команду."]]},
+roles:[
+ {t:"Полное пробное интервью — 20 минут",her:{goal:"Пройти интервью целиком. Не паниковать, брать паузу фразой Let me think, в конце задать 2 вопроса.",hints:["Let me think for a second.","That's a good question.","Could you repeat the question?","What are the next steps?"]},host:{brief:"Вы интервьюер. Порядок: small talk → Tell me about yourself → 2 STAR-вопроса → сильные / слабые стороны → почему мы → её вопросы → завершение. Записывайте ошибки, но не останавливайте.",moves:["Hi, nice to meet you. Did you find us easily?","Tell me about yourself.","Tell me about a time when …","Why do you want to work for us?","Do you have any questions for us?"],twist:"Один неожиданный вопрос: «What would you do in your first 90 days?» или «Sell me this pen.»"}},
+ {t:"Поменяться местами",her:{goal:"Теперь ты интервьюер. Проведи с ведущим собеседование на позицию KAM: 6–8 вопросов, уточнения, завершение.",hints:["Tell me about yourself.","Can you give me an example?","Why are you interested in this role?","Thank you. We'll be in touch."]},host:{brief:"Вы кандидат. Иногда отвечайте коротко, чтобы ей пришлось уточнять.",moves:["I've worked in sales for five years.","Yes, I have some experience with that."],twist:"Спросите её как интервьюера: «What's the salary range?» — пусть попробует ответить с другой стороны стола."}}],
+fu:["Can you give me an example?","Why is that important to you?","What would your colleagues say about you?","What motivates you?"],
+my:[["Почему именно эта компания / международная компания","2–3 причины."],["Три мои сильные стороны и пример к каждой","One of my strengths is … For example, …"],["Моя слабая сторона и что я с ней делаю","Настоящая, но не критичная для работы."],["Три вопроса работодателю","Из блока выше или свои."]],
+s432:"Почему меня стоит взять на работу",
+hw:["Пройти пробное интервью ещё раз через неделю — с другими STAR-вопросами.","Записать на диктофон ответы на все 7 вопросов разминки подряд, без остановки.","Перечитать «Мою версию» из уроков 1, 5, 9, 10, 11 — это готовый материал для любого интервью."]});
+
+/*END-UNITS*/
+
+/* ===== Фразы-выручалки ===== */
+const SOS=[
+ {t:"Не поняла",l:[["Sorry, could you repeat that?","Простите, повторите, пожалуйста."],["Could you speak a bit more slowly, please?","Можно чуть медленнее?"],["Sorry, what does … mean?","Простите, что значит …?"],["Sorry, I didn't catch that.","Простите, не расслышала."]]},
+ {t:"Нужно время подумать",l:[["Let me think.","Дайте подумать."],["That's a good question.","Хороший вопрос."],["Well, …","Ну, …"],["How can I put it …","Как бы это сказать …"]]},
+ {t:"Не знаю слово",l:[["I don't know the word, but it's something like …","Не знаю слова, но это что-то вроде …"],["It's a kind of …","Это такой вид …"],["How do you say … in English?","Как сказать … по-английски?"],["It's the thing you use for …","Это штука, которой …"]]},
+ {t:"Проверить, что поняла",l:[["So, you mean …?","То есть вы имеете в виду …?"],["If I understand correctly, …","Если я правильно поняла, …"],["Do you mean … or …?","Вы про … или про …?"]]},
+ {t:"Реагировать",l:[["Really?","Правда?"],["Oh, I see.","А, понятно."],["That's interesting!","Интересно!"],["That's a pity.","Жаль."],["Lucky you!","Везёт!"],["Me too. / Me neither.","Я тоже. / Я тоже нет."]]},
+ {t:"Связать рассказ",l:[["First … then … after that … finally …","Сначала … потом … после этого … наконец …"],["But / However, …","Но / Однако …"],["Because … / So …","Потому что … / Поэтому …"],["For example, …","Например, …"],["Actually, …","На самом деле …"],["Anyway, …","В общем, …"]]},
+ {t:"Мнение",l:[["I think … / In my opinion, …","Я думаю … / По-моему …"],["I agree. / I see your point, but …","Согласна. / Понимаю, но …"],["I'm not sure about that.","Не уверена."]]},
+ {t:"Закончить разговор",l:[["Sorry, I have to go.","Простите, мне пора."],["It was nice talking to you.","Было приятно поговорить."],["Talk to you soon!","До связи!"]]}
+];
+
+const TYPICAL=[
+ ["I am agree","I agree.","agree — глагол, am не нужен"],
+ ["Yesterday I go …","Yesterday I went …","прошлое — вторая форма"],
+ ["I didn't went","I didn't go","после did — простая форма"],
+ ["He work in a bank","He works in a bank","he / she / it — окончание -s"],
+ ["Where you live?","Where do you live?","в вопросе нужен do / does / did"],
+ ["I work in pharmaceutical company","in a pharmaceutical company","перед профессией и «какой-то одной» — a / an"],
+ ["I have 40 years","I'm 40.","возраст — через be"],
+ ["I live here since 2015","I've lived here since 2015.","с since / for — Present Perfect"],
+ ["Explain me","Explain to me","explain something to someone"],
+ ["I very like it","I really like it / I like it very much","very не ставится перед глаголом"],
+ ["Make a photo / do a decision","Take a photo / make a decision","устойчивые сочетания"],
+ ["informations, advices","information, advice","не бывают во множественном"],
+ ["This is actual","This is relevant / up to date","actual = настоящий, фактический"],
+ ["I control the sales","I monitor / check the sales","control = управлять, держать под контролем"],
+ ["How to say …?","How do you say …?","как вопрос, а не заголовок"]
+];
+
+/* ===== Движок ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mem={};
+const store={
+  get(k,d){if(k in mem)return mem[k];try{const v=localStorage.getItem("spk:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){mem[k]=v;try{localStorage.setItem("spk:"+k,JSON.stringify(v))}catch(e){}}
+};
+const canSpeak=typeof window.speechSynthesis!=="undefined";
+let voice=null;
+function pickVoice(){
+  if(!canSpeak)return;
+  const v=speechSynthesis.getVoices();
+  voice=v.find(x=>/en[-_]GB/i.test(x.lang))||v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null;
+}
+if(canSpeak){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function say(t){
+  if(!canSpeak)return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t.replace(/…/g,"").replace(/ \/ /g,". "));
+  u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;u.rate=.9;
+  speechSynthesis.speak(u);
+}
+const ICON='<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+const sp=t=>canSpeak?`<button class="say" type="button" data-say="${esc(t)}" aria-label="Послушать">${ICON}</button>`:"";
+
+function calls(id){return store.get("calls:"+id,[])}
+function status(id){const c=calls(id).filter(Boolean).length;return c>=2?"✓ пройден":c===1?"проведён 1 созвон":""}
+
+function renderHome(){
+  const done=UNITS.filter(u=>calls(u.id).filter(Boolean).length>=2).length;
+  let h=`<h1>Разговорный английский: 12 недель созвонов</h1>
+  <p class="lead">Один урок — одна неделя, два созвона по 25–30 минут английского. Ведущий (вы) задаёт вопросы и играет вторую роль, ученица говорит. Сначала прочитайте «Как заниматься» — там план каждого созвона.</p>
+  <div class="sec"><b>Пройдено уроков: ${done} из ${UNITS.length}</b><div class="prog"><i style="width:${Math.round(done/UNITS.length*100)}%"></i></div><span class="hint">Урок считается пройденным, когда отмечены оба созвона.</span></div>`;
+  for(const b of [1,2,3]){
+    const us=UNITS.filter(u=>u.block===b);if(!us.length)continue;
+    h+=`<div class="blockh"><h2>${esc(BLOCKS[b].t)}</h2><span>${esc(BLOCKS[b].w)}</span></div><p class="hint">${esc(BLOCKS[b].d)}</p><div class="grid">`;
+    for(const u of us)h+=`<a class="unit" href="#u${u.id}"><div class="num">Урок ${u.id}</div><div class="tt">${esc(u.t)}</div><div class="ru">${esc(u.ru)}</div>${status(u.id)?`<div class="st">${status(u.id)}</div>`:""}</a>`;
+    h+=`</div>`;
+  }
+  return h;
+}
+
+function sec(n,t,hint,body){return `<section class="sec"><h2><span class="n">${n}</span>${t}</h2>${hint?`<p class="hint">${hint}</p>`:""}${body}</section>`}
+
+function renderUnit(u){
+  const mode=store.get("mode","read"),tr=store.get("tr",false);
+  let h=`<p class="hint"><a href="#home">← Все уроки</a> · ${esc(BLOCKS[u.block].t)}</p>
+  <h1>Урок ${u.id}. ${esc(u.t)}</h1><p class="lead">${esc(u.ru)}</p>
+  <div class="tags">${u.gr.map(g=>`<span class="tag">${esc(g)}</span>`).join("")}<span class="tag w">4-3-2: «${esc(u.s432)}»</span></div>`;
+
+  h+=sec(1,"Разминка","5 минут. Ведущий спрашивает, ответ — 2–3 предложения, а не одно слово. На втором созвоне — те же вопросы плюс уточнения.",
+    `<ol class="q">${u.warm.map(q=>`<li><span class="en">${esc(q)}</span> ${sp(q)}</li>`).join("")}</ol>`);
+
+  h+=sec(2,"Фразы урока","«Читать» — прочитать вслух и послушать. «Вспомнить» — видно только русское: скажи по-английски, потом нажми на серую полосу и проверь.",
+    `<div class="seg"><button type="button" data-mode="read" class="${mode==="read"?"on":""}">Читать</button><button type="button" data-mode="recall" class="${mode==="recall"?"on":""}">Вспомнить</button></div>
+    <div class="${mode==="recall"?"recall":""}">${u.ph.map(p=>`<div class="row"><div class="en" data-reveal>${esc(p[0])}</div><div class="ru">${esc(p[1])}</div>${sp(p[0])}</div>`).join("")}</div>
+    ${u.box?`<div class="box"><h3>${esc(u.box.t)}</h3>${u.box.h}</div>`:""}`);
+
+  h+=sec(3,esc(u.model.t),"Прочитать вслух, послушать, закрыть — и рассказать <b>своё</b> по той же схеме. Это опора, а не текст для заучивания.",
+    `<div class="tools"><button class="btn" type="button" data-tr>${tr?"Скрыть перевод":"Показать перевод"}</button>${canSpeak?`<button class="btn" type="button" data-say="${esc(u.model.lines.map(l=>l[0]).join(" "))}">Слушать целиком</button>`:""}</div>
+    <div class="model${tr?" withtr":""}">${u.model.lines.map(l=>`<div class="ln"><div class="tx"><div class="en">${esc(l[0])}</div><div class="tr">${esc(l[1])}</div></div>${sp(l[0])}</div>`).join("")}</div>`);
+
+  h+=sec(4,"Ролевые игры","Первая — с подсказками, вторая — на следующем созвоне, подсказки уже закрыты. Карточку ведущего ученица не открывает.",
+    u.roles.map((r,i)=>`<h3>${i+1}. ${esc(r.t)}</h3>
+    <div class="card her"><div class="who">Ученица</div><div>${esc(r.her.goal)}</div>
+      ${r.her.table||""}
+      <details${i===0?" open":""}><summary style="color:var(--her)">Подсказки</summary><ul>${r.her.hints.map(x=>`<li><span class="en">${esc(x)}</span></li>`).join("")}</ul></details></div>
+    <details class="card host"><summary>Карточка ведущего — не подглядывать</summary>
+      <div style="margin-top:6px">${esc(r.host.brief)}</div>${r.host.table||""}
+      <ul>${r.host.moves.map(x=>`<li><span class="en">${esc(x)}</span></li>`).join("")}</ul>
+      <div class="twist"><b>Сюрприз:</b> ${esc(r.host.twist)}</div></details>`).join(""));
+
+  h+=sec(5,"Уточняющие вопросы","Ведущий задаёт их в любой момент, чтобы ответ не был заученным.",
+    `<ul class="q">${u.fu.map(q=>`<li><span class="en">${esc(q)}</span> ${sp(q)}</li>`).join("")}</ul>`);
+
+  h+=sec(6,"Моя версия","Ученица пишет свои ответы. Сохраняется только в этом браузере, никуда не отправляется. На созвоне — смотреть сюда можно, читать с экрана — нет.",
+    u.my.map((m,i)=>`<label class="p">${esc(m[0])}<small>${esc(m[1])}</small></label><textarea data-key="my:${u.id}:${i}" lang="en" spellcheck="true">${esc(store.get("my:"+u.id+":"+i,""))}</textarea>`).join(""));
+
+  h+=sec(7,"Домашка до следующего созвона","",`<ul class="q">${u.hw.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`);
+
+  const c=calls(u.id);
+  h+=sec(8,"После созвона","Ведущий записывает <b>три</b> ошибки — не больше. Формат: как сказала → как правильно.",
+    `<textarea data-key="err:${u.id}" placeholder="I am agree → I agree">${esc(store.get("err:"+u.id,""))}</textarea>
+    <div class="calls">${[0,1].map(i=>`<button class="btn${c[i]?" on":""}" type="button" data-call="${u.id}:${i}">${c[i]?"✓ ":""}Созвон ${i+1}${c[i]?" · "+esc(c[i]):""}</button>`).join("")}</div>`);
+
+  const prev=UNITS.find(x=>x.id===u.id-1),next=UNITS.find(x=>x.id===u.id+1);
+  h+=`<div class="pager">${prev?`<a class="btn" href="#u${prev.id}">← ${esc(prev.t)}</a>`:"<span></span>"}${next?`<a class="btn pri" href="#u${next.id}">${esc(next.t)} →</a>`:""}</div>`;
+  return h;
+}
+
+function renderHow(){
+  return `<h1>Как заниматься</h1><p class="lead">Главное правило: ученица не читает с листа, а <b>вспоминает и строит фразу сама</b>. Чтение даёт ощущение «понимаю», но говорить от него не начинаешь.</p>
+  <section class="sec"><h2>Ритм</h2><p>Один урок в неделю, два созвона. На каждом — 25–30 минут английского, можно в начале разговора, пока свежая голова. Не успели за неделю — растяните на две, это нормально. Пропускать второй созвон нельзя: на нём и происходит переход от «прочитала» к «сказала».</p></section>
+  <section class="sec"><h2>Созвон 1 — знакомимся с темой</h2><table class="plan">
+   <tr><td>5 мин</td><td><b>Разминка.</b> Вопросы из раздела 1. Ответ — 2–3 предложения.</td></tr>
+   <tr><td>7 мин</td><td><b>Фразы.</b> Режим «Читать»: вслух, с озвучкой. Потом «Вспомнить»: ведущий называет русскую фразу, ученица говорит английскую.</td></tr>
+   <tr><td>8 мин</td><td><b>Образец.</b> Прочитать вслух, закрыть, рассказать <i>своё</i> по той же схеме.</td></tr>
+   <tr><td>7 мин</td><td><b>Ролевая игра 1</b> с открытыми подсказками.</td></tr>
+   <tr><td>3 мин</td><td><b>Три ошибки</b> и домашка.</td></tr></table></section>
+  <section class="sec"><h2>Созвон 2 — говорим без опоры</h2><table class="plan">
+   <tr><td>5 мин</td><td><b>Разминка</b>: те же вопросы + уточняющие из раздела 5.</td></tr>
+   <tr><td>9 мин</td><td><b>4-3-2</b> по теме урока (см. ниже).</td></tr>
+   <tr><td>10 мин</td><td><b>Ролевая игра 2</b> — подсказки закрыты, ведущий обязательно делает «сюрприз».</td></tr>
+   <tr><td>5 мин</td><td><b>Три ошибки</b>, отметить урок пройденным.</td></tr></table></section>
+  <section class="sec"><h2>Четыре ступени опоры</h2><ol class="steps">
+   <li><b>Текст.</b> Прочитала и послушала образец.</li>
+   <li><b>Карточка.</b> Только цель и 3–4 ключевые фразы.</li>
+   <li><b>Пусто.</b> Только тема: «расскажи про вторник».</li>
+   <li><b>Сюрприз.</b> Собеседник меняет детали и задаёт неожиданный вопрос.</li></ol>
+   <p class="hint" style="margin-top:10px">Застряла — шаг назад, на одну ступень, а не на русский язык.</p></section>
+  <section class="sec"><h2>Приём 4-3-2</h2><p>Одна и та же история три раза подряд: за <b>4 минуты</b>, потом за <b>3</b>, потом за <b>2</b>. Ведущий засекает время и молчит. К третьему разу речь заметно быстрее и ровнее — мозг уже нашёл слова и теперь их собирает быстрее. Тема для 4-3-2 указана в каждом уроке оранжевой меткой.</p></section>
+  <section class="sec"><h2>Правила ведущего</h2><ul class="q">
+   <li><b>Не перебивать исправлениями.</b> Записать ошибку и разобрать в конце — три, не больше. Иначе человек начинает бояться и замолкает.</li>
+   <li><b>Выдерживать паузу.</b> Досчитать до пяти, прежде чем подсказать.</li>
+   <li><b>Русский — только для «как сказать …?»</b>, и сразу повторить по-английски.</li>
+   <li><b>Каждый раз один неожиданный вопрос.</b> Заученный ответ — ещё не разговор.</li>
+   <li><b>Меняться ролями.</b> Пусть ученица тоже задаёт вопросы: на собеседовании и в работе это половина разговора.</li>
+   <li><b>Хвалить конкретно:</b> «ты сама сказала <i>I've lived here for ten years</i> — точно».</li></ul></section>
+  <section class="sec"><h2>Самостоятельно, 10–15 минут в день</h2><ul class="q">
+   <li><b>Голосовой дневник:</b> 1 минута на диктофон по теме урока. Раз в неделю одну запись — ведущему.</li>
+   <li><b>Shadowing:</b> нажать 🔊 у фразы и проговаривать одновременно с диктором. Ставит темп и интонацию.</li>
+   <li><b>«Моя версия»:</b> дописать свои ответы в уроке. К блоку «Собеседование» из них сложится готовый рассказ о себе.</li>
+   <li><b>Приложение по грамматике</b> — по темам, указанным зелёными метками урока.</li></ul></section>`;
+}
+
+function renderSos(){
+  return `<h1>Фразы-выручалки</h1><p class="lead">Чтобы не замолкать, когда не поняла, не знаешь слово или нужна секунда подумать. Выучить в первые две недели — дальше пригодятся на каждом созвоне.</p>`+
+  SOS.map(g=>`<section class="sec"><h2>${esc(g.t)}</h2>${g.l.map(p=>`<div class="row"><div class="en">${esc(p[0])}</div><div class="ru">${esc(p[1])}</div>${sp(p[0])}</div>`).join("")}</section>`).join("");
+}
+
+function renderLog(){
+  const notes=UNITS.map(u=>({u,t:store.get("err:"+u.id,"").trim()})).filter(x=>x.t);
+  return `<h1>Ошибки</h1><p class="lead">Сверху — то, что записано после созвонов. Ниже — типичные ошибки русскоговорящих: ведущему стоит держать этот список под рукой.</p>
+  <section class="sec"><h2>Записано после созвонов</h2>${notes.length?notes.map(x=>`<h3 style="margin-top:10px"><a href="#u${x.u.id}">Урок ${x.u.id}. ${esc(x.u.t)}</a></h3><div style="white-space:pre-wrap">${esc(x.t)}</div>`).join(""):`<p class="hint">Пока пусто. Ошибки записываются внизу каждого урока, в разделе «После созвона».</p>`}</section>
+  <section class="sec"><h2>Типичные ошибки</h2><table class="err">${TYPICAL.map(e=>`<tr><td>${esc(e[0])}</td><td>${esc(e[1])}</td><td class="ru">${esc(e[2])}</td></tr>`).join("")}</table></section>`;
+}
+
+let cur=(location.hash||"#home").slice(1);
+function go(r){cur=r;try{history.replaceState(null,"","#"+r)}catch(e){}route();scrollTo(0,0)}
+function route(){
+  const r=cur;
+  let html,nav=r;
+  if(/^u\d+$/.test(r)){const u=UNITS.find(x=>x.id===+r.slice(1));html=u?renderUnit(u):renderHome();nav="home"}
+  else if(r==="how")html=renderHow();
+  else if(r==="sos")html=renderSos();
+  else if(r==="log")html=renderLog();
+  else {html=renderHome();nav="home"}
+  $("#app").innerHTML=html;
+  document.querySelectorAll(".nav[data-r]").forEach(a=>a.classList.toggle("on",a.dataset.r===nav));
+}
+function rerender(){const y=scrollY;route();scrollTo(0,y)}
+
+document.addEventListener("click",e=>{
+  const a=e.target.closest('a[href^="#"]');if(a){e.preventDefault();go(a.getAttribute("href").slice(1));return}
+  const s=e.target.closest("[data-say]");if(s){say(s.dataset.say);return}
+  const rv=e.target.closest("[data-reveal]");if(rv&&rv.closest(".recall")){rv.classList.add("shown");return}
+  const m=e.target.closest("[data-mode]");if(m){store.set("mode",m.dataset.mode);rerender();return}
+  if(e.target.closest("[data-tr]")){store.set("tr",!store.get("tr",false));rerender();return}
+  const c=e.target.closest("[data-call]");
+  if(c){const [id,i]=c.dataset.call.split(":").map(Number);const a=calls(id);a[i]=a[i]?null:new Date().toLocaleDateString("ru-RU");store.set("calls:"+id,a);rerender();return}
+});
+document.addEventListener("input",e=>{const k=e.target.dataset&&e.target.dataset.key;if(k)store.set(k,e.target.value)});
+
+const THEMES=["auto","light","dark"];
+function applyTheme(t){if(t==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);$("#theme").textContent=t==="auto"?"◐":t==="light"?"☀":"☾"}
+$("#theme").addEventListener("click",()=>{const t=THEMES[(THEMES.indexOf(store.get("theme","auto"))+1)%3];store.set("theme",t);applyTheme(t)});
+applyTheme(store.get("theme","auto"));
+addEventListener("hashchange",()=>{const r=(location.hash||"#home").slice(1);if(r!==cur)go(r)});
+route();
+</script>
+</body>
+</html>
